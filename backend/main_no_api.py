@@ -14,8 +14,8 @@ load_dotenv(override=True)
 # # from pipeline.pipeline import contentDrivenPipeline
 # # contentDrivenPipeline('Nothing Uncovered', push_number = 5)
 
-# # from pipeline import genPush
-# # genPush.testingContentPipeline('Nothing Uncovered', push_number = 5)
+# from pipeline import genPush
+# genPush.testingContentPipeline('Nothing Uncovered', push_number = 5)
 
 #Test for spider
 from pipeline.getScrapedHolidayItem import run_holiday_spider

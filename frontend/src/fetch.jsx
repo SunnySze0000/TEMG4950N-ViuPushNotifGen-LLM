@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-
+import Header from './pages/Header';
+// hi
 const backendUrl = process.env.REACT_APP_BACKEND_URL
 
 
@@ -43,12 +44,23 @@ export const TestPage = () => {
     setMessage(JSON.stringify(data, null, 2));
   };
 
+  const [activeButton, setActiveButton] = useState('audit'); // State for the Active page
+
+  const handleButtonClick = (button) => {
+    setActiveButton(button);
+  };
+
   return (
-    <div>
-      <h1>Fetched Data</h1>
-      <button onClick={handleGenPush}>Gen Push</button>
-      <button onClick={handleRegenPush}>Regen Push</button>
-      <pre>{message}</pre>
+    <div className="h-screen flex flex-col">
+      <Header activeButton={activeButton} handleButtonClick={handleButtonClick} />
+      <div className='flex flex-col items-center'>
+        <h1>Fetched Data</h1>
+        <div className='flex'>
+          <button className='mr-2' onClick={handleGenPush}>Gen Push</button>
+          <button className='ml-2' onClick={handleRegenPush}>Regen Push</button>
+        </div>
+        <pre>{message}</pre>
+      </div>
     </div>
   );
 }      

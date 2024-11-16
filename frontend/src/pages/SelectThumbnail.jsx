@@ -1,10 +1,10 @@
 // SelectThumbnail.jsx
-import React, { useState, useEffect } from 'react';
-
-const SelectThumbnail = ({ onClose }) => {
+import React, { useState, useEffect, useRef } from 'react';
+// hi
+const SelectThumbnail = ({ onClose, onSelectThumbnail }) => {
     const [currentIndex, setCurrentIndex] = useState(0);
-    const [logoPosition, setLogoPosition] = useState({ x: 50, y: 50 }); // Starting position for the logo
-    const [buttonPosition, setButtonPosition] = useState({ x: 100, y: 100 }); // Starting position for the button
+    const [logoPosition, setLogoPosition] = useState({ x: 250, y: 150 }); // Starting position for the logo
+    const [buttonPosition, setButtonPosition] = useState({ x: 450, y: 350 }); // Starting position for the button
     const [draggingLogo, setDraggingLogo] = useState(false);
     const [draggingButton, setDraggingButton] = useState(false);
     const thumbnails = [
@@ -13,9 +13,14 @@ const SelectThumbnail = ({ onClose }) => {
         "thumbnail1.png",
         "thumbnail2.png"
     ];
+    const canvasRef = useRef(null); // Ref for the canvas
 
     const handleNext = () => {
         setCurrentIndex((prevIndex) => (prevIndex + 1) % thumbnails.length);
+    };
+
+    const updateThumbnail = () => {
+        onSelectThumbnail(thumbnails[currentIndex]);
     };
 
     const handlePrevious = () => {
@@ -67,6 +72,61 @@ const SelectThumbnail = ({ onClose }) => {
         };
     }, [draggingLogo, draggingButton]);
 
+    const exportImage = () => {
+        const canvas = canvasRef.current;
+        const context = canvas.getContext('2d');
+    
+        const thumbnailImage = new Image();
+        thumbnailImage.src = thumbnails[currentIndex];
+    
+        thumbnailImage.onload = () => {
+            // Set canvas size to match the thumbnail
+            // canvas.width = thumbnailImage.width;
+            // canvas.height = thumbnailImage.height;
+            canvas.width = thumbnailImage.width;
+            canvas.height = thumbnailImage.height;
+    
+            // Draw the thumbnail
+            context.drawImage(thumbnailImage, 0, 0);
+    
+            // Draw the logo
+            const logoImage = new Image();
+            logoImage.src = 'viu_logo.png'; // Replace with your logo image path
+            logoImage.onload = () => {
+                const logoWidth = 248.2; // Replace with actual logo width
+                const logoHeight = 96; // Replace with actual logo height
+    
+                // Use current logo position from state
+                const logoX = logoPosition.x; // Use the state defined position
+                const logoY = logoPosition.y; // Use the state defined position
+    
+                context.drawImage(logoImage, (logoX-115.625)/1.72, logoY/1.8, logoWidth/2, logoHeight/2); // Draw logo
+    
+                // Draw the button image
+                const buttonImage = new Image();
+                buttonImage.src = 'cta_button.png'; // Replace with your CTA button image path
+                buttonImage.onload = () => {
+                    const buttonWidth = 190; // Replace with actual button width
+                    const buttonHeight = 48; // Replace with actual button height
+    
+                    // Use current button position from state
+                    const buttonX = buttonPosition.x; // Use the state defined position
+                    const buttonY = buttonPosition.y; // Use the state defined position
+    
+                    // Draw the button image
+                    context.drawImage(buttonImage, (buttonX-115.625)/1.72, buttonY/1.8, buttonWidth/2, buttonHeight/2); // Draw button image
+    
+                    // Export the image
+                    const dataURL = canvas.toDataURL('image/png');
+                    const link = document.createElement('a');
+                    link.href = dataURL;
+                    link.download = 'thumbnail.png'; // Set the file name
+                    link.click(); // Trigger the download
+                };
+            };
+        };
+    };
+
     return (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
             <div className="bg-white p-6 rounded-lg shadow-lg w-1/2 relative">
@@ -114,11 +174,19 @@ const SelectThumbnail = ({ onClose }) => {
                         Cancel
                     </button>
                     <button 
-                        className="bg-white text-[#3078BE] border-2 border-[#3078BE] py-3 px-6 rounded hover:bg-[#3078BE] hover:text-white transition duration-300"
+                        className="bg-white text-[#3078BE] border-2 border-[#3078BE] py-3 px-6 rounded mr-2 hover:bg-[#3078BE] hover:text-white transition duration-300"
+                        onClick={updateThumbnail} // Call updateThumbnail on click
                     >
-                        Next
+                        Update
+                    </button>
+                    <button 
+                        className="bg-white text-[#3078BE] border-2 border-[#3078BE] py-3 px-6 rounded hover:bg-[#3078BE] hover:text-white transition duration-300"
+                        onClick={exportImage} // Call export function on click
+                    >
+                        Export Image
                     </button>
                 </div>
+                <canvas ref={canvasRef} style={{ display: 'none' }} /> {/* Hidden canvas for exporting */}
             </div>
         </div>
     );
