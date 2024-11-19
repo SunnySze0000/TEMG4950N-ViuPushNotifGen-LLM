@@ -6,7 +6,7 @@ def extract_json_from_string(input_string):
     # Regular expression to find JSON-like content
     json_pattern = re.compile(r'\{.*\}', re.DOTALL)
     match = json_pattern.search(input_string)
-    print(match.group(0))
+    #print(match.group(0))
     
     if match:
         json_str = match.group(0)

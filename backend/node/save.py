@@ -3,17 +3,17 @@ import os
 from utils import example
 
 def save_to_csv(data, filename):
-    header = ['English', 'Eng_Title', 'Eng_Body', 'Malay', 'Malay_Title', 'Malay_Body']
+    # header = ['English', 'Eng_Title', 'Eng_Body', 'Malay', 'Malay_Title', 'Malay_Body']
 
-    file_exists = os.path.exists(filename)
+    # file_exists = os.path.exists(filename)
     #print(file_exists)
 
     try:
         with open(filename, mode='a', newline='',encoding='utf-8') as file:
             writer = csv.writer(file)
             
-            if not file_exists:
-                writer.writerow(header)
+            # if not file_exists:
+            #     writer.writerow(header)
 
             english_data = data['english']
             malay_data = data['malay']

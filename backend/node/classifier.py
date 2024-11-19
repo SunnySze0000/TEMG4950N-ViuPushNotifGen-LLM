@@ -1,6 +1,7 @@
 from langchain_core.prompts import PromptTemplate
 from langchain_together import ChatTogether
 from langchain_core.output_parsers import StrOutputParser, JsonOutputParser
+from node import json_parser
 
 from dotenv import load_dotenv
 
@@ -93,3 +94,55 @@ def testing():
 # 'M’sian With RM1.7K Salary Tries To Buy RM163K Honda Civic, Leaves Car Dealer Speechless': 'none',
 # '“Masa Miskin Tak Termimpi Dapat Kereta” – Aliff Syukri Hadiahkan Toyota Vellfire Buat Bonda Rozita.': 'star',
 # '‘Not True’ — Starbucks M’sia Denies It’s Closing Over 100 Outlets Across Country': 'none'} 
+
+
+def classifying_test(trend_titles):
+    # Define the prompt template with relevant placeholders
+    query_prompt = PromptTemplate(
+        input_variables=["titles", "cast", "series", "description"],
+        template=("""
+            You are a classifier that determines the usefulness of trend titles for promoting TV shows and series in push notifications.
+
+            These are the information json of the series and corresponding cast:
+            
+            star: {cast}
+            series: {series}
+            series_description: {description}
+
+            Classify the following titles:
+
+            Titles: {titles}
+
+            Classify each title into one of the following categories: (Don't be harsh)
+
+            - **None**: This is not an internet trend and cannot catch people's eyeballs, DONT INCLUDE ANY INTERESTING NEWS THAT CAN CATCH PEOPLE'S ATTENTION TO THIS CATEGORY.
+            - **Star**: The trend is related to a star and is useful for cast-driven push notifications.
+            - **Series**: The trend relates to the series content description, such that would be useful to support the series content promotion.
+            - **Star and Series**: The trend involves both a star and a series, making it useful for both types of push notifications.
+            - **General**: The trend is related to a general topic (e.g. weather, festivals, hot trends slang or headlines) and is useful for any push notification, but not specifically tied to stars or series.
+
+            Return the classification type and the trend title in JSON format for each title as follows: 
+            {{
+            "1": {{"classification_type":classification_type, "trend_title":trend_title}},
+            "2": {{"classification_type":classification_type, "trend_title":trend_title}},
+            "3": {{"classification_type":classification_type, "trend_title":trend_title}},
+            ...
+            }}
+        """),
+    )
+
+    # Create the classification chain
+    classifying_chain = query_prompt | llm | StrOutputParser()
+
+    print("___Classifying Trends___")
+
+    # Series and cast information
+    cast = 'Kim Ha Nuel'
+    series = 'Nothing Uncovered'
+    description = "A Korean series"
+
+    numbered_titles = '\n'.join(f"{i + 1}. {title}" for i, title in enumerate(trend_titles))
+    response = classifying_chain.invoke({"titles": numbered_titles, "cast": cast, "series": series, "description": description})
+    response = json_parser.extract_json_from_string(response)
+    print(f"Classification Results: {response}")
+    return response

@@ -19,8 +19,11 @@ const SelectThumbnail = ({ onClose, onSelectThumbnail }) => {
         setCurrentIndex((prevIndex) => (prevIndex + 1) % thumbnails.length);
     };
 
-    const updateThumbnail = () => {
-        onSelectThumbnail(thumbnails[currentIndex]);
+    const updateThumbnail = async () => {
+        const exportedImageURL = await exportImage(); // Get the exported image URL
+        // Update the current thumbnail with the exported image URL
+        thumbnails[currentIndex] = exportedImageURL; // Update the thumbnails array
+        onSelectThumbnail(exportedImageURL); // Call the onSelectThumbnail with the new image
     };
 
     const handlePrevious = () => {
@@ -73,58 +76,56 @@ const SelectThumbnail = ({ onClose, onSelectThumbnail }) => {
     }, [draggingLogo, draggingButton]);
 
     const exportImage = () => {
-        const canvas = canvasRef.current;
-        const context = canvas.getContext('2d');
+        return new Promise((resolve) => {
+            const canvas = canvasRef.current;
+            const context = canvas.getContext('2d');
     
-        const thumbnailImage = new Image();
-        thumbnailImage.src = thumbnails[currentIndex];
+            const thumbnailImage = new Image();
+            thumbnailImage.src = thumbnails[currentIndex];
     
-        thumbnailImage.onload = () => {
-            // Set canvas size to match the thumbnail
-            // canvas.width = thumbnailImage.width;
-            // canvas.height = thumbnailImage.height;
-            canvas.width = thumbnailImage.width;
-            canvas.height = thumbnailImage.height;
+            thumbnailImage.onload = () => {
+                canvas.width = thumbnailImage.width;
+                canvas.height = thumbnailImage.height;
     
-            // Draw the thumbnail
-            context.drawImage(thumbnailImage, 0, 0);
+                context.drawImage(thumbnailImage, 0, 0);
     
-            // Draw the logo
-            const logoImage = new Image();
-            logoImage.src = 'viu_logo.png'; // Replace with your logo image path
-            logoImage.onload = () => {
-                const logoWidth = 248.2; // Replace with actual logo width
-                const logoHeight = 96; // Replace with actual logo height
+                const logoImage = new Image();
+                logoImage.src = 'viu_logo.png'; 
+                logoImage.onload = () => {
+                    const logoWidth = 248.2; 
+                    const logoHeight = 96; 
     
-                // Use current logo position from state
-                const logoX = logoPosition.x; // Use the state defined position
-                const logoY = logoPosition.y; // Use the state defined position
+                    const logoX = logoPosition.x; 
+                    const logoY = logoPosition.y; 
     
-                context.drawImage(logoImage, (logoX-115.625)/1.72, logoY/1.8, logoWidth/2, logoHeight/2); // Draw logo
+                    context.drawImage(logoImage, (logoX - 115.625) / 1.72, logoY / 1.8, logoWidth / 2, logoHeight / 2); 
     
-                // Draw the button image
-                const buttonImage = new Image();
-                buttonImage.src = 'cta_button.png'; // Replace with your CTA button image path
-                buttonImage.onload = () => {
-                    const buttonWidth = 190; // Replace with actual button width
-                    const buttonHeight = 48; // Replace with actual button height
+                    const buttonImage = new Image();
+                    buttonImage.src = 'cta_button.png'; 
+                    buttonImage.onload = () => {
+                        const buttonWidth = 190; 
+                        const buttonHeight = 48; 
     
-                    // Use current button position from state
-                    const buttonX = buttonPosition.x; // Use the state defined position
-                    const buttonY = buttonPosition.y; // Use the state defined position
+                        const buttonX = buttonPosition.x; 
+                        const buttonY = buttonPosition.y; 
     
-                    // Draw the button image
-                    context.drawImage(buttonImage, (buttonX-115.625)/1.72, buttonY/1.8, buttonWidth/2, buttonHeight/2); // Draw button image
+                        context.drawImage(buttonImage, (buttonX - 115.625) / 1.72, buttonY / 1.8, buttonWidth / 2, buttonHeight / 2); 
     
-                    // Export the image
-                    const dataURL = canvas.toDataURL('image/png');
-                    const link = document.createElement('a');
-                    link.href = dataURL;
-                    link.download = 'thumbnail.png'; // Set the file name
-                    link.click(); // Trigger the download
+                        const dataURL = canvas.toDataURL('image/png');
+    
+                        // Trigger download
+                        const link = document.createElement('a');
+                        link.href = dataURL;
+                        link.download = 'thumbnail.png'; // Set the file name
+                        document.body.appendChild(link); // Append to body
+                        link.click(); // Trigger the download
+                        document.body.removeChild(link); // Clean up
+    
+                        resolve(dataURL); // Resolve the promise with the data URL
+                    };
                 };
             };
-        };
+        });
     };
 
     return (
