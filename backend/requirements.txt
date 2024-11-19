@@ -14,3 +14,7 @@ scrapy
 Pillow
 pyown
 flashrank
+flashrank
+duckduckgo_search
+pytrends
+trendspy
