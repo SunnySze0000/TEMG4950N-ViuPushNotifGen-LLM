@@ -2,10 +2,10 @@ from fastapi import APIRouter
 from typing import Optional, Dict, List
 from pipeline.rerankingGen import finalCastPipeline, finalContentPipeline, generating
 from utils.schema import PushRegenerateRequest, PushRequest, PushResponse
-from utils.state import backendState
-from pipeline.trendsPipeline import getTrends
-import csv
-from node import save
+from utils.state import backendState, initialize_backend_state
+# from pipeline.trendsPipeline import getTrends
+# import csv
+# from node import save
 
 api_router = APIRouter()
 
@@ -24,7 +24,7 @@ async def post_trend(cast_name: Optional[str], series_name: Optional[str]) -> di
    try:
       # scrape trend function
       # return pushes
-      return {}
+      return get_trend(cast_name, series_name)
    except Exception as e:
       print(e)
       raise e
@@ -32,6 +32,8 @@ async def post_trend(cast_name: Optional[str], series_name: Optional[str]) -> di
 @api_router.post("/genPush")
 async def post_gen_push(input_data: PushRequest) -> Dict[int, PushResponse]:
    try:
+      initialize_backend_state()
+      
       backendState["type_of_push_notification"] = input_data.push_type
       backendState["name_of_series"] = input_data.series_name
       backendState["name_of_cast"] = input_data.cast_name
@@ -96,25 +98,25 @@ async def post_regen_push(inputData: PushRegenerateRequest) -> Dict[int, PushRes
       print(e)
       raise e
    
-@api_router.get("/savedPush")
-async def get_saved_push() -> List[Dict[str, str]]:
-   try:
-      notifications = []
-      # Read the CSV file
-      with open("\utils\history.csv", mode='r', encoding='utf-8') as file:
-         reader = csv.DictReader(file)
-         for row in reader:
-            notifications.append(row)
+# @api_router.get("/savedPush")
+# async def get_saved_push() -> List[Dict[str, str]]:
+#    try:
+#       notifications = []
+#       # Read the CSV file
+#       with open("\utils\history.csv", mode='r', encoding='utf-8') as file:
+#          reader = csv.DictReader(file)
+#          for row in reader:
+#             notifications.append(row)
 
-         return notifications
-   except Exception as e:
-      print(e)
-      raise e
+#          return notifications
+#    except Exception as e:
+#       print(e)
+#       raise e
    
-@api_router.post("/savePush")
-async def post_save_push(inputData: SaveRequest, push: Dict[int, PushResponse]) -> str:
-   try:
-      return "Push notifications liked!"
-   except Exception as e:
-      print(e)
-      raise e
+# @api_router.post("/savePush")
+# async def post_save_push(inputData: SaveRequest, push: Dict[int, PushResponse]) -> str:
+#    try:
+#       return "Push notifications liked!"
+#    except Exception as e:
+#       print(e)
+#       raise e

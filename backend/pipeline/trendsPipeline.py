@@ -11,14 +11,14 @@ def filtering(data):
     return filtered_data
 
 
-def getTrends(websearch_kw = "Viu Malaysia"):
+def getTrends(cast_name = "", series_name = "Viu Malaysia"):
     scraped_data = run_all_spiders()
     holiday_dict = scraped_data['holidays']
     trend_title = scraped_data['trends']['trend'] # IN LIST
     Today_holiday, Upcoming_holiday, Error_holiday = check_holiday_status(holiday_dict)
 
     # cast google search
-    searches = getGoogleTrend.get_trend_search(websearch_kw)
+    searches = getGoogleTrend.get_trend_search(cast_name + " " + series_name)
     snippets = []
     for search in searches:
         snippets.append(search['snippet'])

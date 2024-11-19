@@ -52,7 +52,7 @@ def finalCastPipeline(push_number=5, datasets="Viu_datasets"):
     splitted_wiki = splitter.splitting([series_wiki, cast_wiki])
     
     print("___Start Embedding___")
-    vectorstore = embedder.embedding(splitted_wiki, cast)
+    vectorstore = embedder.embedding(splitted_wiki, cast, backendState['name_of_series'])
 
     print("___Start Retrieval___")
     answers = []
@@ -149,7 +149,7 @@ def finalContentPipeline(push_number=5, datasets="Viu_datasets"):
     splitted_wiki = splitter.splitting([series_wiki, content_wiki])
     
     print("___Start Embedding___")
-    vectorstore = embedder.embedding(splitted_wiki, content)
+    vectorstore = embedder.embedding(splitted_wiki, content, backendState['name_of_series'])
 
     print("___Start Retrieval___")
     answers = []
