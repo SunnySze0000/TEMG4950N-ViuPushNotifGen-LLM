@@ -3,47 +3,18 @@ import { useNavigate } from 'react-router-dom';
 import Header from './Header';
 import PushNotification from './PushNotification';
 import EditPushNotification from './EditPushNotification';
+import { useLocation } from 'react-router-dom';
 // hi
 const GenerationPage = () => {
+    const location = useLocation();
+    const { englishTitles = [], englishBodies = [], malayTitles = [], malayBodies = [] } = location.state || {};
+
+
     const [activeButton, setActiveButton] = useState('generator');
     const navigate = useNavigate();
 
-    // Predefined titles and bodies in Malay
-    const predefinedTitles = [
-        'KIM Ha Neul Panas! 🔥',
-        'Drama Panas KIM Ha Neul!',
-        'KIM Ha Neul Terhangat! 🌟',
-        'KIM Ha Neul Bikin Panas!',
-        'KIM Ha Neul & Cuaca Panas!'
-    ];
-
-    const predefinedBodies = [
-        'Cuaca panas? KIM Ha Neul lagi panas di Nothing Uncovered! Jom tonton sekarang! 🌞',
-        'KIM Ha Neul buat hati berdebar di Nothing Uncovered. Jangan ketinggalan! 🌡️',
-        'Cuaca panas, drama lagi panas! Saksikan KIM Ha Neul di Nothing Uncovered. 🌞',
-        'Hari panas? KIM Ha Neul lagi bikin panas di Nothing Uncovered! Tonton sekarang! 🔥',
-        'Cuaca panas, drama pun panas! Jangan lepaskan KIM Ha Neul di Nothing Uncovered. 🌡️'
-    ];
-
-    // Predefined titles and bodies in English
-    const englishTitles = [
-        'Kim Na Heul is Hot! 🔥',
-        'Hot Drama Kim Na Heul!',
-        'The Hottest Kim Na Heul! 🌟',
-        'Kim Na Heul is Heating Up!',
-        'Kim Na Heul & Hot Weather!'
-    ];
-
-    const englishBodies = [
-        'Hot weather? Kim Na Heul is on fire in Nothing Uncovered! Watch now! 🌞',
-        'Kim Na Heul makes hearts race in Nothing Uncovered. Don’t miss it! 🌡️',
-        'Hot weather, hotter drama! Watch Kim Na Heul in Nothing Uncovered. 🌞',
-        'Hot day? Kim Na Heul is heating things up in Nothing Uncovered! Watch now! 🔥',
-        'Hot weather, hot drama! Don’t miss Kim Na Heul in Nothing Uncovered. 🌡️'
-    ];
-
-    const [titles, setTitles] = useState(predefinedTitles);
-    const [bodies, setBodies] = useState(predefinedBodies);
+    const [titles, setTitles] = useState(malayTitles);
+    const [bodies, setBodies] = useState(malayBodies);
     const [isEnglish, setIsEnglish] = useState(false); // State to track the current language
 
     const handleTitleChange = (index, value) => {
@@ -67,8 +38,8 @@ const GenerationPage = () => {
 
     // Function to switch back to Malay
     const switchToMalay = () => {
-        setTitles(predefinedTitles);
-        setBodies(predefinedBodies);
+        setTitles(malayTitles);
+        setBodies(malayBodies);
         setIsEnglish(false); // Update state to indicate Malay is active
     };
 
@@ -129,10 +100,10 @@ const GenerationPage = () => {
                 </div>
 
                 {/* Vertical Line Separator */}
-                <div className="w-1 bg-gray-300 my-10"></div>
+                <div className="w-1 bg-gray-300 my-10 ml-5"></div>
 
                 {/* Second Section (2/5) */}
-                <div className="flex flex-col justify-center items-center w-2/5">
+                <div className="flex flex-col justify-center items-center w-2/5 mt-10">
                     <div className="flex items-start">
                         <h2 className="text-2xl font-bold">Push Notifications</h2>
                     </div>

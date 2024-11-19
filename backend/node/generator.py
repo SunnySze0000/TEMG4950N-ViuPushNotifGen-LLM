@@ -28,7 +28,7 @@ def generating(state):
     documents = state["documents"]
     retry_count = state["retry_count"]
     
-    if retry_count >= 3:
+    if retry_count >= 2:
         print("---DECISION: EXCEED MAX RETRY---")
         retry_count -= 1   
         return {"next": False}
