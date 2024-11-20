@@ -122,14 +122,22 @@ def retrieve_and_rerank(state):
     retriever = vectorstore.as_retriever(search_type="mmr")
     
     compressor = FlashrankRerank()
+
+    print("---Testing 1---")
+    
     compression_retriever = ContextualCompressionRetriever(
         base_compressor=compressor, base_retriever=retriever
     )
 
+    print("---Testing 2---")
+
     documents = []
     for q in sub_questions:
+        print("--- Testing q loop---")
         documents.extend(compression_retriever.invoke(q.sub_query))
 
+    print("---End Testing---")
+    
     return {"documents": documents, "question": question}
     
     
