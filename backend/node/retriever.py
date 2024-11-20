@@ -121,7 +121,7 @@ def retrieve_and_rerank(state):
 
     retriever = vectorstore.as_retriever(search_type="mmr")
     
-    compressor = FlashrankRerank()
+    compressor = FlashrankRerank(model="ms-marco-TinyBERT-L-2-v2")
     compression_retriever = ContextualCompressionRetriever(
         base_compressor=compressor, base_retriever=retriever
     )

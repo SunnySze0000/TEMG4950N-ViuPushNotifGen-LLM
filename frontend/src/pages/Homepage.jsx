@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import ToggleSwitch from './ToggleSwitch';
 import Header from './Header';
 import CreativitySlider from './Slider';
@@ -7,6 +7,8 @@ import { useNavigate } from 'react-router-dom';
 import AgeRangeSlider from "./AgeRangeSlider";
 import ContentNameSelector from "./ContentNameSelector";
 import StarNameSelector from './StarNameSelector';
+import { SettingsContext } from './SettingsContext';
+import DisplayValues from './DisplayValues';
 // hi
 const ViuDataContext = React.createContext({
   viuData: [], fetchViudata: () => {}
@@ -26,23 +28,41 @@ export const Homepage = () => {
   // useEffect(() => { fetchViuData() }, [])
 
   // State to track the active button
+  const { settings, setSettings } = useContext(SettingsContext);
   const [activeButton, setActiveButton] = useState('generator'); 
-  const [promotionType, setPromotionType] = useState(''); 
-  const [creativity, setCreativity] = useState(0); 
   const [age, setAge] = useState([18, 65]);
-  const [starName, setStarName] = useState(''); 
   const [isFormEnabled, setIsFormEnabled] = useState(false);
   const [showTrends, setShowTrends] = useState(true);
-  const [selectedContent, setSelectedContent] = useState('');
   const [allSeriesData, setAllSeriesData] = useState([]);
-  const [isEmoji, setIsEmoji] = useState(false);
-  const [isSlang, setIsSlang] = useState(false);
-  const [addRequirements, setAddRequirements] = useState(''); 
   const [englishTitles, setEnglishTitles] = useState([]);
   const [englishBodies, setEnglishBodies] = useState([]);
   const [malayTitles, setMalayTitles] = useState([]);
   const [malayBodies, setMalayBodies] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
+
+  const handleReturnToGeneration = () => {
+    navigate('/generation'); // Navigate back to the generation page
+  };
+
+  // Function to toggle the slang setting
+    const handleSlangToggle = () => {
+        setSettings(prevSettings => ({
+          ...prevSettings,
+          isSlang: !prevSettings.isSlang // Toggle the current value
+      }));
+  };
+
+  // Function to toggle the emoji setting
+  const handleEmojiToggle = () => {
+        setSettings(prevSettings => ({
+          ...prevSettings,
+          isEmoji: !prevSettings.isEmoji // Toggle the current value
+      }));
+  };
+
+  const openPopup = () => setIsPopupOpen(true);
+  const closePopup = () => setIsPopupOpen(false);
 
   const [message, setMessage] = useState('');
 
@@ -65,14 +85,14 @@ export const Homepage = () => {
 
   const handleGenPush = async () => {
     const inputData = {
-      push_type: promotionType, // Use the promotionType state
-      series_name: selectedContent, // Use the selectedContent state
-      cast_name: starName, // Use the starName state
-      creativity: creativity, // Use the creativity state
-      demographics: age, // Use the age state
-      isEmojis: isEmoji, // Use the isEmoji state
-      isSlangs: isSlang, // Use the isSlang state
-      addRequirements: addRequirements, // Use the addRequirements state
+      push_type: settings.promotionType, // Use the promotionType state
+      series_name: settings.selectedContent, // Use the selectedContent state
+      cast_name: settings.starName, // Use the starName state
+      creativity: settings.creativity/100, // Use the creativity state
+      demographics: settings.age, // Use the age state
+      isEmojis: settings.isEmoji, // Use the isEmoji state
+      isSlangs: settings.isSlang, // Use the isSlang state
+      addRequirements: settings.addRequirements, // Use the addRequirements state
       selected_trend: "",
     };
   
@@ -103,18 +123,20 @@ export const Homepage = () => {
         }
       }
 
-      // Update state with the new values
-      setEnglishTitles(newEnglishTitles);
-      setEnglishBodies(newEnglishBodies);
-      setMalayTitles(newMalayTitles);
-      setMalayBodies(newMalayBodies);
-
-      navigate('/generation', {
-        state: {
+      setSettings((prevSettings) => ({
+          ...prevSettings,
           englishTitles: newEnglishTitles,
           englishBodies: newEnglishBodies,
           malayTitles: newMalayTitles,
           malayBodies: newMalayBodies,
+      }));
+
+      navigate('/generation', {
+        state: {
+          englishTitles: settings.englishTitles,
+          englishBodies: settings.englishBodies,
+          malayTitles: settings.malayTitles,
+          malayBodies: settings.malayBodies,
         },
       });
   
@@ -143,7 +165,23 @@ export const Homepage = () => {
   }, []);
 
   const handleContentSelection = (content) => {
-    setSelectedContent(content);
+    setSettings({ ...settings, selectedContent: content }); // Update selected content
+  };
+
+  const handleStarSelection = (star) => {
+    setSettings({ ...settings, starName: star }); // Update selected content
+  };
+
+  const handleCreativityChange = (value) => {
+    setSettings({ ...settings, creativity: value }); // Update context state
+  };
+
+  const handleAddRequirementsChange = (e) => {
+      const value = e.target.value; // Get the value from the textarea
+      setSettings(prevSettings => ({
+          ...prevSettings,
+          addRequirements: value // Update the addRequirements in context
+      }));
   };
 
   // Function to handle refresh trends logic
@@ -154,18 +192,18 @@ export const Homepage = () => {
   };
 
   const isFormValid = () => {
-    return promotionType &&
-           age &&
-           selectedContent &&
-           (promotionType === 'cast-driven' ? starName : true);
+    return settings.promotionType &&
+           settings.age &&
+           settings.selectedContent &&
+           (settings.promotionType === 'cast-driven' ? settings.starName : true);
   };
 
   useEffect(() => {
     setIsFormEnabled(isFormValid());
-  }, [promotionType, age, selectedContent, starName]); 
+  }, [settings.promotionType, settings.age, settings.selectedContent, settings.starName]); 
 
   const handlePromotionTypeChange = (event) => {
-    setPromotionType(event.target.value);
+    setSettings({ ...settings, promotionType: event.target.value });
   };
 
   const handleGenerateTrends = () => {
@@ -178,11 +216,12 @@ export const Homepage = () => {
     setActiveButton(button);
   };
 
-  const isCastDriven = promotionType === 'cast-driven';
+  const isCastDriven = settings.promotionType === 'cast-driven';
 
   return (
     <div className="h-screen flex flex-col">
     <Header activeButton={activeButton} handleButtonClick={handleButtonClick} />
+
     {loading && (
       <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
         <div className="bg-white p-6 rounded-lg shadow-lg text-center">
@@ -208,12 +247,12 @@ export const Homepage = () => {
             {/* Promotion Type Dropdown */}
             <div className="flex-grow mb-4 w-full">
               <div className="flex">
-                <label className="block text-sm font-bold text-lg text-gray-700">Promotion Type</label>
+                <label className="block font-bold text-lg text-gray-700">Promotion Type</label>
                 <label className="text-red-400 font-bold text-lg ml-1">*</label>
               </div>
               <select
                 className="mt-1 block h-8 w-full border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-[#F5B919] focus:border-[#F5B919]"
-                value={promotionType}
+                value={settings.promotionType}
                 onChange={handlePromotionTypeChange}
               >
                 <option value="" disabled hidden>
@@ -225,49 +264,126 @@ export const Homepage = () => {
             </div>
 
             <div className="w-full">
-              <CreativitySlider value={creativity} onChange={(e) => setCreativity(e.target.value)} />
+              <CreativitySlider value={settings.creativity} onChange={handleCreativityChange} />
             </div>
             
           </div>
 
           <div className="grid grid-cols-2 gap-4">
               {/* Content Name Selector */}
-              <ContentNameSelector promotionType={promotionType} onContentSelect={handleContentSelection} />
+              <ContentNameSelector promotionType={settings.promotionType} onContentSelect={handleContentSelection} selectedContent={settings.selectedContent} />
 
               {/* Star Name Selector */}
-              <StarNameSelector selectedContent={selectedContent} allSeriesData={allSeriesData} isCastDriven={isCastDriven} onStarSelect={setStarName}/>
+              <StarNameSelector selectedContent={settings.selectedContent} allSeriesData={allSeriesData} isCastDriven={isCastDriven} onStarSelect={handleStarSelection}/>
               <AgeRangeSlider setAge={setAge} />
 
               <div className="flex flex-col">
               <ToggleSwitch 
                 label="Include Local Lingo?" 
-                checked={isSlang} 
-                onChange={() => setIsSlang(!isSlang)} 
+                checked={settings.isSlang} 
+                onChange={handleSlangToggle} 
               />
               <ToggleSwitch 
                 label="Include Emojis?" 
-                checked={isEmoji} 
-                onChange={() => setIsEmoji(!isEmoji)} 
+                checked={settings.isEmoji} 
+                onChange={handleEmojiToggle} 
               />
               </div>
             </div>
 
             {/* Additional Input Field */}
             <div className="flex flex-col w-full mb-4">
-              <label className="block text-sm font-bold text-lg text-gray-700 mb-2">Additional Input</label>
+              <label className="block text-lg font-bold text-xl text-gray-700 mb-2">Additional Input</label>
+              <span className="text-sm">
+                Give further instructions which will be added at the bottom of the current prompt. 
+                You may see the the default prompt settings <a href="#" onClick={openPopup} style={{ color: 'blue', textDecoration: 'underline' }}>here.</a>
+              </span>
+
+              {/* Popup structure */}
+              {isPopupOpen && (
+                <>
+                  <div className="rounded-lg" style={{ position: 'fixed', left: '50%', top: '50%', transform: 'translate(-50%, -50%)', border: '1px solid #ccc', padding: '20px', backgroundColor: 'white', zIndex: 1000 }}>
+                    <div className="flex justify-between">
+                      <h2 className="text-2xl font-bold">View Default Prompt</h2>
+                      <button onClick={closePopup} className="absolute top-2 right-4 text-3xl">&times;</button>
+                    </div>
+                    <p>This is the main body of the prompt that will be fed into the LLM. Please contact the backend team if you wish to change the content of the main prompt (not advisable).</p>
+
+                    {/* Prompt Text */}
+                    <div className="mt-4 border rounded-lg p-6">
+                      <p className="text-lg">
+                        The push must contain the more content of the show, it is fine to have the push being long. 
+                        Exaggerate and be a clickbait in the push!
+                      </p> 
+                      <br></br>
+                      <p className="text-lg"> 
+                        If there are any extra requirements by the user, 
+                        you must fulfill them while keeping the push interesting. All input data may be None; use those 
+                        that are not None and choose which ones to use by yourself. Aim to generate the best clickbait 
+                        {`{type_of_push_notification}`} notification.
+                      </p>
+                      <br></br>
+                      <p className="text-lg">
+                        If "Type of Push Notification" is cast-driven, "name_of_cast" must be included in the push. 
+                      </p>
+                      <br></br>
+                      <p className="text-lg">
+                        If "Demographics of the target receiver of the push", please adjust the push according to the 
+                        target receiver demographics, which is be more energetic for younger receivers, be more cast-focus 
+                        and use more information of the cast when the target receivers are fan on the cast.
+                      </p>
+                      <br></br>
+                      <p className="text-lg">
+                        If "Base Push Example" is provided, improve and regenerate a push based on the "Base Push Example".
+                      </p>
+                      <br></br>
+                      <p className="text-lg">
+                        If "Local trend in Malaysia" is provided, the trend must be incorporated into the push with any method. 
+                      </p>
+                      <br></br>
+                      <p className="text-lg">
+                        If "Include Slangs" is True, please incorporate local slangs in the Bahasa Melayu version. 
+                      </p>
+                      <br></br>
+                      <p className="text-lg">
+                        If and only if "Include Emoji" is True, please se emojis. 
+                      </p>
+                      <br></br>
+                      <p className="text-lg">
+                        The followings are additional requirements that must be fulfilled when generating the push notification.
+                        {`{additional_requirements}`}
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Background overlay */}
+                  <div style={{ position: 'fixed', left: 0, top: 0, width: '100%', height: '100%', backgroundColor: 'rgba(0,0,0,0.5)', zIndex: 999 }}></div>
+                </>
+              )}
+
               <textarea
                 placeholder="Enter additional information here..."
-                value={addRequirements} // Bind the value to the state variable
-                onChange={(e) => setAddRequirements(e.target.value)} // Step 2: Update state on change
+                value={settings.addRequirements}
+                onChange={handleAddRequirementsChange}
                 className="mt-1 block w-full h-60 border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-[#F5B919] focus:border-[#F5B919] p-2"
               />
             </div>
 
             {/* Generate Button */}
             <div className="flex justify-center mb-4">
-              <button className={`bg-[#F5B919] w-full text-3xl text-black font-bold py-3 px-6 rounded-lg shadow-md hover:bg-yellow-600 transition duration-300 ${isFormEnabled ? '' : 'cursor-not-allowed opacity-50'}`} disabled={!isFormEnabled} onClick={handleGenPush} >
-                Generate
-              </button>
+              {settings.returnToGeneration && (
+                  <button 
+                      className="bg-[#F5B919] w-full text-3xl text-black font-bold py-3 px-6 rounded-lg shadow-md hover:bg-yellow-600 transition duration-300" 
+                      onClick={handleReturnToGeneration}
+                  >
+                      Return to Generation
+                  </button>
+              )}
+              <div className="w-full pl-2">
+                <button className={`bg-[#F5B919] w-full text-3xl text-black font-bold py-3 px-6 rounded-lg shadow-md hover:bg-yellow-600 transition duration-300 ${isFormEnabled ? '' : 'cursor-not-allowed opacity-50'}`} disabled={!isFormEnabled} onClick={handleGenPush} >
+                  Generate
+                </button>
+              </div>
             </div>
           </div>
         </div>

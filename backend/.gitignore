@@ -7,11 +7,4 @@ venv
 
 # Viu datasets
 src/Viu_datasets/*.xlsx
-<<<<<<< HEAD
 src/Viu_datasets/*.csv
-
-.DS_Store
-
-=======
-src/Viu_datasets/*.csv
->>>>>>> d3c9c59680f3a59a7aa70d63e0f167580d6ddeb5

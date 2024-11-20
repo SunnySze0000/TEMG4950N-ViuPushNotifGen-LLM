@@ -12,5 +12,4 @@ langgraph
 openpyxl
 scrapy
 Pillow
-pyown
 flashrank

@@ -7,7 +7,7 @@ const Slider = ({ value, onChange }) => {
       <label className="block text-lg font-bold text-gray-700">Creativity</label> 
       <label className="text-red-400 font-bold text-lg ml-1">*</label> 
     </div> 
-    <input type="range" min="0" max="100" value={value} onChange={onChange} className="mt-4 w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer" style={{ accentColor: '#3B82F6', }} /> 
+    <input type="range" min="0" max="100" value={value} onChange={(e) => onChange(e.target.value)} className="mt-4 w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer" style={{ accentColor: '#3B82F6', }} /> 
       <style jsx>{` input[type='range'] { -webkit-appearance: none; width: 100%; }
       input[type='range']::-webkit-slider-thumb {
         -webkit-appearance: none;
