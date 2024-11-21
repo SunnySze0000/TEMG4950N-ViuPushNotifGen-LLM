@@ -13,7 +13,7 @@ import pprint
 
 def generating(input_var):
     #llm = ChatTogether(model="meta-llama/Llama-3-70b-chat-hf", temperature=backendState['creativity'])
-    llm = ChatTogether(model="meta-llama/Llama-3-70b-chat-hf", temperature=0.5)
+    llm = ChatTogether(model="meta-llama/Llama-3-70b-chat-hf", temperature=0.8)
 
     chain = prompts.final_prompt | llm | StrOutputParser()
     push = chain.invoke(input_var)
@@ -21,13 +21,14 @@ def generating(input_var):
     push = json_parser.extract_json_from_string(push)
     
     #print('Before Slanging: ')
-    print(push)
+    #print(push)
 
+    print('After Slanging: ')
     if input_var.get('include_slangs', False):
         push = slanger.rephrase(push)
         print(push)
         push = json_parser.extract_json_from_string(push)
-    print('After Slanging: ')
+    
     print(type(push))
 
     return push
@@ -52,7 +53,7 @@ def finalCastPipeline(push_number=5, datasets="Viu_datasets"):
     splitted_wiki = splitter.splitting([series_wiki, cast_wiki])
     
     print("___Start Embedding___")
-    vectorstore = embedder.embedding(splitted_wiki, cast)
+    vectorstore = embedder.embedding(splitted_wiki, cast, backendState['name_of_series'])
 
     print("___Start Retrieval___")
     answers = []
@@ -149,7 +150,7 @@ def finalContentPipeline(push_number=5, datasets="Viu_datasets"):
     splitted_wiki = splitter.splitting([series_wiki, content_wiki])
     
     print("___Start Embedding___")
-    vectorstore = embedder.embedding(splitted_wiki, content)
+    vectorstore = embedder.embedding(splitted_wiki, content, backendState['name_of_series'])
 
     print("___Start Retrieval___")
     answers = []
@@ -258,7 +259,7 @@ def simplifiedCastPipe(cast, push_number=1, datasets="Viu_datasets"):
         "base_push_example": None,
         "local_trend_in_malaysia": None, #"Hot weather alert", #"KIM Hye Yoon will be in Viu scream date on 24th February 2024", #"Kim Hye Yoon, star of Lovely Runner, won the Outstanding Asia Star Award." #"Viu is organizing an event inviting Kim Ha Nuel, Lin Tin Wai, and Rong Lam to Malaysia on June10, tickets are all sold out and people are very hyped to it.",
         "include_emoji": True,
-        "include_slangs": False,
+        "include_slangs": True,
         "additional_requirements": None,
     }
     

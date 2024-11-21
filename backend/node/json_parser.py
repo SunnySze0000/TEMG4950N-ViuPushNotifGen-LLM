@@ -21,7 +21,9 @@ def extract_json_from_string(input_string):
             # Calculate how many '}' are needed
             missing_braces = open_brace_count - close_brace_count
             json_str += '}' * missing_braces
-        
+        json_str = json_str.replace('\n', '').replace('\r', '')
+        print("JSON STRING")
+        print(json_str)
         parsed_json = json.loads(json_str)
         
         

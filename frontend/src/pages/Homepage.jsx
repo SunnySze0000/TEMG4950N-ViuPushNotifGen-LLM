@@ -32,7 +32,7 @@ export const Homepage = () => {
   const [age, setAge] = useState([18, 65]);
   const [starName, setStarName] = useState(''); 
   const [isFormEnabled, setIsFormEnabled] = useState(false);
-  const [showTrends, setShowTrends] = useState(true);
+  const [showTrends, setShowTrends] = useState(false);
   const [selectedContent, setSelectedContent] = useState('');
   const [allSeriesData, setAllSeriesData] = useState([]);
   const [isEmoji, setIsEmoji] = useState(false);
@@ -42,8 +42,10 @@ export const Homepage = () => {
   const [englishBodies, setEnglishBodies] = useState([]);
   const [malayTitles, setMalayTitles] = useState([]);
   const [malayBodies, setMalayBodies] = useState([]);
+  const [trendTitles, setTrendTitles] = useState([]);
   const [loading, setLoading] = useState(false);
-
+  const [trendLoading, setTrendLoading] = useState(false);
+ 
   const [message, setMessage] = useState('');
 
   const backendUrl = process.env.REACT_APP_BACKEND_URL
@@ -61,6 +63,26 @@ export const Homepage = () => {
     return data
   };
 
+  const regenTrend = async (inputShow) => {
+    const response = await fetch(`${backendUrl}/scrapeTrends`);
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    const data = await response.json();
+    console.log(data);
+    return data;
+  };
+
+  const genTrend = async () => {
+    const response = await fetch(`${backendUrl}/scrapeTrends`);
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    const data = await response.json();
+    console.log(data);
+    return data;
+  };
+
   const navigate = useNavigate();
 
   const handleGenPush = async () => {
@@ -71,7 +93,7 @@ export const Homepage = () => {
       creativity: creativity/100, // Use the creativity state
       demographics: age, // Use the age state
       isEmojis: isEmoji, // Use the isEmoji state
-      isSlangs: isSlang, // Use the isSlang state
+      isSlangs: isSlang, // Use the isSlang state 
       addRequirements: addRequirements, // Use the addRequirements state
       selected_trend: "",
     };
@@ -147,10 +169,34 @@ export const Homepage = () => {
   };
 
   // Function to handle refresh trends logic
-  const handleRefreshTrends = () => {
-    // Logic to refresh trends goes here
-    // For now, we'll just log to the console
-    console.log('Trends refreshed!');
+  const handleRefreshTrends = async () => {
+    const inputShow = {
+      series_name: selectedContent, // Use the selectedContent state
+      cast_name: starName, // Use the starName state
+    };
+    setTrendLoading(true);
+    try {
+      const data = await regenTrend();
+      setMessage(JSON.stringify(data, null, 2));
+
+      const newTrendTitles = []
+
+      for (const key in data) {
+        if (data[key].title) {
+          newTrendTitles.push(data[key].title);
+        }
+      }
+      setTrendTitles(newTrendTitles);
+      setShowTrends(true);
+    }
+    catch (error) {
+      console.error("Error generating trend:", error);
+      setMessage("An error occurred while generating the trend.");
+    } finally {
+      // Stop loading
+      setTrendLoading(false);
+      console.log('Trends refreshed!');
+    }
   };
 
   const isFormValid = () => {
@@ -168,10 +214,31 @@ export const Homepage = () => {
     setPromotionType(event.target.value);
   };
 
-  const handleGenerateTrends = () => {
+  const handleGenerateTrends = async () => {
     setShowTrends(true);
-    // Include any logic to generate trends here
+    setTrendLoading(true);
+    try {
+      const data = await genTrend();
+
+      const newTrendTitles = []
+
+      for (const key in data) {
+        if (data[key].trend_title) {
+          newTrendTitles.push(data[key].trend_title);
+        }
+      }
+      setTrendTitles(newTrendTitles);
+      setShowTrends(true);
+    }
+    catch (error) {
+      console.error("Error generating trend:", error);
+      setMessage("An error occurred while generating the trend.");
+    } finally {
+      // Stop loading
+      setTrendLoading(false);
+    }
   };
+  
 
   // Function to handle button clicks
   const handleButtonClick = (button) => {
@@ -276,32 +343,35 @@ export const Homepage = () => {
         <div className="w-1 bg-gray-300 my-10 mr-10"></div>
 
         {/* Second Section (2/5) */}
-        <div className="flex flex-col justify-center items-center w-2/5 mt-10 mb-10">
+        <div className="flex flex-col justify-center items-center w-2/5 mt-10 mb-10 relative">
+        {trendLoading && (
+          <div className= "absolute inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+            <div className="bg-white p-6 rounded-lg shadow-lg text-center">
+              <div className="animate-spin rounded-full h-12 w-12 border-4 border-t-4 border-[#F5B919] border-t-transparent mx-auto mb-4"></div>
+              <p className="text-lg font-semibold">Generating Trend...</p>
+            </div>
+          </div>
+        )}
           <div className="flex md:flex-row items-center">
             <h2 className="text-xl md:text-2xl font-bold mr-4 mb-2 md:mb-0">Trends</h2>
             {/* Refresh Trends Button */}
-                  <button 
+                  {showTrends && (<button 
                       onClick={handleRefreshTrends} 
                       className="bg-green-500 text-white text-sm md:text-xs font-bold py-2 px-4 rounded-full hover:bg-green-600 transition duration-300"
                   >
                       Refresh Trends
-                  </button>
+                  </button>)}
           </div>
           <div className="w-full max-w-4xl h-auto bg-white flex justify-center items-center rounded-lg shadow-md mt-4 p-4">
             {!showTrends ? (
-              <button className={`bg-[#F5B919] text-black font-bold py-2 px-4 hover:bg-yellow-600 rounded-full cursor-not-allowed" ${isFormEnabled ? '' : 'cursor-not-allowed opacity-50'}`} disabled={!isFormEnabled} onClick={handleGenerateTrends} >
+              <button className={`bg-[#F5B919] text-black font-bold py-2 px-4 hover:bg-yellow-600 rounded-full cursor-not-allowed" ${!showTrends ? '' : 'cursor-not-allowed opacity-50'}`} disabled={showTrends} onClick={handleGenerateTrends} >
                 Generate Trends
               </button>
             ) : (
               <div className="flex flex-col w-full max-h-screen overflow-y-auto p-4">
-                <TrendComponent title="Celebrity Spotlight" description="KIM Ha Neuls' latest comments at the K-Drama press conference"/>
-                <TrendComponent title="Tropical Trends" description="Residents told to stay home as temperatures set to cross 35 degrees this week"/>
-                <TrendComponent title="Holiday Spirit" description="Public holiday this Saturday on Malaysia Day"/>
-                <TrendComponent title="Pop Culture" description="K-pop group Black Pink is coming to Malaysia for their world tour"/>
-                <TrendComponent title="Celebrity Spotlight" description="KIM Ha Neuls' latest comments at the K-Drama press conference"/>
-                <TrendComponent title="Tropical Trends" description="Residents told to stay home as temperatures set to cross 35 degrees this week"/>
-                <TrendComponent title="Holiday Spirit" description="Public holiday this Saturday on Malaysia Day"/>
-                <TrendComponent title="Pop Culture" description="K-pop group Black Pink is coming to Malaysia for their world tour"/>
+                {trendTitles.map((title, index) => (
+                  <TrendComponent key={index} title={title}/>
+                ))}
               </div>
             )}
           </div>

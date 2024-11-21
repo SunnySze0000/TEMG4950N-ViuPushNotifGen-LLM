@@ -227,7 +227,7 @@ final_prompt = FewShotPromptTemplate(
     
     Quick rules:
     - Talking about {name_of_cast}? Make sure to mention them!
-    - Young audience? Keep it fun and casual! ("Yo!", "gotta", "WOW", "OMG" etc.)
+    - Young audience? Keep it fun and casual! ("gotta", "WOW", "OMG" etc.), Use multiple question marks and exclamation marks at a once (eg. !!!, ???, ..., etc.) to show excitement
     - Fan crowd? Spill some behind-the-scenes tea!
     - Got a Malaysian trend? Drop it in naturally!
     - Slang it up in BM if {include_slangs} is True
@@ -257,7 +257,7 @@ final_prompt = FewShotPromptTemplate(
     - Reduce the complexity, simpler writing
     - Remove formal writing cues
     - Use multiple question marks and exclamation marks at a once (eg. !!!, ???, ..., etc.) to show excitement
-    - Use casual tone ("Yo!", "gotta", "WOW", "OMG" etc.) but not go too far
+    - Use casual tone ("gotta", "WOW", "OMG" etc.) but not go too far
     - Mention "Viu"!!!
     
     Who we're talking to: {demographics_of_target_receiver}

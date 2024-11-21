@@ -28,14 +28,8 @@ export const TestPage = () => {
   const handleRegenPush = async () => {
     const inputData = {
       basePush: {
-        "english": {
           "title": "KIM Ha Neul's Life Turned Upside Down! 🤯",
           "body": "The queen of romantic comedies is now a murder suspect? 🚔️ Don't believe it! Watch Nothing Uncovered to uncover the truth behind the scandal! 💥 #KimHaNeul #NothingUncovered"
-        },
-        "malay": {
-          "title": "Kehidupan KIM Ha Neul Terbalik! 🤯",
-          "body": "Ratu komedi romantik kini menjadi suspek pembunuhan? 🚔️ Jangan percayya! Tonton Nothing Uncovered untuk mengungkapkan kebenaran di sebalik skandal! 💥 #KimHaNeul #NothingUncovered"
-        }
       },
       addRequirements: "more scary",
     };
@@ -63,8 +57,7 @@ export const TestPage = () => {
       </div>
     </div>
   );
-}      
-
+}     
 
 const genPush = async (inputData) => {
   const response = await fetch(`${backendUrl}/genPush`, {
@@ -109,14 +102,8 @@ const regenPush = async (inputData) => {
 // useEffect(() => {
 //   const inputData = {
 //     basePush: {
-//                 "english": 
-//                   {"title": "KIM Ha Neul's Life Turned Upside Down! 🤯", 
-//                     "body": "The queen of romantic comedies is now a murder suspect? �️️ Don't believe it! Watch Nothing Uncovered to uncover the truth behind the scandal! 💥 #KimHaNeul #NothingUncovered"
-//                   }, 
-//                 "malay": 
-//                   {"title": "Kehidupan KIM Ha Neul Terbalik! 🤯", 
-//                     "body": "Ratu komedi romantik kini menjadi suspek pembunuhan? 🚔️ Jangan percayya! Tonton Nothing Uncovered untuk mengungkapkan kebenaran di sebalik skandal! 💥 #KimHaNeul #NothingUncovered"
-//                   }
+//                  "title": "KIM Ha Neul's Life Turned Upside Down! 🤯", 
+//                  "body": "The queen of romantic comedies is now a murder suspect? �️️ Don't believe it! Watch Nothing Uncovered to uncover the truth behind the scandal! 💥 #KimHaNeul #NothingUncovered"
 //               },
 //     addRequirements: "more scary",
 //   };

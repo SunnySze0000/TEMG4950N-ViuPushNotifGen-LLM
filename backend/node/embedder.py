@@ -6,10 +6,10 @@ from langchain_pinecone import PineconeVectorStore
 
 client = Pinecone(api_key=os.getenv('PINECONE_API_KEY'))
 
-def embedding(splits, cast):
+def embedding(splits, cast, series):
     
-    index_name = (cast).replace(' ', '-').lower()
-
+    index_name = ''.join(char for char in series.lower() if char.isalpha() or char == '-')
+    print(index_name)
     existing_indexes = [index_info["name"] for index_info in client.list_indexes()]
 
     if index_name not in existing_indexes:
