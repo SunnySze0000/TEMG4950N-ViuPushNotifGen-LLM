@@ -18,11 +18,15 @@ def get_trending_titles():
     trends = tr.trending_now(geo='MY')
     titles = []
     for i in range (len(trends)):
-        news = tr.trending_now_news_by_ids(
-            trends[i].news_tokens,  # News tokens from trending topic
-            max_news=1  # Number of articles to retrieve
-        )
-        titles.append(news[0].title)
+        try:
+            news = tr.trending_now_news_by_ids(
+                trends[i].news_tokens,  # News tokens from trending topic
+                max_news=1  # Number of articles to retrieve
+            )
+            titles.append(news[0].title)
+        except Exception as e:
+            print(e)
+            titles.append(trends[i].keyword)
     # print("-------------------")
     # print(trends[0])
     # print("-------------------")

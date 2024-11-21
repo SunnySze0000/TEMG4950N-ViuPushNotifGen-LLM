@@ -44,8 +44,8 @@ import time
 # from node import classifier
 # import time
 
-rerankingGen.simplifiedCastPipe(cast, push_number = 5)
-
+# Test generate push
+# rerankingGen.simplifiedCastPipe(cast, push_number = 5)
 
 ## Test for cast search trend
 # searches = getGoogleTrend.get_trend_search('KIM Ha Neul')
@@ -64,5 +64,17 @@ rerankingGen.simplifiedCastPipe(cast, push_number = 5)
 # filtered_data = {key: value for key, value in results.items() if 'None' not in value.keys()}
 # print(filtered_data)
 
-# from pipeline import trendsPipeline
-# trendsPipeline.getTrends()
+from pipeline import trendsPipeline
+# trendsPipeline.getTrends(cast, "Lovely Runner")
+trendsPipeline.getTrends()
+
+# trends = getGoogleTrend.get_trending_titles()
+
+# def clean_text(text):
+#     return text.replace('"', '').replace("'", '').replace('‘', '').replace('’', '').replace('\n', ' ')
+
+# cleaned_trend_title = [clean_text(title) for title in trends]
+
+# print(trends)
+# print("-------------------")
+# print(cleaned_trend_title)

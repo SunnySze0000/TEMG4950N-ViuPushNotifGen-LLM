@@ -1,16 +1,16 @@
 from fastapi import APIRouter
 from typing import Optional, Dict, List
 from pipeline.rerankingGen import finalCastPipeline, finalContentPipeline, generating
-from utils.schema import PushRegenerateRequest, PushRequest, PushResponse
+from utils.schema import PushRegenerateRequest, PushRequest, PushResponse, TrendResponse
 from utils.state import backendState, initialize_backend_state
-# from pipeline.trendsPipeline import getTrends
+from pipeline.trendsPipeline import getTrends
 # import csv
 # from node import save
 
 api_router = APIRouter()
 
 @api_router.get("/scrapeTrends")
-async def get_trend() -> dict:
+async def get_trend() -> Dict[int, TrendResponse]:
    try:
       # scrape trend function
       # return pushes
@@ -20,11 +20,11 @@ async def get_trend() -> dict:
       raise e
 
 @api_router.post("/scrapeTrends")
-async def post_trend(cast_name: Optional[str], series_name: Optional[str]) -> dict:
+async def post_trend(cast_name: Optional[str], series_name: Optional[str]) -> Dict[int, TrendResponse]:
    try:
       # scrape trend function
       # return pushes
-      return get_trend(cast_name, series_name)
+      return getTrends(cast_name, series_name)
    except Exception as e:
       print(e)
       raise e
@@ -65,7 +65,9 @@ async def post_gen_push(input_data: PushRequest) -> Dict[int, PushResponse]:
 @api_router.post("/regenPush")
 async def post_regen_push(inputData: PushRegenerateRequest) -> Dict[int, PushResponse]:
    try:
-      backendState["base_push_example"] = "Title:" + inputData.basePush.english.title + "\n" + "Body:" + inputData.basePush.english.body
+      if inputData.basePush is not None:
+         backendState["base_push_example"] = "Title:" + inputData.basePush.title + "\n" + "Body:" + inputData.basePush.body
+      # backendState["base_push_example"] = "Title:" + inputData.basePush.title + "\n" + "Body:" + inputData.basePush.body
       backendState["additional_requirements"] = inputData.addRequirements
 
       input_variables = {
