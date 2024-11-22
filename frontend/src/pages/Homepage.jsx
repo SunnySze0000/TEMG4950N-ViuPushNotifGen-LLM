@@ -43,6 +43,8 @@ export const Homepage = () => {
   const [malayTitles, setMalayTitles] = useState([]);
   const [malayBodies, setMalayBodies] = useState([]);
   const [trendTitles, setTrendTitles] = useState([]);
+  const [trendClassifier, setTrendClassifier] = useState([]);
+  const [selectedTrend, setSelectedTrend] = useState('');
   const [loading, setLoading] = useState(false);
   const [trendLoading, setTrendLoading] = useState(false);
  
@@ -95,7 +97,7 @@ export const Homepage = () => {
       isEmojis: isEmoji, // Use the isEmoji state
       isSlangs: isSlang, // Use the isSlang state 
       addRequirements: addRequirements, // Use the addRequirements state
-      selected_trend: "",
+      selected_trend: selectedTrend, // Use the selectedTrend state
     };
   
     console.log("Sending request data:", JSON.stringify(inputData));
@@ -221,13 +223,18 @@ export const Homepage = () => {
       const data = await genTrend();
 
       const newTrendTitles = []
+      const newTrendClassifier = []
 
       for (const key in data) {
         if (data[key].trend_title) {
           newTrendTitles.push(data[key].trend_title);
         }
+        if (data[key].trend_classifier) {
+          newTrendClassifier.push(data[key].trend_classifier)
+        }
       }
       setTrendTitles(newTrendTitles);
+      setTrendClassifier(newTrendClassifier);
       setShowTrends(true);
     }
     catch (error) {
@@ -239,6 +246,9 @@ export const Homepage = () => {
     }
   };
   
+  const handleTrendSelect = (title) => {
+    setSelectedTrend(title); // Update selected trend with the title from TrendComponent
+  };
 
   // Function to handle button clicks
   const handleButtonClick = (button) => {
@@ -370,7 +380,7 @@ export const Homepage = () => {
             ) : (
               <div className="flex flex-col w-full max-h-screen overflow-y-auto p-4">
                 {trendTitles.map((title, index) => (
-                  <TrendComponent key={index} title={title}/>
+                  <TrendComponent key={index} title={title} className={trendClassifier[index]} onTrendSelect={handleTrendSelect}/>
                 ))}
               </div>
             )}

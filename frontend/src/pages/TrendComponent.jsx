@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 // hi
-const TrendComponent = ({ title, imageSrc }) => {
+const TrendComponent = ({ title, className, onTrendSelect }) => {
     const [checked, setChecked] = useState(false);
 
     const handleCheckboxChange = () => {
-        setChecked(!checked);
+        const newChecked = !checked
+        setChecked(newChecked);
+        onTrendSelect(newChecked ? title : '');
     };
 
     return (
@@ -17,6 +19,7 @@ const TrendComponent = ({ title, imageSrc }) => {
                     {checked && <div className="w-2 h-2 bg-white rounded-full" />} {/* Show a small dot when checked */}
                 </div>
                 <div className='flex-1'>
+                    <p className="font-bold text-md">{className}</p>
                     <h3 className="text-md">{title}</h3>
                 </div>
             </div>
