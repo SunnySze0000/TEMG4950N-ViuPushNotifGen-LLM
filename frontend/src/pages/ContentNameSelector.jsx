@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useContext} from 'react';
 import { SettingsContext } from './SettingsContext';
-
 // hi
 const ContentNameSelector = ({promotionType, onContentSelect}) => {
     const { settings, setSettings } = useContext(SettingsContext);

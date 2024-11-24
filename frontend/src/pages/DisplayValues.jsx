@@ -1,6 +1,5 @@
 import React, {useContext} from 'react';
 import { SettingsContext } from './SettingsContext';
-
 // hi
 const DisplayValues = () => {
   const { settings, setSettings } = useContext(SettingsContext);

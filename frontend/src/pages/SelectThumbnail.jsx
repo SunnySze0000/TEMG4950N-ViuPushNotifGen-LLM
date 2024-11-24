@@ -1,6 +1,6 @@
 // SelectThumbnail.jsx
 import React, { useState, useEffect, useRef } from 'react';
-// hi
+// hii
 const SelectThumbnail = ({ onClose, onSelectThumbnail }) => {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [logoPosition, setLogoPosition] = useState({ x: 250, y: 150 }); // Starting position for the logo

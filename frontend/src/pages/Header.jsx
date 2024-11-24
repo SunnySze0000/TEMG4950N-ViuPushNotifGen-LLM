@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate
-// hi
+// hii
 const Header = ({ activeButton, handleButtonClick }) => {
   const navigate = useNavigate(); // Initialize the navigate function
 

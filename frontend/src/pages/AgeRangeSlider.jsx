@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect } from 'react';
 import ReactSlider from 'react-slider';
 import { SettingsContext } from './SettingsContext';
-
+// hi
 const AgeRangeSlider = ({ setAge }) => {
     const { settings, setSettings } = useContext(SettingsContext);
     const [ageRange, setAgeRange] = useState([18, 65]); // Initialize with default values

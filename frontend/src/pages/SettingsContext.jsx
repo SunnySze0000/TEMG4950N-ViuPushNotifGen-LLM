@@ -1,7 +1,6 @@
 import React, { createContext, useState } from 'react';
-
 export const SettingsContext = createContext();
-
+// hi
 export const SettingsProvider = ({ children }) => {
   const [settings, setSettings] = useState({
     promotionType: '',
