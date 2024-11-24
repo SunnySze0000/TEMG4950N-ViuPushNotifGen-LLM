@@ -4,17 +4,14 @@ import Header from './Header';
 import PushNotification from './PushNotification';
 import EditPushNotification from './EditPushNotification';
 import { useLocation } from 'react-router-dom';
+import RegenPopup from './RegenPopup';
 import { SettingsContext } from './SettingsContext';
 // hi
 const GenerationPage = () => {
     const location = useLocation();
-    const {
-        englishTitles = [],
-        englishBodies = [],
-        malayTitles = [],
-        malayBodies = [],
-    } = location.state || {}; // Ensure defaults are set
+    const { englishTitles = [], englishBodies = [], malayTitles = [], malayBodies = [] } = location.state || {};
 
+    const [isOpenPopup, setIsOpenPopup] = useState(false);
     const [activeButton, setActiveButton] = useState('generator');
     const navigate = useNavigate();
     const { settings, setSettings } = useContext(SettingsContext);
@@ -47,16 +44,22 @@ const GenerationPage = () => {
         navigate('/');
     };
 
+    const [selectedPush, setSelectedPush] = useState(null);
+
     const handleTitleChange = (index, value) => {
         const newTitles = [...titles];
         newTitles[index] = value;
         setTitles(newTitles);
+        if (isEnglish) englishTitles[index] = value;
+        else malayTitles[index] = value;
     };
 
     const handleBodyChange = (index, value) => {
         const newBodies = [...bodies];
         newBodies[index] = value;
         setBodies(newBodies);
+        if (isEnglish) englishBodies[index] = value;
+        else malayBodies[index] = value;
     };
 
     // Function to switch to English
@@ -169,6 +172,16 @@ const GenerationPage = () => {
         return data
       };
 
+    const handleRegenPopup = (title, body) => {
+        setIsOpenPopup(true);
+        if (title == null || body == null) {
+            setSelectedPush(null);
+        } else {
+            setSelectedPush({"title": title, "body": body,});
+        }
+        
+    };
+
     return (
         <div className="h-screen flex flex-col">
             <Header activeButton={activeButton} handleButtonClick={setActiveButton} />
@@ -223,22 +236,28 @@ const GenerationPage = () => {
                                 bodies={bodies}
                                 onTitleChange={handleTitleChange}
                                 onBodyChange={handleBodyChange}
+                                onRefineRequest={handleRegenPopup}
                             />
                         </div>
                     </div>
                     {/* Regenerate Button */}
                     <div className="flex justify-center mb-4 w-full px-6 mt-4 mb-8">
-                        <button className={"bg-[#F5B919] w-full text-3xl text-black font-bold py-3 px-6 rounded-lg shadow-md hover:bg-yellow-600 transition duration-300"} onClick={handleGenPush}>
+                        <button className="bg-[#F5B919] w-full text-3xl text-black font-bold py-3 px-6 rounded-lg shadow-md hover:bg-yellow-600 transition duration-300" onClick={handleRegenPopup}>
                             Regenerate All
                         </button>
+                        <RegenPopup 
+                            isOpen={isOpenPopup} 
+                            onClose={() => setIsOpenPopup(false)}
+                            push={selectedPush}
+                        />
                     </div>
                 </div>
 
                 {/* Vertical Line Separator */}
-                <div className="w-1 bg-gray-300 my-10"></div>
+                <div className="w-1 bg-gray-300 my-10 ml-5"></div>
 
                 {/* Second Section (2/5) */}
-                <div className="flex flex-col justify-center items-center w-2/5">
+                <div className="flex flex-col justify-center items-center w-2/5 mt-10">
                     <div className="flex items-start">
                         <h2 className="text-2xl font-bold">Push Notifications</h2>
                     </div>

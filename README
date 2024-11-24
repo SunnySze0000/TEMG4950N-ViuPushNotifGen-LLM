@@ -17,7 +17,7 @@ frontend .env required variables:
 BACKEND_URL
 
 !!! DO NOT COMMIT VIU's DATA TO GITHUB!!!
-Please upload Viu's database to Viu_databases folder
+Please upload Viu's database to Viu_datasets folder
     update gitignore if new file type is added
 
 Generated pushes for now:

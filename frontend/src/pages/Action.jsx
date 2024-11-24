@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-// hi 
-const Action = () => {
+// hi
+const Action = ({title, body, onRefineRequest}) => {
+
     const [showOptions, setShowOptions] = useState(false);
 
     const handleButtonClick = () => {
@@ -25,16 +26,24 @@ const Action = () => {
                     <div className="p-0">
                         <button 
                             className="w-full text-left text-black py-2 px-4 rounded-lg mb-0"
-                            onClick={() => handleOptionClick('Refine Content')}
+                            onClick={() => {
+                                onRefineRequest(title, body);
+                                console.log({title, body});
+                                handleOptionClick('Refine Content');
+                            }}
                         >
                             Refine Content
                         </button>
                         <div className="border-t border-black my-1"></div>
                         <button 
                             className="w-full text-left text-black py-2 px-4 rounded-lg mb-0"
-                            onClick={() => handleOptionClick('Confirm and Finalise')}
+                            onClick={() => {
+                                const copiedText = `${title}\n${body}`;
+                                navigator.clipboard.writeText(copiedText)
+                                handleOptionClick('Confirm and Finalise');
+                            }}
                         >
-                            Confirm and Finalise
+                            Confirm and Copy
                         </button>
                     </div>
                 </div>

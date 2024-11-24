@@ -23,21 +23,24 @@ def rephrase(push):
     slangs, shortforms = prepare_context(slang.slang_list, slang.shortform_list)
 
     prompt = PromptTemplate(
-        input_variables=["pushes", "slangs", "shortforms"],
-        template = """You are an assistant that enhances text by incorporating local slang and short forms.
-        Below is a set of push notifications in JSON format and a list of slang or shortform. Your task is to enhance only the Malay versions of 
-        the notifications by adding appropriate slang and short forms while keeping the English versions and the 
-        overall JSON structure intact. 
+    input_variables=["pushes", "slangs", "shortforms"],
+    template = """You are an assistant that naturally enhances text by incorporating conversational Malaysian slang and short forms.
+        Below is a set of push notifications in JSON format and a list of slang/shortforms. Your task is to enhance only the Malay versions to sound 
+        more casual and relatable, while keeping the English versions and JSON structure intact.
         
-        Never overshoot the slang and short forms, only add them if they are appropriate.
-
-        Never change the emojis or the hashtags in the push notifications.
-
-        You must always return valid JSON formatted with double quotes and without any additional text.
+        Guidelines for slang usage:
+        1. Use slang and short forms sparingly - only where they sound natural in casual conversation
+        2. Maintain the message's clarity and professionalism
+        3. Keep formal words when they are more appropriate
+        4. Preserve all emojis and hashtags exactly as they appear
+        5. Consider the context and tone of each message
+        
+        The modifications should make the text feel more authentic and relatable, like how a local Malaysian would casually communicate.
+    
         Here is the push notifications in JSON: {pushes}
-        \n\n
-        Here are some slang: {slangs}
-        Here are some shortform: {shortforms}
+        
+        Available slang terms: {slangs}
+        Available short forms: {shortforms}
 
         Use escape characters for quotes if there is in the JSON strings.
         The output format have to be JSON as follows! The number is the push number:

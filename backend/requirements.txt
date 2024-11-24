@@ -12,4 +12,8 @@ langgraph
 openpyxl
 scrapy
 Pillow
+pyown
 flashrank
+duckduckgo_search
+pytrends
+trendspy

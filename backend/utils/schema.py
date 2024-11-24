@@ -32,5 +32,9 @@ class PushResponse(BaseModel):
         return {"english": dict(self.english), "malay": dict(self.malay)}
     
 class PushRegenerateRequest(BaseModel):
-    basePush: Optional[PushResponse] = None
+    basePush: Optional[PushNotification] = None
     addRequirements: Optional[str] = None
+    
+class TrendResponse(BaseModel):
+    classification_type: str
+    trend_title: str    

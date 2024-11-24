@@ -220,18 +220,21 @@ final_prompt = FewShotPromptTemplate(
     - Write in English + Bahasa Melayu
     - Drop some attention-grabbing hooks (cast stuff, drama tea, trending topics, whatever's hot!)
     - Make it super clickable but don't try too hard
-    - Put the good stuff first (cast + series name in first 100 chars)
+    - Put the good stuff first (cast + series name in first 50 chars)
     - Keep it short and sweet, but spill more tea if you got it
     - Add hashtags at the end (just 2-3 is enough!)
+    - The pushes need to be in 100 characters or less
     
     Quick rules:
     - Talking about {name_of_cast}? Make sure to mention them!
-    - Young audience? Keep it fun and casual! ("Yo!", "gotta", "WOW", "OMG" etc.)
+    - Young audience? Keep it fun and casual! ("gotta", "WOW", "OMG" etc.), Use multiple question marks and exclamation marks at a once (eg. !!!, ???, ..., etc.) to show excitement
     - Fan crowd? Spill some behind-the-scenes tea!
     - Got a Malaysian trend? Drop it in naturally!
     - Slang it up in BM if {include_slangs} is True
     - Chuck in some emojis if {include_emoji} is True (but don't overdo it!)
-    - Give diverse style of push, different tones, different perspectives, etc.
+    - If "base_push_example" is provided, must improve and regenerate all the pushes based on the "base_push_example"!
+    - If "local_trend_in_malaysia" is provided, the trend must be incoporated into the pushes with any method!
+    - If "additional_requirements" are given, make sure you follow them and apply on all pushes!
 
     Use what you want from this info:
     - Show name: {name_of_series}
@@ -246,15 +249,15 @@ final_prompt = FewShotPromptTemplate(
     - Their character: {character_in_series_acted_by_cast}
 
     Tips!!!:
-    - Use first person perspective or third person perspective
-    - Use the actor's perspective to speak to audiences if cast-driven, but not all the 5 pushes
+    - Use first person or third person
+    - Use the actor's perspective to speak to audiences if cast-driven, use in 1 or 2 push
     - Act as a friend sharing exciting news
     - Simplified the structure to be more like casual messaging
     - Formal marketing language
     - Reduce the complexity, simpler writing
     - Remove formal writing cues
     - Use multiple question marks and exclamation marks at a once (eg. !!!, ???, ..., etc.) to show excitement
-    - Use casual tone ("Yo!", "gotta", "WOW", "OMG" etc.) but not go too far
+    - Use casual tone ("gotta", "WOW", "OMG" etc.) but not go too far
     - Mention "Viu"!!!
     
     Who we're talking to: {demographics_of_target_receiver}
