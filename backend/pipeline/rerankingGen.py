@@ -255,7 +255,7 @@ def simplifiedCastPipe(cast, push_number=1, datasets="Viu_datasets"):
         "quote_of_cast": answers[2],
         "interesting_fact_of_cast": answers[3],
         "character_in_series_acted_by_cast": answers[4],
-        "demographics_of_target_receiver": "20-30 years old, fans of cast",
+        "demographics_of_target_receiver": "50-65 years old, fans of cast",
         "base_push_example": None,
         "local_trend_in_malaysia": None, #"Hot weather alert", #"KIM Hye Yoon will be in Viu scream date on 24th February 2024", #"Kim Hye Yoon, star of Lovely Runner, won the Outstanding Asia Star Award." #"Viu is organizing an event inviting Kim Ha Nuel, Lin Tin Wai, and Rong Lam to Malaysia on June10, tickets are all sold out and people are very hyped to it.",
         "include_emoji": True,

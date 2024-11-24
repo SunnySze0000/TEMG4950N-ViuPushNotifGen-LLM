@@ -104,36 +104,114 @@ def classifying_test(trend_titles, cast="", series=""):
     query_prompt = PromptTemplate(
         input_variables=["titles", "cast", "series", "description"],
         template=("""
-            You are a classifier that determines the usefulness of trend titles for promoting TV shows and series in push notifications.
+            You are a specialized classifier focused on identifying highly relevant trends for TV show promotions in push notifications. Your goal is to be selective and only identify trends that have a strong and direct connection to the provided content.
 
-            These are the information json of the series and corresponding cast:
-            
+            Series Information:
             star: {cast}
             series: {series}
             series_description: {description}
 
-            If star, series or series_description provided, classify strictly on the trend base on inforamtion given.      
+            If star, series, or series_description is provided, evaluate trends strictly based on direct relevance to this information.      
             
-            Classify the following titles:
+            Classify these titles: {titles}
 
-            Titles: {titles}
+            Classification Rules:
+            1. **None**: 
+               - Trends with no clear promotional value
+               - General news or topics without direct connection to entertainment
+               - Vague or ambiguous trends
+               
+            2. **Star**: 
+               - Must directly mention or strongly relate to the provided cast member(s)
+               - Must be recent and relevant to the star's current activities
+               - Should be positive or neutral in tone
+               
+            3. **Series**:
+               - Must have clear connection to the series' plot, theme, or genre
+               - Should relate to specific elements mentioned in the series description
+               - Must be timely and relevant to current viewing context
+               
+            4. **Star and Series**:
+               - Must have explicit connection to both the star AND the series
+               - Should be directly relevant to the star's role in the series
+               - Must offer clear promotional value for both aspects
+               
+            5. **General**:
+               - Must be a major trending topic with clear tie-in potential
+               - Should be currently viral or highly engaging
+               - Must have natural connection to entertainment content
+               - Generic or loosely related trends should be classified as "None"
+               - Weather trends, major events, or cultural phenomena can fall into this category
 
-            Classify each title into one of the following categories:
-
-            - **None**: This is not an internet trend and cannot catch people's eyeballs, DONT INCLUDE ANY INTERESTING NEWS THAT CAN CATCH PEOPLE'S ATTENTION TO THIS CATEGORY.
-            - **Star**: The trend is related to a star and is useful for cast-driven push notifications.
-            - **Series**: The trend relates to the series content description, such that would be useful to support the series content promotion.
-            - **Star and Series**: The trend involves both a star and a series, making it useful for both types of push notifications.
-            - **General**: The trend is related to a general topic (e.g. weather, festivals, hot trends slang or headlines) and is useful for any push notification, but not specifically tied to stars or series.
-
-            Return the classification type and the trend title in JSON format for each title as follows: 
+            Return the classification type and the trend title in JSON format for each title as follows:
             {{
             "1": {{"classification_type":classification_type, "trend_title":trend_title}},
             "2": {{"classification_type":classification_type, "trend_title":trend_title}},
             "3": {{"classification_type":classification_type, "trend_title":trend_title}},
             ...
             }}
+
+            Note: Err on the side of classifying as "None" unless there is a clear, strong connection, potential to the provided content or push notificaiton generation.
         """),
+    )
+
+    # Create the classification chain
+    classifying_chain = query_prompt | llm | StrOutputParser()
+
+    print("___Classifying Trends___")
+
+    # Series and cast information
+    # cast = 'Kim Ha Nuel'
+    # series = 'Nothing Uncovered'
+    # description = "A Korean series"
+    description = ""
+    if series != "":
+        description = data.getContentDrivenData(series, "Viu_datasets")['series_description']
+    cleaned_trend_title = [clean_text(title) for title in trend_titles]
+    numbered_titles = '\n'.join(f"{i + 1}. {title}" for i, title in enumerate(cleaned_trend_title))
+    response = classifying_chain.invoke({"titles": numbered_titles, "cast": cast, "series": series, "description": description})
+    print(response)
+    response = json_parser.extract_json_from_string(response)
+    print(f"Classification Results: {response}")
+    return response
+
+
+
+def classifying_legacy(trend_titles, cast="", series=""):
+    # Define the prompt template with relevant placeholders
+    query_prompt = PromptTemplate(
+    input_variables=["titles", "cast", "series", "description"],
+    template=("""
+    You are a classifier that determines the usefulness of trend titles for promoting TV shows and series in push notifications.
+          
+        These are the information json of the series and corresponding cast:
+        
+        star: {cast}
+        series: {series}
+        series_description: {description}
+
+        If star, series or series_description provided, classify strictly on the trend base on inforamtion given.      
+        
+        Classify the following titles:
+
+        Titles: {titles}
+
+        Classify each title into one of the following categories:
+
+        - **None**: This is not an internet trend and cannot catch people's eyeballs, DONT INCLUDE ANY INTERESTING NEWS THAT CAN CATCH PEOPLE'S ATTENTION TO THIS CATEGORY.
+        - **Star**: The trend is related to a star and is useful for cast-driven push notifications.
+        - **Series**: The trend relates to the series content description, such that would be useful to support the series content promotion.
+        - **Star and Series**: The trend involves both a star and a series, making it useful for both types of push notifications.
+        - **General**: The trend is related to a general topic (e.g. weather, festivals, hot trends slang or headlines) and is useful for any push notification, but not specifically tied to stars or series.
+
+        Return the classification type and the trend title in JSON format for each title as follows: 
+        {{
+        "1": {{"classification_type":classification_type, "trend_title":trend_title}},
+        "2": {{"classification_type":classification_type, "trend_title":trend_title}},
+        "3": {{"classification_type":classification_type, "trend_title":trend_title}},
+        ...
+        }}
+    """),
     )
 
     # Create the classification chain

@@ -208,62 +208,264 @@ example_prompt = PromptTemplate.from_template(
 # )
 
 
+# final_prompt = FewShotPromptTemplate(
+#     examples = examples,
+#     example_prompt = example_prompt,
+#     suffix = """
+#     Hey! Write {number_of_push_notifications} catchy {type_of_push_notification} push notifications for "{name_of_series}" on Viu!
+    
+#     First, identify the age group from {demographics_of_target_receiver} and use these guidelines:
+
+#     Teen (13-17):
+#     - Use trendy internet slang and abbreviations (iykyk, ngl, fr fr)
+#     - Heavy emoji usage if {include_emoji} is True
+#     - Reference trending TikTok sounds/memes
+#     - Focus on relatable school/teen life situations
+#     - Use "we" to create FOMO
+#     - Emphasis on friendship and social aspects
+#     - Use short-form content references (TikTok, Reels)
+    
+#     Young Adult (18-24):
+#     - Mix of internet slang and proper language
+#     - Moderate emoji usage if {include_emoji} is True
+#     - Reference pop culture and current events
+#     - Focus on romance, career, university life angles
+#     - Appeal to independence and self-discovery
+#     - Highlight binge-worthy aspects
+#     - Reference social media trends
+    
+#     Adult (25-34):
+#     - More sophisticated but still casual language
+#     - Minimal emoji usage if {include_emoji} is True
+#     - Reference nostalgia and life milestones
+#     - Focus on plot complexity and production quality
+#     - Appeal to escape from daily routine
+#     - Highlight award nominations/critical acclaim
+#     - Include work-life balance angles
+    
+#     Mature Adult (35-49):
+#     - Professional yet approachable tone
+#     - Very selective emoji usage if {include_emoji} is True
+#     - Reference classic shows/movies from 90s-2000s
+#     - Focus on storytelling and acting quality
+#     - Appeal to family viewing experience
+#     - Highlight director/producer credentials
+#     - Include family-friendly content markers
+
+#     Senior Adult (50-64):
+#     - Clear, straightforward language
+#     - Minimal to no emoji usage if {include_emoji} is True
+#     - Reference classic entertainment from 70s-90s
+#     - Focus on historical accuracy and authenticity
+#     - Appeal to wisdom and life experience
+#     - Highlight educational value
+#     - Mention familiar actors from their era
+#     - Include family bonding aspects
+
+#     Elderly (65+):
+#     - Simple, respectful language
+#     - No emoji usage unless specifically requested
+#     - Reference golden age of cinema/TV
+#     - Focus on traditional storytelling
+#     - Appeal to multigenerational viewing
+#     - Highlight comfort and familiarity
+#     - Use larger font-friendly characters
+#     - Emphasize cultural preservation
+#     - Include nostalgia elements from 50s-70s
+#     - Mention health/wellness angles if relevant
+
+#     Age-specific hooks:
+#     Teens: FOMO, social status, friendship drama, viral trends
+#     Young Adults: Romance, life challenges, career goals, social issues
+#     Adults: Plot twists, character development, social commentary
+#     Mature Adults: Production value, artistic merit, family themes
+#     Senior Adults: Life wisdom, cultural values, historical connections
+#     Elderly: Traditional values, family bonds, cultural heritage
+
+#     Language Complexity Guide:
+#     Teens: Simple + trendy slang
+#     Young Adults: Casual + modern references
+#     Adults: Balanced + professional
+#     Mature Adults: Refined + thoughtful
+#     Senior Adults: Clear + traditional
+#     Elderly: Simple + respectful
+
+#     Cultural Reference Guide:
+#     Teens: TikTok, Instagram, current pop stars
+#     Young Adults: Netflix shows, social media trends
+#     Adults: 2000s-2010s pop culture, current events
+#     Mature Adults: 90s-2000s references
+#     Senior Adults: 70s-90s entertainment
+#     Elderly: Classic cinema, traditional media
+
+#     Malaysian Cultural Elements by Age:
+#     Teens: Local TikTok trends, young Malaysian artists
+#     Young Adults: Local influencers, modern Malaysian music
+#     Adults: Malaysian pop culture, local celebrities
+#     Mature Adults: Classic Malaysian shows/movies
+#     Senior Adults: Traditional Malaysian media
+#     Elderly: Classic P. Ramlee era, traditional arts
+
+#     Think like you're texting your bestie about the most OMG moments! Keep it casual and fun!
+    
+#     What you gotta do:
+#     - Write in English + Bahasa Melayu
+#     - Drop some attention-grabbing hooks (cast stuff, drama tea, trending topics, whatever's hot!)
+#     - Make it super clickable but don't try too hard
+#     - Put the good stuff first (cast + series name in first 50 chars)
+#     - Keep it short and sweet, but spill more tea if you got it
+#     - The pushes need to be in 80 characters or less
+
+#     Device Consideration:
+#     Teens/Young Adults: Optimize for mobile view
+#     Adults/Mature Adults: Mixed device optimization
+#     Senior Adults/Elderly: Consider larger text compatibility
+    
+#     Quick rules:
+#     - Talking about {name_of_cast}? Make sure to mention them!
+#     - Young audience? Keep it fun and casual! ("gotta", "WOW", "OMG" etc.), Use multiple question marks and exclamation marks at a once (eg. !!!, ???, ..., etc.) to show excitement
+#     - Fan crowd? Spill some behind-the-scenes tea!
+#     - Got a Malaysian trend? Drop it in naturally!
+#     - Slang it up in BM if {include_slangs} is True
+#     - Chuck in some emojis if {include_emoji} is True (but don't overdo it!)
+#     - If "base_push_example" is provided, must improve and regenerate all the pushes based on the "base_push_example"!
+#     - If "local_trend_in_malaysia" is provided, the trend must be incoporated into the pushes with any method!
+#     - If "additional_requirements" are given, make sure you follow them and apply on all pushes!
+
+#     Use what you want from this info:
+#     - Show name: {name_of_series}
+#     - Wiki stuff: {retrieved_wiki_of_series}
+#     - What's it about: {series_content}
+#     - Show details: {series_description}
+#     - Star: {name_of_cast}
+#     - Cast type: {type_of_cast}
+#     - Nickname: {nickname_of_cast}
+#     - Cool quotes: {quote_of_cast}
+#     - Fun facts: {interesting_fact_of_cast}
+#     - Their character: {character_in_series_acted_by_cast}
+
+#     Tips!!!:
+#     - Use first person or third person
+#     - Use the actor's perspective to speak to audiences if cast-driven, use in 1 or 2 push
+#     - Act as a friend sharing exciting news
+#     - Simplified the structure to be more like casual messaging
+#     - Formal marketing language
+#     - Reduce the complexity, simpler writing
+#     - Remove formal writing cues
+#     - Use multiple question marks and exclamation marks at a once (eg. !!!, ???, ..., etc.) to show excitement
+#     - Use casual tone ("gotta", "WOW", "OMG" etc.) but not go too far
+#     - Mention "Viu"!!!
+    
+#     Who we're talking to: {demographics_of_target_receiver}
+#     Example to level up: {base_push_example}
+#     What's trending: {local_trend_in_malaysia}
+#     Extra stuff needed: {additional_requirements}
+
+#     Stick to this JSON format (no other text!):
+#     {{
+#     "1": {{"english": {{"title": "title", "body": "body"}}, "malay": {{"title": "title", "body": "body"}}}},
+#     "2": {{"english": {{"title": "title", "body": "body"}}, "malay": {{"title": "title", "body": "body"}}}},
+#     ...
+#     }}""",
+    
+#     input_variables=[
+#         "type_of_push_notification",
+#         "number_of_push_notifications",
+#         "name_of_series",
+#         "retrieved_wiki_of_series",
+#         "series_content",
+#         "series_description",
+#         "name_of_cast",
+#         "nickname_of_cast",
+#         "quote_of_cast",
+#         "interesting_fact_of_cast",
+#         "character_in_series_acted_by_cast",
+#         "demographics_of_target_receiver",
+#         "base_push_example",
+#         "local_trend_in_malaysia",
+#         "include_emoji",
+#         "include_slangs",
+#         "additional_requirements",
+#     ],
+# )
+
 final_prompt = FewShotPromptTemplate(
     examples = examples,
     example_prompt = example_prompt,
     suffix = """
-    Yo! Write {number_of_push_notifications} catchy {type_of_push_notification} push notifications for "{name_of_series}" on Viu!
-    
-    Think like you're texting your bestie about the most OMG moments! Keep it casual and fun!
-    
-    What you gotta do:
-    - Write in English + Bahasa Melayu
-    - Drop some attention-grabbing hooks (cast stuff, drama tea, trending topics, whatever's hot!)
-    - Make it super clickable but don't try too hard
-    - Put the good stuff first (cast + series name in first 50 chars)
-    - Keep it short and sweet, but spill more tea if you got it
-    - Add hashtags at the end (just 2-3 is enough!)
-    - The pushes need to be in 100 characters or less
-    
-    Quick rules:
-    - Talking about {name_of_cast}? Make sure to mention them!
-    - Young audience? Keep it fun and casual! ("gotta", "WOW", "OMG" etc.), Use multiple question marks and exclamation marks at a once (eg. !!!, ???, ..., etc.) to show excitement
-    - Fan crowd? Spill some behind-the-scenes tea!
-    - Got a Malaysian trend? Drop it in naturally!
-    - Slang it up in BM if {include_slangs} is True
-    - Chuck in some emojis if {include_emoji} is True (but don't overdo it!)
-    - If "base_push_example" is provided, must improve and regenerate all the pushes based on the "base_push_example"!
-    - If "local_trend_in_malaysia" is provided, the trend must be incoporated into the pushes with any method!
-    - If "additional_requirements" are given, make sure you follow them and apply on all pushes!
+    Generate {number_of_push_notifications} {type_of_push_notification} push notifications for "{name_of_series}" on Viu.
+    Target audience: {demographics_of_target_receiver}
 
-    Use what you want from this info:
-    - Show name: {name_of_series}
+    Content Details:
+    - Series: {name_of_series}
+    - Cast: {name_of_cast}
+    - Character: {character_in_series_acted_by_cast}
+    - Description: {series_description}
     - Wiki stuff: {retrieved_wiki_of_series}
     - What's it about: {series_content}
-    - Show details: {series_description}
-    - Star: {name_of_cast}
-    - Cast type: {type_of_cast}
     - Nickname: {nickname_of_cast}
     - Cool quotes: {quote_of_cast}
     - Fun facts: {interesting_fact_of_cast}
-    - Their character: {character_in_series_acted_by_cast}
 
-    Tips!!!:
-    - Use first person or third person
-    - Use the actor's perspective to speak to audiences if cast-driven, use in 1 or 2 push
-    - Act as a friend sharing exciting news
-    - Simplified the structure to be more like casual messaging
-    - Formal marketing language
-    - Reduce the complexity, simpler writing
-    - Remove formal writing cues
-    - Use multiple question marks and exclamation marks at a once (eg. !!!, ???, ..., etc.) to show excitement
-    - Use casual tone ("gotta", "WOW", "OMG" etc.) but not go too far
-    - Mention "Viu"!!!
-    
-    Who we're talking to: {demographics_of_target_receiver}
-    Example to level up: {base_push_example}
-    What's trending: {local_trend_in_malaysia}
-    Extra stuff needed: {additional_requirements}
+    Audience-Specific Guidelines:
+
+    TEENS (13-17):
+    Tone: Ultra-casual, excited, FOMO-driven
+    Language: "OMG!", "fr fr", "ngl", "slay", ...
+    Symbols: (∩˃o˂∩)♡, (≧∇≦), (¬‿¬), !!!, ???, ...
+    Content: Social moments, friendship drama, relatable scenes
+    Hooks: Trends, viral moments, cast's social media
+    Example: "Song Kang spilling tea on TikTok rn!!! 🫢 Catch his behind-the-scenes"
+    BM Style: Heavy Manglish, trending slang
+
+    YOUNG ADULTS (18-24):
+    Tone: Trendy but mature, witty, relatable
+    Language: Mix of professional and internet slang
+    Content: Romance, life challenges, plot twists
+    Hooks: Pop culture references, social issues, binge appeal
+    Example: "That plot twist got us shook! 😱 New episode drops in 1 hour!"
+    BM Style: Modern Malaysian expressions
+
+    ADULTS (25-34):
+    Tone: Smart casual, sophisticated humor
+    Language: Professional with subtle wit
+    Content: Character depth, plot complexity, quality
+    Hooks: Critical acclaim, unique storylines, cast achievements
+    Example: "Award-winning performance alert! Critics call it 'unmissable'"
+    BM Style: Standard BM with urban flair
+
+    MATURE ADULTS (35-49):
+    Tone: Refined, quality-focused
+    Language: Professional, clear, respectful
+    Content: Production value, artistic merit, family themes
+    Hooks: Director credentials, awards, family viewing
+    Example: "From acclaimed director Lee Jae-wook: A masterpiece of storytelling"
+    BM Style: Proper BM, occasional formal terms
+
+    SENIOR ADULTS (50+):
+    Tone: Traditional, respectful, clear
+    Language: Straightforward, no slang
+    Content: Cultural values, historical accuracy
+    Hooks: Classic elements, familiar actors, family bonds
+    Example: "Revisit the golden age of drama with veteran star [Name]"
+    BM Style: Classical BM, traditional expressions
+
+    Technical Requirements:
+    - Character limit: 80
+    - Include emojis: {include_emoji}
+    - Include Malaysian slang: {include_slangs}
+    - Must incorporate: {local_trend_in_malaysia}
+    - Base example to improve: {base_push_example}
+    - Additional requirements: {additional_requirements}
+    - Mention "Viu" naturally in context
+    - Not include any website links
+
+    Key Engagement Elements:
+    Teens: Social proof, FOMO, trending elements
+    Young Adults: Binge-worthy aspects, social relevance
+    Adults: Quality markers, intelligent content
+    Mature Adults: Family value, critical acclaim
+    Senior Adults: Traditional appeal, cultural significance
 
     Stick to this JSON format (no other text!):
     {{
