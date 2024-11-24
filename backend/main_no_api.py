@@ -45,7 +45,7 @@ import time
 # import time
 
 # Test generate push
-# rerankingGen.simplifiedCastPipe(cast, push_number = 5)
+rerankingGen.simplifiedCastPipe(cast, push_number = 5)
 
 ## Test for cast search trend
 # searches = getGoogleTrend.get_trend_search('KIM Ha Neul')
@@ -66,7 +66,7 @@ import time
 
 from pipeline import trendsPipeline
 # trendsPipeline.getTrends(cast, "Lovely Runner")
-trendsPipeline.getTrends()
+# trendsPipeline.getTrends()
 
 # trends = getGoogleTrend.get_trending_titles()
 
