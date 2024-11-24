@@ -65,7 +65,9 @@ async def post_gen_push(input_data: PushRequest) -> Dict[int, PushResponse]:
 @api_router.post("/regenPush")
 async def post_regen_push(inputData: PushRegenerateRequest) -> Dict[int, PushResponse]:
    try:
-      backendState["base_push_example"] = "Title:" + inputData.basePush.english.title + "\n" + "Body:" + inputData.basePush.english.body
+      if inputData.basePush is not None:
+         backendState["base_push_example"] = "Title:" + inputData.basePush.title + "\n" + "Body:" + inputData.basePush.body
+      # backendState["base_push_example"] = "Title:" + inputData.basePush.title + "\n" + "Body:" + inputData.basePush.body
       backendState["additional_requirements"] = inputData.addRequirements
 
       input_variables = {

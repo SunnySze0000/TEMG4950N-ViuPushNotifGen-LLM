@@ -2,6 +2,7 @@ from pipeline.getAllScrapedItem import run_all_spiders
 from node.Holiday_classifier import check_holiday_status
 from pipeline import getGoogleTrend
 from node import classifier
+from utils.schema import TrendResponse
 import time
 import json
 
@@ -61,8 +62,9 @@ def getTrends(cast_name = "", series_name = ""):
     print('-------------------Combined')
     combined_json = json.dumps(combined_results, ensure_ascii=False)
     print(combined_json)
-
-    return combined_json
+    combined_dict = json.loads(combined_json)
+    combined_dict = {int(k): TrendResponse(**v) for k, v in combined_dict.items()}
+    return combined_dict
 
 
 def concatenate_classifications(*classifications):

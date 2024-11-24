@@ -148,9 +148,7 @@ def classifying_test(trend_titles, cast="", series=""):
     description = ""
     if series != "":
         description = data.getContentDrivenData(series, "Viu_datasets")['series_description']
-
     cleaned_trend_title = [clean_text(title) for title in trend_titles]
-
     numbered_titles = '\n'.join(f"{i + 1}. {title}" for i, title in enumerate(cleaned_trend_title))
     response = classifying_chain.invoke({"titles": numbered_titles, "cast": cast, "series": series, "description": description})
     print(response)

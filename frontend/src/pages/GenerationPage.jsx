@@ -4,12 +4,13 @@ import Header from './Header';
 import PushNotification from './PushNotification';
 import EditPushNotification from './EditPushNotification';
 import { useLocation } from 'react-router-dom';
+import RegenPopup from './RegenPopup';
 // hi
 const GenerationPage = () => {
     const location = useLocation();
     const { englishTitles = [], englishBodies = [], malayTitles = [], malayBodies = [] } = location.state || {};
 
-
+    const [isOpenPopup, setIsOpenPopup] = useState(false);
     const [activeButton, setActiveButton] = useState('generator');
     const navigate = useNavigate();
 
@@ -17,16 +18,22 @@ const GenerationPage = () => {
     const [bodies, setBodies] = useState(malayBodies);
     const [isEnglish, setIsEnglish] = useState(false); // State to track the current language
 
+    const [selectedPush, setSelectedPush] = useState(null);
+
     const handleTitleChange = (index, value) => {
         const newTitles = [...titles];
         newTitles[index] = value;
         setTitles(newTitles);
+        if (isEnglish) englishTitles[index] = value;
+        else malayTitles[index] = value;
     };
 
     const handleBodyChange = (index, value) => {
         const newBodies = [...bodies];
         newBodies[index] = value;
         setBodies(newBodies);
+        if (isEnglish) englishBodies[index] = value;
+        else malayBodies[index] = value;
     };
 
     // Function to switch to English
@@ -41,6 +48,16 @@ const GenerationPage = () => {
         setTitles(malayTitles);
         setBodies(malayBodies);
         setIsEnglish(false); // Update state to indicate Malay is active
+    };
+
+    const handleRegenPopup = (title, body) => {
+        setIsOpenPopup(true);
+        if (title == null || body == null) {
+            setSelectedPush(null);
+        } else {
+            setSelectedPush({"title": title, "body": body,});
+        }
+        
     };
 
     return (
@@ -88,14 +105,20 @@ const GenerationPage = () => {
                                 bodies={bodies}
                                 onTitleChange={handleTitleChange}
                                 onBodyChange={handleBodyChange}
+                                onRefineRequest={handleRegenPopup}
                             />
                         </div>
                     </div>
                     {/* Regenerate Button */}
                     <div className="flex justify-center mb-4 w-full px-6 mt-4 mb-8">
-                        <button className="bg-[#F5B919] w-full text-3xl text-black font-bold py-3 px-6 rounded-lg shadow-md hover:bg-yellow-600 transition duration-300">
+                        <button className="bg-[#F5B919] w-full text-3xl text-black font-bold py-3 px-6 rounded-lg shadow-md hover:bg-yellow-600 transition duration-300" onClick={handleRegenPopup}>
                             Regenerate All
                         </button>
+                        <RegenPopup 
+                            isOpen={isOpenPopup} 
+                            onClose={() => setIsOpenPopup(false)}
+                            push={selectedPush}
+                        />
                     </div>
                 </div>
 
