@@ -5,7 +5,7 @@ from utils.schema import PushRegenerateRequest, PushRequest, PushResponse, Trend
 from utils.state import backendState, initialize_backend_state
 from pipeline.trendsPipeline import getTrends, refreshTrends
 import time
-import _asyncio as asyncio
+import asyncio
 # import csv
 # from node import save
 
