@@ -510,7 +510,12 @@ export const Homepage = () => {
                       Refresh Trends
                   </button>)}
           </div>
-          <div className="w-4/5 h-full bg-white flex flex-col rounded-lg shadow-md mt-4 overflow-y-auto" style={{ minHeight: 'fit-content', maxHeight: '700px',  padding: '16px' }}>
+          <div className="w-4/5 bg-white flex flex-col rounded-lg shadow-md mt-4 overflow-y-auto" style={{ 
+            minHeight: 'fit-content', 
+            maxHeight: '700px', 
+            padding: '16px',
+            height: showTrends ? 'auto' : 'fit-content'
+          }}>  
             {!showTrends ? (
               <button className={`bg-[#F5B919] text-black font-bold py-2 px-4 hover:bg-yellow-600 rounded-full cursor-not-allowed" ${!showTrends ? '' : 'cursor-not-allowed opacity-50'}`} disabled={showTrends} onClick={handleGenerateTrends} >
                 Generate Trends
