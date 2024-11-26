@@ -3,8 +3,9 @@ from typing import Optional, Dict, List
 from pipeline.rerankingGen import finalCastPipeline, finalContentPipeline, generating
 from utils.schema import PushRegenerateRequest, PushRequest, PushResponse, TrendResponse, TrendRequest   
 from utils.state import backendState, initialize_backend_state
-from pipeline.trendsPipeline import getTrends
+from pipeline.trendsPipeline import getTrends, refreshTrends
 import time
+import _asyncio as asyncio
 # import csv
 # from node import save
 
