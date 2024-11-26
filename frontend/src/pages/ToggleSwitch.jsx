@@ -1,6 +1,7 @@
 // ToggleSwitch.js
 import React from 'react';
 // hi
+
 const ToggleSwitch = ({ label, checked, onChange }) => {
   return (
     <div className="flex justify-between items-center mb-4">

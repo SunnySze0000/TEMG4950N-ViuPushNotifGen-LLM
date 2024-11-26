@@ -1,8 +1,18 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate
-// hi
+import React, { useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom'; // Import useLocation
+// hii
 const Header = ({ activeButton, handleButtonClick }) => {
   const navigate = useNavigate(); // Initialize the navigate function
+  const location = useLocation(); // Get the current location
+
+  useEffect(() => {
+    // Set active button based on the current path
+    if (location.pathname === '/test') {
+      handleButtonClick('history');
+    } else {
+      handleButtonClick('generator');
+    }
+  }, [location.pathname, handleButtonClick]); // Run effect when the pathname changes
 
   return (
     <div className="bg-white h-auto flex flex-col justify-between p-4 shadow-md">

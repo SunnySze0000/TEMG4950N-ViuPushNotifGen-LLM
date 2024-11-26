@@ -1,22 +1,65 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Header from './Header';
 import PushNotification from './PushNotification';
 import EditPushNotification from './EditPushNotification';
-import { useLocation } from 'react-router-dom';
 import RegenPopup from './RegenPopup';
+import { SettingsContext } from './SettingsContext';
+import DisplayValues from './DisplayValues';
 // hi
 const GenerationPage = () => {
-    const location = useLocation();
-    const { englishTitles = [], englishBodies = [], malayTitles = [], malayBodies = [] } = location.state || {};
-
+    const { settings, setSettings } = useContext(SettingsContext);
+    const { englishTitles = [], englishBodies = [], malayTitles = [], malayBodies = [] } = settings;
     const [isOpenPopup, setIsOpenPopup] = useState(false);
     const [activeButton, setActiveButton] = useState('generator');
     const navigate = useNavigate();
 
-    const [titles, setTitles] = useState(malayTitles);
-    const [bodies, setBodies] = useState(malayBodies);
-    const [isEnglish, setIsEnglish] = useState(false); // State to track the current language
+    // Initialize titles and bodies directly from settings
+    const [titles, setTitles] = useState(settings.englishTitles.length > 0 ? settings.englishTitles : malayTitles);
+    const [bodies, setBodies] = useState(settings.englishBodies.length > 0 ? settings.englishBodies : malayBodies);
+
+    const [isEnglish, setIsEnglish] = useState(settings.englishTitles.length > 0); // Determine if English is active based on settings
+
+    const [loading, setLoading] = useState(false);
+    const [isPopupOpen, setIsPopupOpen] = useState(false);
+    const [allSeriesData, setAllSeriesData] = useState([]);
+    const [message, setMessage] = useState('');
+
+    // Function to switch to English
+    const switchToEnglish = () => {
+        setTitles(settings.englishTitles);
+        setBodies(settings.englishBodies);
+        setIsEnglish(true); // Update state to indicate English is active
+    };
+
+    // Function to switch back to Malay
+    const switchToMalay = () => {
+        setTitles(settings.malayTitles);
+        setBodies(settings.malayBodies);
+        setIsEnglish(false); // Update state to indicate Malay is active
+    };
+
+    useEffect(() => {
+        // Call switchToMalay when the component mounts
+        switchToMalay();
+    }, [malayTitles, malayBodies]); // Empty dependency array ensures this runs only once on mount
+
+    useEffect(() => {
+        // Update settings when titles or bodies change
+        setSettings((prevSettings) => ({
+            ...prevSettings,
+            titles,
+            bodies,
+        }));
+    }, [titles, bodies, setSettings]);
+
+    const handleReturnToGenerate = () => {
+        setSettings((prevSettings) => ({
+            ...prevSettings,
+            returnToGeneration: true,
+        }));
+        navigate('/');
+    };
 
     const [selectedPush, setSelectedPush] = useState(null);
 
@@ -36,20 +79,6 @@ const GenerationPage = () => {
         else malayBodies[index] = value;
     };
 
-    // Function to switch to English
-    const switchToEnglish = () => {
-        setTitles(englishTitles);
-        setBodies(englishBodies);
-        setIsEnglish(true); // Update state to indicate English is active
-    };
-
-    // Function to switch back to Malay
-    const switchToMalay = () => {
-        setTitles(malayTitles);
-        setBodies(malayBodies);
-        setIsEnglish(false); // Update state to indicate Malay is active
-    };
-
     const handleRegenPopup = (title, body) => {
         setIsOpenPopup(true);
         if (title == null || body == null) {
@@ -63,6 +92,14 @@ const GenerationPage = () => {
     return (
         <div className="h-screen flex flex-col">
             <Header activeButton={activeButton} handleButtonClick={setActiveButton} />
+            {loading && (
+            <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+                <div className="bg-white p-6 rounded-lg shadow-lg text-center">
+                <div className="animate-spin rounded-full h-12 w-12 border-4 border-t-4 border-[#F5B919] border-t-transparent mx-auto mb-4"></div>
+                <p className="text-lg font-semibold">Generating...</p>
+                </div>
+            </div>
+            )}
 
             {/* Main Content Area */}
             <div className="flex flex-grow bg-[#F5F5F5]">
@@ -72,7 +109,7 @@ const GenerationPage = () => {
                     <div className='flex'>
                         <div className="pl-8">
                             {/* Back Button */}
-                            <button className="bg-white text-pink-500 border-2 border-pink-500 text-lg font-bold py-2 px-4 rounded-lg mb-4 hover:bg-pink-100 transition duration-300" onClick={() => navigate('/')}>
+                            <button className="bg-white text-pink-500 border-2 border-pink-500 text-lg font-bold py-2 px-4 rounded-lg mb-4 hover:bg-pink-100 transition duration-300" onClick={handleReturnToGenerate}>
                                 Return to Generation Settings
                             </button>
                         </div>

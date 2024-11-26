@@ -3,11 +3,12 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Homepage } from "./pages/Homepage";
 import { TestPage } from "./fetch";
 import GenerationPage from './pages/GenerationPage';
-
+import { SettingsProvider } from './pages/SettingsContext';
+//hi
 function App() {
   
   return (
-    <div>
+    <SettingsProvider>
       <Router>
         <Routes>
           <Route path="/" element={<Homepage />} />
@@ -15,7 +16,7 @@ function App() {
           <Route path="/test" element={<TestPage />} />
         </Routes>
       </Router>
-    </div>
+    </SettingsProvider>
   );
 }
 

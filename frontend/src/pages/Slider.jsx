@@ -1,5 +1,6 @@
 import React from 'react';
 // hi
+
 const Slider = ({ value, onChange }) => {
   return ( 
     <div className="flex-grow mb-4"> 
@@ -8,7 +9,7 @@ const Slider = ({ value, onChange }) => {
       <label className="text-red-400 font-bold text-lg ml-1">*</label> 
       <label className="text-gray-700 font-bold text-xs ml-1"> (left = less creative, right = more creative)</label>
     </div> 
-    <input type="range" min="0" max="100" value={value} onChange={onChange} className="mt-4 w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer" style={{ accentColor: '#3B82F6', }} /> 
+    <input type="range" min="0" max="100" value={value} onChange={(e) => onChange(e.target.value)} className="mt-4 w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer" style={{ accentColor: '#3B82F6', }} /> 
       <style jsx>{` input[type='range'] { -webkit-appearance: none; width: 100%; }
       input[type='range']::-webkit-slider-thumb {
         -webkit-appearance: none;

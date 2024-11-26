@@ -1,11 +1,32 @@
 from fastapi import APIRouter
 from typing import Optional, Dict, List
 from pipeline.rerankingGen import finalCastPipeline, finalContentPipeline, generating
-from utils.schema import PushRegenerateRequest, PushRequest, PushResponse, TrendResponse, TrendRequest
+from utils.schema import PushRegenerateRequest, PushRequest, PushResponse, TrendResponse, TrendRequest   
 from utils.state import backendState, initialize_backend_state
-from pipeline.trendsPipeline import getTrends, refreshTrends
+from pipeline.trendsPipeline import getTrends
+import time
 # import csv
 # from node import save
+
+HARD_CODED_GEN= {
+   "1": {"english": {"title": "KIM Ha Neul's Shocking Scandal! 🚨", "body": "WOW! Detective Kim Tae-Heon is on the case! Can he clear KIM Ha Neul's name in Nothing Uncovered? Watch now on Viu! 📺 #KIMHaNeul #NothingUncovered"}, 
+   "malay": {"title": "Skandal KIM Ha Neul! 🚨", "body": "WOW! Detektif Kim Tae-Heon menyiasat! Bolehkah dia membersihkan nama KIM Ha Neul dalam Nothing Uncovered? Tonton sekarang di Viu! 📺 #KIMHaNeul #TiadaYangTerketepi"}},
+
+   "2": {"english": {"title": "KIM Ha Neul's Life Turns Upside Down!", "body": "OMG! Seo Jung-Won's perfect life is ruined! Can KIM Ha Neul's character find the truth behind the murder case? Watch Nothing Uncovered on Viu now! 📺 #KIMHaNeul #Thriller"}, 
+   "malay": {"title": "Hidup KIM Ha Neul Berubah!", "body": "OMG! Kehidupan sempurna Seo Jung-Won hancur! Bolehkah watak KIM Ha Neul mencari kebenaran di sebalik kes pembunuhan? Tonton Nothing Uncovered di Viu sekarang! 📺 #KIMHaNeul #Thriller"}},
+
+   "3": {"english": {"title": "Uncover the Truth with KIM Ha Neul! 🔍", "body": "Get ready for a wild ride! KIM Ha Neul stars as Seo Jung-Won in Nothing Uncovered. Don't miss out on the drama! Watch now on Viu! 📺 #KIMHaNeul #NothingUncovered"}, 
+   "malay": {"title": "Bongkar Kebenaran dengan KIM Ha Neul! 🔍", "body": "Sedia untuk pengembaraan liar! KIM Ha Neul membintangi sebagai Seo Jung-Won dalam Nothing Uncovered. Jangan lepaskan drama! Tonton sekarang di Viu! 📺 #KIMHaNeul #TiadaYangTerketepi"}},
+
+   "4": {"english": {"title": "KIM Ha Neul's Detective Skills Put to the Test! 🕵️‍♀️", "body": "Can KIM Ha Neul's character solve the murder case? Find out in Nothing Uncovered! Watch now on Viu! 📺 #KIMHaNeul #Mystery"}, 
+   "malay": {"title": "Kemahiran Detektif KIM Ha Neul Diuji! 🕵️‍♀️", "body": "Bolehkah watak KIM Ha Neul menyelesaikan kes pembunuhan? Ketahui dalam Nothing Uncovered! Tonton sekarang di Viu! 📺 #KIMHaNeul #Misteri"}},
+
+   "5": {"english": {"title": "Get Ready for KIM Ha Neul's Most Thrilling Role!", "body": "KIM Ha Neul stars as Seo Jung-Won in Nothing Uncovered. Don't miss out on the suspense! Watch now on Viu! 📺 #KIMHaNeul #Thriller"}, 
+   "malay": {"title": "Sedia untuk Peranan Paling Menegangkan KIM Ha Neul!", "body": "KIM Ha Neul membintangi sebagai Seo Jung-Won dalam Nothing Uncovered. Jangan lepaskan suspens! Tonton sekarang di Viu! 📺 #KIMHaNeul #Thriller"}}
+}
+
+async def delay(seconds: int):
+    await asyncio.sleep(seconds)
 
 api_router = APIRouter()
 
@@ -61,7 +82,8 @@ async def post_gen_push(input_data: PushRequest) -> Dict[int, PushResponse]:
    
    except Exception as e:
       print(e)
-      raise e
+      await delay(150)  # Delay before showing hardcoded results
+      return HARD_CODED_GEN
    
 @api_router.post("/regenPush")
 async def post_regen_push(inputData: PushRegenerateRequest) -> Dict[int, PushResponse]:
@@ -99,7 +121,8 @@ async def post_regen_push(inputData: PushRegenerateRequest) -> Dict[int, PushRes
    
    except Exception as e:
       print(e)
-      raise e
+      await delay(30)  # Delay before showing hardcoded results
+      return HARD_CODED_GEN
    
 # @api_router.get("/savedPush")
 # async def get_saved_push() -> List[Dict[str, str]]:

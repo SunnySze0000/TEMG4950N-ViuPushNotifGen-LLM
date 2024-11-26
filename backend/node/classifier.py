@@ -171,6 +171,7 @@ def classifying_test(trend_titles, cast="", series=""):
     numbered_titles = '\n'.join(f"{i + 1}. {title}" for i, title in enumerate(cleaned_trend_title))
     response = classifying_chain.invoke({"titles": numbered_titles, "cast": cast, "series": series, "description": description})
     print(response)
+
     response = json_parser.extract_json_from_string(response)
     print(f"Classification Results: {response}")
     return response
