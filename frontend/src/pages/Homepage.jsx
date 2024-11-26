@@ -195,8 +195,8 @@ export const Homepage = () => {
         if (data[key].trend_title) {
           newTrendTitles.push(data[key].trend_title);
         }
-        if (data[key].trend_classifier) {
-          newTrendClassifier.push(data[key].trend_classifier)
+        if (data[key].classification_type) {
+          newTrendClassifier.push(data[key].classification_type)
         }
       }
       setTrendTitles(newTrendTitles);
@@ -241,8 +241,8 @@ export const Homepage = () => {
         if (data[key].trend_title) {
           newTrendTitles.push(data[key].trend_title);
         }
-        if (data[key].trend_classifier) {
-          newTrendClassifier.push(data[key].trend_classifier)
+        if (data[key].classification_type) {
+          newTrendClassifier.push(data[key].classification_type)
         }
       }
       setTrendTitles(newTrendTitles);
@@ -392,7 +392,12 @@ export const Homepage = () => {
             ) : (
               <div className="flex flex-col w-full max-h-screen overflow-y-auto p-4">
                 {trendTitles.map((title, index) => (
-                  <TrendComponent key={index} title={title} className={trendClassifier[index]} onTrendSelect={handleTrendSelect}/>
+                  <TrendComponent 
+                    key={index} 
+                    title={title} 
+                    trendClass={trendClassifier[index]} 
+                    onTrendSelect={handleTrendSelect}
+                  />
                 ))}
               </div>
             )}
