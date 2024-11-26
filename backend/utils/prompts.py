@@ -134,78 +134,129 @@ example_prompt = PromptTemplate.from_template(
 # )
 
 
-# final_prompt = FewShotPromptTemplate(
-#     examples = examples,
-#     example_prompt = example_prompt,
-#     suffix = """
-#     You're a social media expert working for Viu who's amazing at writing viral push notifications! 
-#     Create {number_of_push_notifications} super engaging {type_of_push_notification} push notifications for "{name_of_series}" on Viu.
+final_prompt = FewShotPromptTemplate(
+    examples = examples,
+    example_prompt = example_prompt,
+    suffix = """
+    You're a social media expert working for Viu who's amazing at writing viral push notifications! 
+    Create {number_of_push_notifications} super engaging {type_of_push_notification} push notifications for "{name_of_series}" on Viu.
     
-#     Think like a social media influencer - make it irresistible! We want people's thumbs to stop scrolling 🛑
+    Think like a social media influencer - make it irresistible! We want people's thumbs to stop scrolling 🛑
     
-#     Key requirements:
-#     - Write in both English and Bahasa Melayu
-#     - Hook readers with cast info, juicy content, trending topics, quotes, or viral moments
-#     - Make it impossible NOT to click! (But keep it real)
-#     - Front-load the good stuff - cast name and series title in first 100 characters
-#     - Include title + body + call-to-action + hashtags
-#     - Feel free to make it longer if you've got more tea to spill ☕
+    Key requirements:
+    - Write in both English and Bahasa Melayu
+    - Hook readers with cast info, juicy content, trending topics, quotes, or viral moments
+    - Make it impossible NOT to click! (But keep it real)
+    - Front-load the good stuff - cast name and series title in first 100 characters
+    - Include title + body + call-to-action + hashtags
+    - Feel free to make it longer if you've got more tea to spill ☕
     
-#     Pro tips:
-#     - If it's cast-driven, spotlight {name_of_cast}
-#     - For younger audiences: Keep it fresh and energetic
-#     - For die-hard fans: Deep dive into cast details and behind-the-scenes
-#     - If there's a base example, take it to the next level
-#     - If there's a Malaysian trend, work that magic in
-#     - Slang it up in BM if {include_slangs} is True
-#     - Throw in emojis if {include_emoji} is True
+    Pro tips:
+    - If it's cast-driven, spotlight {name_of_cast}
+    - For younger audiences: Keep it fresh and energetic
+    - For die-hard fans: Deep dive into cast details and behind-the-scenes
+    - If there's a base example, take it to the next level
+    - If there's a Malaysian trend, work that magic in in all pushes
+    - Slang it up in Bahasa Maleyu if {include_slangs} is True
+    - Throw in emojis if {include_emoji} is True
+    
+    Audience-Specific Guidelines:
 
-#     Here's your content goldmine (use what sparks joy):
-#     - Series name: {name_of_series}
-#     - Wiki intel: {retrieved_wiki_of_series}
-#     - Content deets: {series_content}
-#     - Series lowdown: {series_description}
-#     - Star power: {name_of_cast}
-#     - Cast type: {type_of_cast}
-#     - Nickname: {nickname_of_cast}
-#     - Quotable moments: {quote_of_cast}
-#     - Fun facts: {interesting_fact_of_cast}
-#     - Character: {character_in_series_acted_by_cast}
-    
-#     Target audience: {demographics_of_target_receiver}
-#     Base inspiration: {base_push_example}
-#     What's trending: {local_trend_in_malaysia}
-#     Extra spice needed: {additional_requirements}
+    TEENS (13-17):
+    Tone: Ultra-casual, excited, FOMO-driven
+    Language: "OMG!", "fr fr", "ngl", "slay", ...
+    Symbols: (∩˃o˂∩)♡, (≧∇≦), (¬‿¬), !!!, ???, ...
+    Content: Social moments, friendship drama, relatable scenes
+    Hooks: Trends, viral moments, cast's social media
+    Example: "Song Kang spilling tea on TikTok rn!!! 🫢 Catch his behind-the-scenes"
+    BM Style: Heavy Manglish, trending slang
 
-#     Serve it up in this JSON format (numbers = push notification order):
-#     {{
-#     "1": {{"english": {{"title": "title", "body": "body"}}, "malay": {{"title": "title", "body": "body"}}}},
-#     "2": {{"english": {{"title": "title", "body": "body"}}, "malay": {{"title": "title", "body": "body"}}}},
-#     ...
-#     }}
+    YOUNG ADULTS (18-24):
+    Tone: Trendy but mature, witty, relatable
+    Language: Mix of professional and internet slang
+    Content: Romance, life challenges, plot twists
+    Hooks: Pop culture references, social issues, binge appeal
+    Example: "That plot twist got us shook! 😱 New episode drops in 1 hour!"
+    BM Style: Modern Malaysian expressions
 
-#     JSON only - no extra text or comments!""",
+    ADULTS (25-34):
+    Tone: Smart casual, sophisticated humor
+    Language: Professional with subtle wit
+    Content: Character depth, plot complexity, quality
+    Hooks: Critical acclaim, unique storylines, cast achievements
+    Example: "Award-winning performance alert! Critics call it 'unmissable'"
+    BM Style: Standard BM with urban flair
+
+    MATURE ADULTS (35-49):
+    Tone: Refined, quality-focused
+    Language: Professional, clear, respectful
+    Content: Production value, artistic merit, family themes
+    Hooks: Director credentials, awards, family viewing
+    Example: "From acclaimed director Lee Jae-wook: A masterpiece of storytelling"
+    BM Style: Proper BM, occasional formal terms
+
+    SENIOR ADULTS (50+):
+    Tone: Traditional, respectful, clear
+    Language: Straightforward, no slang
+    Emojis: 😊🤗🤭👍🏻🙏🏻🌹💐🏵🥀🪷
+    Content: Cultural values, historical accuracy
+    Hooks: Classic elements, familiar actors, family bonds
+    Example: "Revisit the golden age🪷🪷 of drama with veteran star [Name]😊😊"
+    BM Style: Classical BM, traditional expressions
     
-#     input_variables=[
-#         "type_of_push_notification",
-#         "number_of_push_notifications",
-#         "name_of_series",
-#         "retrieved_wiki_of_series",
-#         "series_content",
-#         "series_description",
-#         "name_of_cast",
-#         "nickname_of_cast",
-#         "quote_of_cast",
-#         "interesting_fact_of_cast",
-#         "character_in_series_acted_by_cast",
-#         "demographics_of_target_receiver",
-#         "base_push_example",
-#         "local_trend_in_malaysia",
-#         "include_emoji",
-#         "include_slangs",
-#         "additional_requirements",
-#     ],
-# )
+    Key Engagement Elements:
+    Teens: Social proof, FOMO, trending elements
+    Young Adults: Binge-worthy aspects, social relevance
+    Adults: Quality markers, intelligent content
+    Mature Adults: Family value, critical acclaim
+    Senior Adults: Traditional appeal, cultural significance
+
+    Here's your content goldmine (use what sparks joy):
+    - Series name: {name_of_series}
+    - Wiki intel: {retrieved_wiki_of_series}
+    - Content deets: {series_content}
+    - Series lowdown: {series_description}
+    - Star power: {name_of_cast}
+    - Cast type: {type_of_cast}
+    - Nickname: {nickname_of_cast}
+    - Quotable moments: {quote_of_cast}
+    - Fun facts: {interesting_fact_of_cast}
+    - Character: {character_in_series_acted_by_cast}
+    
+    Target audience: {demographics_of_target_receiver}
+    Base inspiration: {base_push_example}
+    What's trending: {local_trend_in_malaysia}
+    Extra spice needed: {additional_requirements}
+
+    Serve it up in this JSON format (numbers = push notification order):
+    {{
+    "1": {{"english": {{"title": "title", "body": "body"}}, "malay": {{"title": "title", "body": "body"}}}},
+    "2": {{"english": {{"title": "title", "body": "body"}}, "malay": {{"title": "title", "body": "body"}}}},
+    ...
+    }}
+
+    JSON only - no extra text or comments!""",
+    
+    input_variables=[
+        "type_of_push_notification",
+        "number_of_push_notifications",
+        "name_of_series",
+        "retrieved_wiki_of_series",
+        "series_content",
+        "series_description",
+        "name_of_cast",
+        "nickname_of_cast",
+        "quote_of_cast",
+        "interesting_fact_of_cast",
+        "character_in_series_acted_by_cast",
+        "demographics_of_target_receiver",
+        "base_push_example",
+        "local_trend_in_malaysia",
+        "include_emoji",
+        "include_slangs",
+        "additional_requirements",
+    ],
+)
 
 
 # final_prompt = FewShotPromptTemplate(
@@ -389,108 +440,108 @@ example_prompt = PromptTemplate.from_template(
 #     ],
 # )
 
-final_prompt = FewShotPromptTemplate(
-    examples = examples,
-    example_prompt = example_prompt,
-    suffix = """
-    Generate {number_of_push_notifications} {type_of_push_notification} push notifications for "{name_of_series}" on Viu.
-    Target audience: {demographics_of_target_receiver}
+# final_prompt = FewShotPromptTemplate(
+#     examples = examples,
+#     example_prompt = example_prompt,
+#     suffix = """
+#     Generate {number_of_push_notifications} {type_of_push_notification} push notifications for "{name_of_series}" on Viu.
+#     Target audience: {demographics_of_target_receiver}
 
-    Content Details:
-    - Series: {name_of_series}
-    - Cast: {name_of_cast}
-    - Character: {character_in_series_acted_by_cast}
-    - Description: {series_description}
-    - Wiki stuff: {retrieved_wiki_of_series}
-    - What's it about: {series_content}
-    - Nickname: {nickname_of_cast}
-    - Cool quotes: {quote_of_cast}
-    - Fun facts: {interesting_fact_of_cast}
+#     Content Details:
+#     - Series: {name_of_series}
+#     - Cast: {name_of_cast}
+#     - Character: {character_in_series_acted_by_cast}
+#     - Description: {series_description}
+#     - Wiki stuff: {retrieved_wiki_of_series}
+#     - What's it about: {series_content}
+#     - Nickname: {nickname_of_cast}
+#     - Cool quotes: {quote_of_cast}
+#     - Fun facts: {interesting_fact_of_cast}
 
-    Audience-Specific Guidelines:
+#     Audience-Specific Guidelines:
 
-    TEENS (13-17):
-    Tone: Ultra-casual, excited, FOMO-driven
-    Language: "OMG!", "fr fr", "ngl", "slay", ...
-    Symbols: (∩˃o˂∩)♡, (≧∇≦), (¬‿¬), !!!, ???, ...
-    Content: Social moments, friendship drama, relatable scenes
-    Hooks: Trends, viral moments, cast's social media
-    Example: "Song Kang spilling tea on TikTok rn!!! 🫢 Catch his behind-the-scenes"
-    BM Style: Heavy Manglish, trending slang
+#     TEENS (13-17):
+#     Tone: Ultra-casual, excited, FOMO-driven
+#     Language: "OMG!", "fr fr", "ngl", "slay", ...
+#     Symbols: (∩˃o˂∩)♡, (≧∇≦), (¬‿¬), !!!, ???, ...
+#     Content: Social moments, friendship drama, relatable scenes
+#     Hooks: Trends, viral moments, cast's social media
+#     Example: "Song Kang spilling tea on TikTok rn!!! 🫢 Catch his behind-the-scenes"
+#     BM Style: Heavy Manglish, trending slang
 
-    YOUNG ADULTS (18-24):
-    Tone: Trendy but mature, witty, relatable
-    Language: Mix of professional and internet slang
-    Content: Romance, life challenges, plot twists
-    Hooks: Pop culture references, social issues, binge appeal
-    Example: "That plot twist got us shook! 😱 New episode drops in 1 hour!"
-    BM Style: Modern Malaysian expressions
+#     YOUNG ADULTS (18-24):
+#     Tone: Trendy but mature, witty, relatable
+#     Language: Mix of professional and internet slang
+#     Content: Romance, life challenges, plot twists
+#     Hooks: Pop culture references, social issues, binge appeal
+#     Example: "That plot twist got us shook! 😱 New episode drops in 1 hour!"
+#     BM Style: Modern Malaysian expressions
 
-    ADULTS (25-34):
-    Tone: Smart casual, sophisticated humor
-    Language: Professional with subtle wit
-    Content: Character depth, plot complexity, quality
-    Hooks: Critical acclaim, unique storylines, cast achievements
-    Example: "Award-winning performance alert! Critics call it 'unmissable'"
-    BM Style: Standard BM with urban flair
+#     ADULTS (25-34):
+#     Tone: Smart casual, sophisticated humor
+#     Language: Professional with subtle wit
+#     Content: Character depth, plot complexity, quality
+#     Hooks: Critical acclaim, unique storylines, cast achievements
+#     Example: "Award-winning performance alert! Critics call it 'unmissable'"
+#     BM Style: Standard BM with urban flair
 
-    MATURE ADULTS (35-49):
-    Tone: Refined, quality-focused
-    Language: Professional, clear, respectful
-    Content: Production value, artistic merit, family themes
-    Hooks: Director credentials, awards, family viewing
-    Example: "From acclaimed director Lee Jae-wook: A masterpiece of storytelling"
-    BM Style: Proper BM, occasional formal terms
+#     MATURE ADULTS (35-49):
+#     Tone: Refined, quality-focused
+#     Language: Professional, clear, respectful
+#     Content: Production value, artistic merit, family themes
+#     Hooks: Director credentials, awards, family viewing
+#     Example: "From acclaimed director Lee Jae-wook: A masterpiece of storytelling"
+#     BM Style: Proper BM, occasional formal terms
 
-    SENIOR ADULTS (50+):
-    Tone: Traditional, respectful, clear
-    Language: Straightforward, no slang
-    Content: Cultural values, historical accuracy
-    Hooks: Classic elements, familiar actors, family bonds
-    Example: "Revisit the golden age of drama with veteran star [Name]"
-    BM Style: Classical BM, traditional expressions
+#     SENIOR ADULTS (50+):
+#     Tone: Traditional, respectful, clear
+#     Language: Straightforward, no slang
+#     Content: Cultural values, historical accuracy
+#     Hooks: Classic elements, familiar actors, family bonds
+#     Example: "Revisit the golden age of drama with veteran star [Name]"
+#     BM Style: Classical BM, traditional expressions
 
-    Technical Requirements:
-    - Character limit: 80
-    - Include emojis: {include_emoji}
-    - Include Malaysian slang: {include_slangs}
-    - Must incorporate: {local_trend_in_malaysia}
-    - Base example to improve: {base_push_example}
-    - Additional requirements: {additional_requirements}
-    - Mention "Viu" naturally in context
-    - Not include any website links
+#     Technical Requirements:
+#     - Character limit: 80
+#     - Include emojis: {include_emoji}
+#     - Include Malaysian slang: {include_slangs}
+#     - Must incorporate: {local_trend_in_malaysia}
+#     - Base example to improve: {base_push_example}
+#     - Additional requirements: {additional_requirements}
+#     - Mention "Viu" naturally in context
+#     - Not include any website links
 
-    Key Engagement Elements:
-    Teens: Social proof, FOMO, trending elements
-    Young Adults: Binge-worthy aspects, social relevance
-    Adults: Quality markers, intelligent content
-    Mature Adults: Family value, critical acclaim
-    Senior Adults: Traditional appeal, cultural significance
+#     Key Engagement Elements:
+#     Teens: Social proof, FOMO, trending elements
+#     Young Adults: Binge-worthy aspects, social relevance
+#     Adults: Quality markers, intelligent content
+#     Mature Adults: Family value, critical acclaim
+#     Senior Adults: Traditional appeal, cultural significance
 
-    Stick to this JSON format (no other text!):
-    {{
-    "1": {{"english": {{"title": "title", "body": "body"}}, "malay": {{"title": "title", "body": "body"}}}},
-    "2": {{"english": {{"title": "title", "body": "body"}}, "malay": {{"title": "title", "body": "body"}}}},
-    ...
-    }}""",
+#     Stick to this JSON format (no other text!):
+#     {{
+#     "1": {{"english": {{"title": "title", "body": "body"}}, "malay": {{"title": "title", "body": "body"}}}},
+#     "2": {{"english": {{"title": "title", "body": "body"}}, "malay": {{"title": "title", "body": "body"}}}},
+#     ...
+#     }}""",
     
-    input_variables=[
-        "type_of_push_notification",
-        "number_of_push_notifications",
-        "name_of_series",
-        "retrieved_wiki_of_series",
-        "series_content",
-        "series_description",
-        "name_of_cast",
-        "nickname_of_cast",
-        "quote_of_cast",
-        "interesting_fact_of_cast",
-        "character_in_series_acted_by_cast",
-        "demographics_of_target_receiver",
-        "base_push_example",
-        "local_trend_in_malaysia",
-        "include_emoji",
-        "include_slangs",
-        "additional_requirements",
-    ],
-)
+#     input_variables=[
+#         "type_of_push_notification",
+#         "number_of_push_notifications",
+#         "name_of_series",
+#         "retrieved_wiki_of_series",
+#         "series_content",
+#         "series_description",
+#         "name_of_cast",
+#         "nickname_of_cast",
+#         "quote_of_cast",
+#         "interesting_fact_of_cast",
+#         "character_in_series_acted_by_cast",
+#         "demographics_of_target_receiver",
+#         "base_push_example",
+#         "local_trend_in_malaysia",
+#         "include_emoji",
+#         "include_slangs",
+#         "additional_requirements",
+#     ],
+# )

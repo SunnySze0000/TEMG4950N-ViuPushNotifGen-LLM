@@ -2938,5 +2938,16 @@
         "HOST": null,
         "VO_TALENT": null,
         "WIKI_EN_URL": null
+    },
+    {
+        "EXTERNAL_SERIES_ID":"705f59cb-a5c9-410d-851f-ad807037f82f",
+        "GROUP_SERIES_NAME":"Delayed Justice",
+        "MAIN_CASTS":"KIM Joo Hyun,KWON Sang Woo,JUNG Woo Sung,JUNG Woong In,BAE Seong Woo",
+        "SUPPORTING_CASTS":"LEE Yeon,HONG Seung Bum,YOO Hee Je,LEE Chang Hoon,CHA Yong Hak,YOON Byung Hee,CHOI Young Joon,KIM Myung Chan,KIM Tae Hoon",
+        "CAMEO_CASTS":"LEE Elijah,KO In Bum,LEE Jong Hyuk",
+        "HOST":null,
+        "VO_TALENT":null,
+        "WIKI_EN_URL":"https:\/\/en.wikipedia.org\/wiki\/Delayed_Justice"
     }
+
 ]

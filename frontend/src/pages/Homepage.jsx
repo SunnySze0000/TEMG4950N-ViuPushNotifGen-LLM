@@ -372,13 +372,13 @@ export const Homepage = () => {
                       Refresh Trends
                   </button>)}
           </div>
-          <div className="w-full max-w-4xl h-auto bg-white flex justify-center items-center rounded-lg shadow-md mt-4 p-4">
+          <div className="w-4/5 mx-auto bg-white flex flex-col rounded-lg shadow-md mt-4 overflow-y-auto" style={{ minHeight: 'fit-content', maxHeight: '700px',  padding: '16px' }}>
             {!showTrends ? (
               <button className={`bg-[#F5B919] text-black font-bold py-2 px-4 hover:bg-yellow-600 rounded-full cursor-not-allowed" ${!showTrends ? '' : 'cursor-not-allowed opacity-50'}`} disabled={showTrends} onClick={handleGenerateTrends} >
                 Generate Trends
               </button>
             ) : (
-              <div className="flex flex-col w-full max-h-screen overflow-y-auto p-4">
+              <div className="flex flex-col w-full">
                 {trendTitles.map((title, index) => (
                   <TrendComponent key={index} title={title} className={trendClassifier[index]} onTrendSelect={handleTrendSelect}/>
                 ))}
