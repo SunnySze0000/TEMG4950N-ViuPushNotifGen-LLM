@@ -69,6 +69,7 @@ export const Homepage = () => {
   const closePopup = () => setIsPopupOpen(false);
 
   const [trendLoading, setTrendLoading] = useState(false);
+  const [newTrendLoading, setNewTrendLoading] = useState(false);
   const [inputShow, setInputShow] = useState({});
   const [message, setMessage] = useState('');
 
@@ -224,7 +225,7 @@ export const Homepage = () => {
       cast_name: settings.starName, // Use the starName state
     };
     setInputShow(newInputShow);
-    setTrendLoading(true);
+    setNewTrendLoading(true);
     try {
       const data = await regenTrend(newInputShow);
 
@@ -248,7 +249,7 @@ export const Homepage = () => {
       setMessage("An error occurred while generating the trend.");
     } finally {
       // Stop loading
-      setTrendLoading(false);
+      setNewTrendLoading(false);
       console.log('Trends refreshed!');
     }
   };
@@ -393,54 +394,54 @@ export const Homepage = () => {
               {/* Popup structure */}
               {isPopupOpen && (
                 <>
-                  <div className="rounded-lg" style={{ position: 'fixed', left: '50%', top: '50%', transform: 'translate(-50%, -50%)', border: '1px solid #ccc', padding: '20px', backgroundColor: 'white', zIndex: 1000 }}>
+                  <div className="rounded-lg" style={{ position: 'fixed', left: '50%', top: '50%', transform: 'translate(-50%, -50%)', border: '1px solid #ccc', padding: '20px', backgroundColor: 'white', zIndex: 1000, width: '50%'}}>
                     <div className="flex justify-between">
-                      <h2 className="text-2xl font-bold">View Default Prompt</h2>
+                      <h2 className="text-xl font-bold">View Default Prompt</h2>
                       <button onClick={closePopup} className="absolute top-2 right-4 text-3xl">&times;</button>
                     </div>
                     <p>This is the main body of the prompt that will be fed into the LLM. Please contact the backend team if you wish to change the content of the main prompt (not advisable).</p>
 
                     {/* Prompt Text */}
                     <div className="mt-4 border rounded-lg p-6">
-                      <p className="text-lg">
+                      <p className="text-sm">
                         The push must contain the more content of the show, it is fine to have the push being long. 
                         Exaggerate and be a clickbait in the push!
                       </p> 
                       <br></br>
-                      <p className="text-lg"> 
+                      <p className="text-sm"> 
                         If there are any extra requirements by the user, 
                         you must fulfill them while keeping the push interesting. All input data may be None; use those 
                         that are not None and choose which ones to use by yourself. Aim to generate the best clickbait 
                         {`{type_of_push_notification}`} notification.
                       </p>
                       <br></br>
-                      <p className="text-lg">
+                      <p className="text-sm">
                         If "Type of Push Notification" is cast-driven, "name_of_cast" must be included in the push. 
                       </p>
                       <br></br>
-                      <p className="text-lg">
+                      <p className="text-sm">
                         If "Demographics of the target receiver of the push", please adjust the push according to the 
                         target receiver demographics, which is be more energetic for younger receivers, be more cast-focus 
                         and use more information of the cast when the target receivers are fan on the cast.
                       </p>
                       <br></br>
-                      <p className="text-lg">
+                      <p className="text-sm">
                         If "Base Push Example" is provided, improve and regenerate a push based on the "Base Push Example".
                       </p>
                       <br></br>
-                      <p className="text-lg">
+                      <p className="text-sm">
                         If "Local trend in Malaysia" is provided, the trend must be incorporated into the push with any method. 
                       </p>
                       <br></br>
-                      <p className="text-lg">
+                      <p className="text-sm">
                         If "Include Slangs" is True, please incorporate local slangs in the Bahasa Melayu version. 
                       </p>
                       <br></br>
-                      <p className="text-lg">
-                        If and only if "Include Emoji" is True, please se emojis. 
+                      <p className="text-sm">
+                        If and only if "Include Emoji" is True, please use emojis. 
                       </p>
                       <br></br>
-                      <p className="text-lg">
+                      <p className="text-sm">
                         The followings are additional requirements that must be fulfilled when generating the push notification.
                         {`{additional_requirements}`}
                       </p>
@@ -488,7 +489,14 @@ export const Homepage = () => {
           <div className= "absolute inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
             <div className="bg-white p-6 rounded-lg shadow-lg text-center">
               <div className="animate-spin rounded-full h-12 w-12 border-4 border-t-4 border-[#F5B919] border-t-transparent mx-auto mb-4"></div>
-              <p className="text-lg font-semibold">Generating Trend...</p>
+              <p className="text-lg font-semibold">Searching For General Trends...</p>
+            </div>
+          </div>
+        )}{newTrendLoading && (
+          <div className= "absolute inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+            <div className="bg-white p-6 rounded-lg shadow-lg text-center">
+              <div className="animate-spin rounded-full h-12 w-12 border-4 border-t-4 border-[#F5B919] border-t-transparent mx-auto mb-4"></div>
+              <p className="text-lg font-semibold">Searching For Relevant Trends...</p>
             </div>
           </div>
         )}
