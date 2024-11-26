@@ -151,14 +151,32 @@ final_prompt = FewShotPromptTemplate(
     - Include title + body + call-to-action + hashtags
     - Feel free to make it longer if you've got more tea to spill ☕
     
+    Here's your content goldmine (use what sparks joy):
+    - Series name: {name_of_series}
+    - Wiki intel: {retrieved_wiki_of_series}
+    - Content deets: {series_content}
+    - Series lowdown: {series_description}
+    - Star power: {name_of_cast}
+    - Cast type: {type_of_cast}
+    - Nickname: {nickname_of_cast}
+    - Quotable moments: {quote_of_cast}
+    - Fun facts: {interesting_fact_of_cast}
+    - Character: {character_in_series_acted_by_cast}
+    
+    Target audience age: {demographics_of_target_receiver}
+    Base inspiration: {base_push_example}
+    What's trending: {local_trend_in_malaysia}
+    Extra spice needed: {additional_requirements}
+    
     Pro tips:
     - If it's cast-driven, spotlight {name_of_cast}
     - For younger audiences: Keep it fresh and energetic
     - For die-hard fans: Deep dive into cast details and behind-the-scenes
-    - If there's a base example, take it to the next level
-    - If there's a Malaysian trend, work that magic in in all pushes
-    - Slang it up in Bahasa Maleyu if {include_slangs} is True
-    - Throw in emojis if {include_emoji} is True
+    - If there's a base example, take it to the next level and generate new pushes base on the Base inspiration, narrow down the variation in each push.
+    - If there's extra spice required, make sure every push fit the additional requirements
+    - If there's a Malaysian trend, work that magic in in all {number_of_push_notifications} pushes
+    - Slang it up in Bahasa Maleyu only if {include_slangs} is True
+    - Throw in emojis only if {include_emoji} is True
     
     Audience-Specific Guidelines:
 
@@ -171,7 +189,7 @@ final_prompt = FewShotPromptTemplate(
     Example: "Song Kang spilling tea on TikTok rn!!! 🫢 Catch his behind-the-scenes"
     BM Style: Heavy Manglish, trending slang
 
-    YOUNG ADULTS (18-24):
+    YOUNG ADULTS (age 18-24):
     Tone: Trendy but mature, witty, relatable
     Language: Mix of professional and internet slang
     Content: Romance, life challenges, plot twists
@@ -179,7 +197,7 @@ final_prompt = FewShotPromptTemplate(
     Example: "That plot twist got us shook! 😱 New episode drops in 1 hour!"
     BM Style: Modern Malaysian expressions
 
-    ADULTS (25-34):
+    ADULTS (age 25-34):
     Tone: Smart casual, sophisticated humor
     Language: Professional with subtle wit
     Content: Character depth, plot complexity, quality
@@ -187,7 +205,7 @@ final_prompt = FewShotPromptTemplate(
     Example: "Award-winning performance alert! Critics call it 'unmissable'"
     BM Style: Standard BM with urban flair
 
-    MATURE ADULTS (35-49):
+    MATURE ADULTS (age 35-49):
     Tone: Refined, quality-focused
     Language: Professional, clear, respectful
     Content: Production value, artistic merit, family themes
@@ -195,7 +213,7 @@ final_prompt = FewShotPromptTemplate(
     Example: "From acclaimed director Lee Jae-wook: A masterpiece of storytelling"
     BM Style: Proper BM, occasional formal terms
 
-    SENIOR ADULTS (50+):
+    SENIOR ADULTS (age 50+):
     Tone: Traditional, respectful, clear
     Language: Straightforward, no slang
     Emojis: 😊🤗🤭👍🏻🙏🏻🌹💐🏵🥀🪷
@@ -210,23 +228,6 @@ final_prompt = FewShotPromptTemplate(
     Adults: Quality markers, intelligent content
     Mature Adults: Family value, critical acclaim
     Senior Adults: Traditional appeal, cultural significance
-
-    Here's your content goldmine (use what sparks joy):
-    - Series name: {name_of_series}
-    - Wiki intel: {retrieved_wiki_of_series}
-    - Content deets: {series_content}
-    - Series lowdown: {series_description}
-    - Star power: {name_of_cast}
-    - Cast type: {type_of_cast}
-    - Nickname: {nickname_of_cast}
-    - Quotable moments: {quote_of_cast}
-    - Fun facts: {interesting_fact_of_cast}
-    - Character: {character_in_series_acted_by_cast}
-    
-    Target audience: {demographics_of_target_receiver}
-    Base inspiration: {base_push_example}
-    What's trending: {local_trend_in_malaysia}
-    Extra spice needed: {additional_requirements}
 
     Serve it up in this JSON format (numbers = push notification order):
     {{
