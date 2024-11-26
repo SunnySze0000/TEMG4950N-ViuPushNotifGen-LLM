@@ -69,7 +69,7 @@ export const Homepage = () => {
   const closePopup = () => setIsPopupOpen(false);
 
   const [trendLoading, setTrendLoading] = useState(false);
- 
+  const [inputShow, setInputShow] = useState({});
   const [message, setMessage] = useState('');
 
   const backendUrl = process.env.REACT_APP_BACKEND_URL
@@ -88,7 +88,14 @@ export const Homepage = () => {
   };
 
   const regenTrend = async (inputShow) => {
-    const response = await fetch(`${backendUrl}/scrapeTrends`);
+    console.log('Sending request with payload:', inputShow); // Log the payload
+    const response = await fetch(`${backendUrl}/refreshTrends`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(inputShow),
+    });
     if (!response.ok) {
       throw new Error('Network response was not ok');
     }
@@ -212,23 +219,28 @@ export const Homepage = () => {
 
   // Function to handle refresh trends logic
   const handleRefreshTrends = async () => {
-    const inputShow = {
+    const newInputShow = {
       series_name: settings.selectedContent, // Use the selectedContent state
       cast_name: settings.starName, // Use the starName state
     };
+    setInputShow(newInputShow);
     setTrendLoading(true);
     try {
-      const data = await regenTrend();
-      setMessage(JSON.stringify(data, null, 2));
+      const data = await regenTrend(newInputShow);
 
       const newTrendTitles = []
+      const newTrendClassifier = []
 
       for (const key in data) {
-        if (data[key].title) {
-          newTrendTitles.push(data[key].title);
+        if (data[key].trend_title) {
+          newTrendTitles.push(data[key].trend_title);
+        }
+        if (data[key].classification_type) {
+          newTrendClassifier.push(data[key].classification_type)
         }
       }
       setTrendTitles(newTrendTitles);
+      setTrendClassifier(newTrendClassifier);
       setShowTrends(true);
     }
     catch (error) {
@@ -269,8 +281,8 @@ export const Homepage = () => {
         if (data[key].trend_title) {
           newTrendTitles.push(data[key].trend_title);
         }
-        if (data[key].trend_classifier) {
-          newTrendClassifier.push(data[key].trend_classifier)
+        if (data[key].classification_type) {
+          newTrendClassifier.push(data[key].classification_type)
         }
       }
       setTrendTitles(newTrendTitles);
@@ -490,15 +502,20 @@ export const Homepage = () => {
                       Refresh Trends
                   </button>)}
           </div>
-          <div className="w-full max-w-4xl h-auto bg-white flex justify-center items-center rounded-lg shadow-md mt-4 p-4">
+          <div className="w-4/5 mx-auto bg-white flex flex-col rounded-lg shadow-md mt-4 overflow-y-auto" style={{ minHeight: 'fit-content', maxHeight: '700px',  padding: '16px' }}>
             {!showTrends ? (
               <button className={`bg-[#F5B919] text-black font-bold py-2 px-4 hover:bg-yellow-600 rounded-full cursor-not-allowed" ${!showTrends ? '' : 'cursor-not-allowed opacity-50'}`} disabled={showTrends} onClick={handleGenerateTrends} >
                 Generate Trends
               </button>
             ) : (
-              <div className="flex flex-col w-full max-h-screen overflow-y-auto p-4">
+              <div className="flex flex-col w-full">
                 {trendTitles.map((title, index) => (
-                  <TrendComponent key={index} title={title} className={trendClassifier[index]} onTrendSelect={handleTrendSelect}/>
+                  <TrendComponent 
+                    key={index} 
+                    title={title} 
+                    trendClass={trendClassifier[index]} 
+                    onTrendSelect={handleTrendSelect}
+                  />
                 ))}
               </div>
             )}

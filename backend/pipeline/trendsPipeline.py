@@ -11,7 +11,64 @@ def filtering(data):
     filtered_data = {key: value for key, value in data.items() if value.get('classification_type') != 'None'}
     return filtered_data
 
+# Global variables
+holiday_dict = {} 
+trend_title = [] 
+Today_holiday = [] 
+Upcoming_holiday = []
+
+def refreshTrends(cast_name, series_name):
+    # cast google search
+    if series_name == "":
+        searches = getGoogleTrend.get_trend_search("Viu Malaysia")
+    else:
+        searches = getGoogleTrend.get_trend_search(cast_name + " " + series_name)
+    snippets = []
+    for search in searches:
+        snippets.append(search['snippet'])
+    print(snippets)
+
+    # general google trend search
+    titles = getGoogleTrend.get_trending_titles()
+
+    print('---------Get Source 1----------')
+    source1 = filtering(classifier.classifying_test(trend_title, cast_name, series_name))
+    print('---------Get Source 2----------')
+    source2 = filtering(classifier.classifying_test(titles, cast_name, series_name))
+    print('---------Get Source 3----------')
+    source3 = filtering(classifier.classifying_test(snippets, cast_name, series_name))
+
+    combined_results = concatenate_classifications(source1, source2, source3)
+
+    for holiday in Today_holiday:
+        date = holiday['date']
+        holiday_name = holiday['holiday_name']
+        holiday_entry = create_holiday_entry(date, holiday_name)
+        combined_results[str(len(combined_results) + 1)] = holiday_entry
+
+    for holiday in Upcoming_holiday:
+        date = holiday['date']
+        holiday_name = holiday['holiday_name']
+        holiday_entry = create_holiday_entry(date, holiday_name)
+        combined_results[str(len(combined_results) + 1)] = holiday_entry
+
+    print('-------------------1')
+    print(source1)
+    print('-------------------2')
+    print(source2)
+    print('-------------------3')
+    print(source3)
+
+    print('-------------------Combined')
+    combined_json = json.dumps(combined_results, ensure_ascii=False)
+    print(combined_json)
+    combined_dict = json.loads(combined_json)
+    combined_dict = {int(k): TrendResponse(**v) for k, v in combined_dict.items()}
+    return combined_dict
+
+
 def getTrends(cast_name = "", series_name = ""):
+    global holiday_dict, trend_title, Today_holiday, Upcoming_holiday
     scraped_data = run_all_spiders()
     holiday_dict = scraped_data['holidays']
     trend_title = scraped_data['trends']['trend'] # IN LIST

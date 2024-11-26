@@ -6,7 +6,7 @@ from langchain_pinecone import PineconeVectorStore
 
 client = Pinecone(api_key=os.getenv('PINECONE_API_KEY'))
 
-def embedding(splits, cast, series):
+def embedding(splits, series):
     
     index_name = ''.join(char for char in series.lower() if char.isalpha() or char == '-')
     print(index_name)

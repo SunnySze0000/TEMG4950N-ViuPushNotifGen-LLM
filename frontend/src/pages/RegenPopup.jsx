@@ -62,7 +62,6 @@ const RegenPopup = ({ isOpen, onClose, push }) => {
                 newMalayTitles.push(data[key].malay.title);
                 newMalayBodies.push(data[key].malay.body);
               }
-            }
 
             // Update SettingsContext with new values
             setSettings((prevSettings) => ({
@@ -84,7 +83,7 @@ const RegenPopup = ({ isOpen, onClose, push }) => {
               },
             });
         
-        } catch (error) {
+        }} catch (error) {
             console.error("Error generating push:", error);
             setMessage("An error occurred while generating the push.");
         } finally {

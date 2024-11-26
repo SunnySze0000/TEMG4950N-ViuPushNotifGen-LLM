@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-// hi
-const TrendComponent = ({ title, className, onTrendSelect }) => {
+
+const TrendComponent = ({ title, trendClass, onTrendSelect }) => {
     const [checked, setChecked] = useState(false);
 
     const handleCheckboxChange = () => {
@@ -8,6 +8,8 @@ const TrendComponent = ({ title, className, onTrendSelect }) => {
         setChecked(newChecked);
         onTrendSelect(newChecked ? title : '');
     };
+
+    console.log('TrendComponent:', { title, trendClass });
 
     return (
         <div className='px-4 sm:px-2 py-3'>
@@ -19,7 +21,7 @@ const TrendComponent = ({ title, className, onTrendSelect }) => {
                     {checked && <div className="w-2 h-2 bg-white rounded-full" />} {/* Show a small dot when checked */}
                 </div>
                 <div className='flex-1'>
-                    <p className="font-bold text-md">{className}</p>
+                    <p className="font-bold text-md">{trendClass}</p>
                     <h3 className="text-md">{title}</h3>
                 </div>
             </div>

@@ -38,3 +38,7 @@ class PushRegenerateRequest(BaseModel):
 class TrendResponse(BaseModel):
     classification_type: str
     trend_title: str    
+
+class TrendRequest(BaseModel):
+    cast_name: Optional[str] = None
+    series_name: Optional[str] = None   

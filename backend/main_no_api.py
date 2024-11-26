@@ -56,17 +56,23 @@ import time
 # result = classifier.classifying_test(snippets)
 
 # Test for general google trend search
-# titles = getGoogleTrend.get_trending_titles()
-# print(titles)
+from pipeline import trendsPipeline
+titles = getGoogleTrend.get_trending_titles()
+print(titles)
 
-# results = classifier.classifying_test(titles)
+# print("-----------------Old Classifying-------------------")
+# results = trendsPipeline.filtering(classifier.classifying_legacy(titles))
+# print("-----------------New Classifying-------------------")
+results = trendsPipeline.filtering(classifier.classifying_test(titles))
+print("----------------------After filtering-------------------")
+print(results)
 
 # filtered_data = {key: value for key, value in results.items() if 'None' not in value.keys()}
 # print(filtered_data)
 
-from pipeline import trendsPipeline
+# from pipeline import trendsPipeline
 # trendsPipeline.getTrends(cast, "Lovely Runner")
-trendsPipeline.getTrends()
+# trendsPipeline.getTrends()
 
 # trends = getGoogleTrend.get_trending_titles()
 

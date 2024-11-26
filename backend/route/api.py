@@ -1,7 +1,7 @@
 from fastapi import APIRouter
 from typing import Optional, Dict, List
 from pipeline.rerankingGen import finalCastPipeline, finalContentPipeline, generating
-from utils.schema import PushRegenerateRequest, PushRequest, PushResponse, TrendResponse
+from utils.schema import PushRegenerateRequest, PushRequest, PushResponse, TrendResponse, TrendRequest   
 from utils.state import backendState, initialize_backend_state
 from pipeline.trendsPipeline import getTrends
 import time
@@ -40,12 +40,13 @@ async def get_trend() -> Dict[int, TrendResponse]:
       print(e)
       raise e
 
-@api_router.post("/scrapeTrends")
-async def post_trend(cast_name: Optional[str], series_name: Optional[str]) -> Dict[int, TrendResponse]:
+@api_router.post("/refreshTrends")
+async def post_trend(request: TrendRequest) -> Dict[int, TrendResponse]:
    try:
       # scrape trend function
       # return pushes
-      return getTrends(cast_name, series_name)
+      print(f"Refreshing trends with cast_name: {request.cast_name} and series_name: {request.series_name}")
+      return refreshTrends(request.cast_name, request.series_name)
    except Exception as e:
       print(e)
       raise e
@@ -82,7 +83,7 @@ async def post_gen_push(input_data: PushRequest) -> Dict[int, PushResponse]:
    except Exception as e:
       print(e)
       await delay(150)  # Delay before showing hardcoded results
-      return HARD_CODED_RESULT
+      return HARD_CODED_GEN
    
 @api_router.post("/regenPush")
 async def post_regen_push(inputData: PushRegenerateRequest) -> Dict[int, PushResponse]:
@@ -121,7 +122,7 @@ async def post_regen_push(inputData: PushRegenerateRequest) -> Dict[int, PushRes
    except Exception as e:
       print(e)
       await delay(30)  # Delay before showing hardcoded results
-      return HARD_CODED_RESULT
+      return HARD_CODED_GEN
    
 # @api_router.get("/savedPush")
 # async def get_saved_push() -> List[Dict[str, str]]:
