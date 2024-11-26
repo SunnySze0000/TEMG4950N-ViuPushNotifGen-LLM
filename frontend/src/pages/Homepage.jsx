@@ -47,7 +47,7 @@ export const Homepage = () => {
   const [selectedTrend, setSelectedTrend] = useState('');
   const [loading, setLoading] = useState(false);
   const [trendLoading, setTrendLoading] = useState(false);
- 
+  const [inputShow, setInputShow] = useState({});
   const [message, setMessage] = useState('');
 
   const backendUrl = process.env.REACT_APP_BACKEND_URL
@@ -66,7 +66,14 @@ export const Homepage = () => {
   };
 
   const regenTrend = async (inputShow) => {
-    const response = await fetch(`${backendUrl}/scrapeTrends`);
+    console.log('Sending request with payload:', inputShow); // Log the payload
+    const response = await fetch(`${backendUrl}/refreshTrends`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(inputShow),
+    });
     if (!response.ok) {
       throw new Error('Network response was not ok');
     }
@@ -172,23 +179,28 @@ export const Homepage = () => {
 
   // Function to handle refresh trends logic
   const handleRefreshTrends = async () => {
-    const inputShow = {
+    const newInputShow = {
       series_name: selectedContent, // Use the selectedContent state
       cast_name: starName, // Use the starName state
     };
+    setInputShow(newInputShow);
     setTrendLoading(true);
     try {
-      const data = await regenTrend();
-      setMessage(JSON.stringify(data, null, 2));
+      const data = await regenTrend(newInputShow);
 
       const newTrendTitles = []
+      const newTrendClassifier = []
 
       for (const key in data) {
-        if (data[key].title) {
-          newTrendTitles.push(data[key].title);
+        if (data[key].trend_title) {
+          newTrendTitles.push(data[key].trend_title);
+        }
+        if (data[key].classification_type) {
+          newTrendClassifier.push(data[key].classification_type)
         }
       }
       setTrendTitles(newTrendTitles);
+      setTrendClassifier(newTrendClassifier);
       setShowTrends(true);
     }
     catch (error) {
@@ -229,8 +241,8 @@ export const Homepage = () => {
         if (data[key].trend_title) {
           newTrendTitles.push(data[key].trend_title);
         }
-        if (data[key].trend_classifier) {
-          newTrendClassifier.push(data[key].trend_classifier)
+        if (data[key].classification_type) {
+          newTrendClassifier.push(data[key].classification_type)
         }
       }
       setTrendTitles(newTrendTitles);
@@ -380,7 +392,12 @@ export const Homepage = () => {
             ) : (
               <div className="flex flex-col w-full">
                 {trendTitles.map((title, index) => (
-                  <TrendComponent key={index} title={title} className={trendClassifier[index]} onTrendSelect={handleTrendSelect}/>
+                  <TrendComponent 
+                    key={index} 
+                    title={title} 
+                    trendClass={trendClassifier[index]} 
+                    onTrendSelect={handleTrendSelect}
+                  />
                 ))}
               </div>
             )}
