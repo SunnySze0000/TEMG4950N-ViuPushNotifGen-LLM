@@ -37,7 +37,7 @@ const AgeRangeSlider = ({ setAge }) => {
                 trackClassName="track"
                 value={ageRange} // Use local state for the slider value
                 onChange={handleSliderChange}
-                min={18}
+                min={0}
                 max={100}
                 renderThumb={(props, state) => <div {...props}>{state.valueNow}</div>}
             />

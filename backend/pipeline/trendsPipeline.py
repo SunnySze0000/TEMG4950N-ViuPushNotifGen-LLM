@@ -11,7 +11,6 @@ def filtering(data):
     filtered_data = {key: value for key, value in data.items() if value.get('classification_type') != 'None'}
     return filtered_data
 
-
 def getTrends(cast_name = "", series_name = ""):
     scraped_data = run_all_spiders()
     holiday_dict = scraped_data['holidays']

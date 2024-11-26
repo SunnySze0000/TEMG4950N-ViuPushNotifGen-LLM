@@ -1,14 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { SettingsContext } from './SettingsContext';
 
 const RegenPopup = ({ isOpen, onClose, push }) => {
     const [loading, setLoading] = useState(false);
     const [message, setMessage] = useState('');
-    const [englishTitles, setEnglishTitles] = useState([]);
-    const [englishBodies, setEnglishBodies] = useState([]);
-    const [malayTitles, setMalayTitles] = useState([]);
-    const [malayBodies, setMalayBodies] = useState([]);
     const [additionalRequirements, setAdditionalRequirements] = useState('');
+    const { settings, setSettings } = useContext(SettingsContext);
     
     const navigate = useNavigate();
 
@@ -65,19 +63,24 @@ const RegenPopup = ({ isOpen, onClose, push }) => {
                 newMalayBodies.push(data[key].malay.body);
               }
             }
-            
-            // Update state with the new values
-            setEnglishTitles(newEnglishTitles);
-            setEnglishBodies(newEnglishBodies);
-            setMalayTitles(newMalayTitles);
-            setMalayBodies(newMalayBodies);
-            
-            navigate('/generation', {
-              state: {
+
+            // Update SettingsContext with new values
+            setSettings((prevSettings) => ({
+                ...prevSettings,
                 englishTitles: newEnglishTitles,
                 englishBodies: newEnglishBodies,
                 malayTitles: newMalayTitles,
                 malayBodies: newMalayBodies,
+            }));
+
+            onClose();
+            
+            navigate('/generation', {
+              state: {
+                englishTitles: settings.englishTitles,
+                englishBodies: settings.englishBodies,
+                malayTitles: settings.malayTitles,
+                malayBodies: settings.malayBodies,
               },
             });
         
@@ -86,7 +89,6 @@ const RegenPopup = ({ isOpen, onClose, push }) => {
             setMessage("An error occurred while generating the push.");
         } finally {
             setLoading(false);
-            window.location.reload();
         }
     };
 

@@ -119,7 +119,7 @@ export const Homepage = () => {
       isEmojis: settings.isEmoji, // Use the isEmoji state
       isSlangs: settings.isSlang, // Use the isSlang state
       addRequirements: settings.addRequirements, // Use the addRequirements state
-      selected_trend: "",
+      selected_trend: selectedTrend,
     };
   
     console.log("Sending request data:", JSON.stringify(inputData));
