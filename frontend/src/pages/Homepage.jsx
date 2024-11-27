@@ -144,12 +144,31 @@ export const Homepage = () => {
       const newEnglishBodies = [];
       const newMalayTitles = [];
       const newMalayBodies = [];
+      const newGenHistoryEntries = [];
+
+      // Get current date and time
+      const now = new Date();
+      const formattedDate = now.toLocaleString(); 
+
+      newGenHistoryEntries.push({
+        heading: `Initial Generation - ${formattedDate}`,
+      });
 
       // Iterate over the keys in the response
       for (const key in data) {
         if (data[key].english) {
           newEnglishTitles.push(data[key].english.title);
           newEnglishBodies.push(data[key].english.body);
+          newGenHistoryEntries.push({
+            english: {
+              title: data[key].english.title,
+              body: data[key].english.body,
+            },
+            malay: data[key].malay ? {
+              title: data[key].malay.title,
+              body: data[key].malay.body,
+            } : null,
+          });
         }
         if (data[key].malay) {
           newMalayTitles.push(data[key].malay.title);
@@ -163,6 +182,8 @@ export const Homepage = () => {
           englishBodies: newEnglishBodies,
           malayTitles: newMalayTitles,
           malayBodies: newMalayBodies,
+          returnToGeneration: true,
+          genHistory: [...prevSettings.genHistory, ...newGenHistoryEntries],
       }));
 
       navigate('/generation', {
@@ -313,7 +334,6 @@ export const Homepage = () => {
   return (
     <div className="h-screen flex flex-col">
     <Header activeButton={activeButton} handleButtonClick={handleButtonClick} />
-
     {loading && (
       <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
         <div className="bg-white p-6 rounded-lg shadow-lg text-center">
@@ -502,13 +522,16 @@ export const Homepage = () => {
         )}
           <div className="flex md:flex-row items-center">
             <h2 className="text-xl md:text-2xl font-bold mr-4 mb-2 md:mb-0">Trends</h2>
-            {/* Refresh Trends Button */}
-                  {showTrends && (<button 
-                      onClick={handleRefreshTrends} 
-                      className="bg-green-500 text-white text-sm md:text-xs font-bold py-2 px-4 rounded-full hover:bg-green-600 transition duration-300"
-                  >
-                      Refresh Trends
-                  </button>)}
+            {showTrends && (
+                <button 
+                    onClick={handleRefreshTrends} 
+                    className="bg-green-500 text-white text-sm md:text-xs font-bold py-2 px-4 rounded-full hover:bg-green-600 transition duration-300"
+                >
+                    {settings.promotionType === 'cast-driven' 
+                        ? 'Generate Cast-Specific Trends' 
+                        : 'Generate Content-Specific Trends'}
+                </button>
+            )}
           </div>
           <div className="w-4/5 bg-white flex flex-col rounded-lg shadow-md mt-4 overflow-y-auto" style={{ 
             minHeight: 'fit-content', 
@@ -518,7 +541,7 @@ export const Homepage = () => {
           }}>  
             {!showTrends ? (
               <button className={`bg-[#F5B919] text-black font-bold py-2 px-4 hover:bg-yellow-600 rounded-full cursor-not-allowed" ${!showTrends ? '' : 'cursor-not-allowed opacity-50'}`} disabled={showTrends} onClick={handleGenerateTrends} >
-                Generate Trends
+                Generate General Trends
               </button>
             ) : (
               <div className="flex flex-col w-full">

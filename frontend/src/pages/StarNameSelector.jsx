@@ -12,33 +12,51 @@ const StarNameSelector = ({ selectedContent, allSeriesData, isCastDriven, onStar
       };
 
     useEffect(() => {
-        // Extract unique casts from all series
-        const allCasts = new Set();
-        allSeriesData.forEach(item => {
-            if (item.MAIN_CASTS) {
-                item.MAIN_CASTS.split(',').forEach(cast => allCasts.add(cast.trim()));
-            }
-            if (item.SUPPORTING_CASTS) {
-                item.SUPPORTING_CASTS.split(',').forEach(cast => allCasts.add(cast.trim()));
-            }
-        });
-        setUniqueCasts(Array.from(allCasts));
+    // Extract unique casts from all series
+    const allCasts = new Set();
+    allSeriesData.forEach(item => {
+        if (item.MAIN_CASTS) {
+            item.MAIN_CASTS.split(',').forEach(cast => allCasts.add(cast.trim()));
+        }
+        if (item.SUPPORTING_CASTS) {
+            item.SUPPORTING_CASTS.split(',').forEach(cast => allCasts.add(cast.trim()));
+        }
+        if (item.CAMEO_CASTS) {
+            item.CAMEO_CASTS.split(',').forEach(cast => allCasts.add(cast.trim()));
+        }
+        if (item.HOST) {
+            item.HOST.split(',').forEach(cast => allCasts.add(cast.trim()));
+        }
+        if (item.VO_TALENT) {
+            item.VO_TALENT.split(',').forEach(cast => allCasts.add(cast.trim()));
+        }
+    });
+    setUniqueCasts(Array.from(allCasts));
     }, [allSeriesData]);
-
+    
     useEffect(() => {
-        // Filter casts based on the selected content
-        if (selectedContent) {
-            const selectedSeries = allSeriesData.find(item => item.GROUP_SERIES_NAME === selectedContent);
-            const selectedCasts = new Set();
-            if (selectedSeries) {
-                if (selectedSeries.MAIN_CASTS) {
-                    selectedSeries.MAIN_CASTS.split(',').forEach(cast => selectedCasts.add(cast.trim()));
-                }
-                if (selectedSeries.SUPPORTING_CASTS) {
-                    selectedSeries.SUPPORTING_CASTS.split(',').forEach(cast => selectedCasts.add(cast.trim()));
-                }
+    // Filter casts based on the selected content
+    if (selectedContent) {
+        const selectedSeries = allSeriesData.find(item => item.GROUP_SERIES_NAME === selectedContent);
+        const selectedCasts = new Set();
+        if (selectedSeries) {
+            if (selectedSeries.MAIN_CASTS) {
+                selectedSeries.MAIN_CASTS.split(',').forEach(cast => selectedCasts.add(cast.trim()));
             }
-            setFilteredCasts(Array.from(selectedCasts));
+            if (selectedSeries.SUPPORTING_CASTS) {
+                selectedSeries.SUPPORTING_CASTS.split(',').forEach(cast => selectedCasts.add(cast.trim()));
+            }
+            if (selectedSeries.CAMEO_CASTS) {
+                selectedSeries.CAMEO_CASTS.split(',').forEach(cast => selectedCasts.add(cast.trim()));
+            }
+            if (selectedSeries.HOST) {
+                selectedSeries.HOST.split(',').forEach(cast => selectedCasts.add(cast.trim()));
+            }
+            if (selectedSeries.VO_TALENT) {
+                selectedSeries.VO_TALENT.split(',').forEach(cast => selectedCasts.add(cast.trim()));
+            }
+        }
+        setFilteredCasts(Array.from(selectedCasts));
         } else {
             setFilteredCasts([]); // Reset if no content is selected
         }
