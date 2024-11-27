@@ -143,14 +143,6 @@ final_prompt = FewShotPromptTemplate(
     
     Think like a social media influencer - make it irresistible! We want people's thumbs to stop scrolling 🛑
     
-    Key requirements:
-    - Write in both English and Bahasa Melayu
-    - Hook readers with cast info, juicy content, trending topics, quotes, or viral moments
-    - Make it impossible NOT to click! (But keep it real)
-    - Front-load the good stuff - cast name and series title in first 100 characters
-    - Include title + body + call-to-action + hashtags
-    - Feel free to make it longer if you've got more tea to spill ☕
-    
     Here's your content goldmine (use what sparks joy):
     - Series name: {name_of_series}
     - Wiki intel: {retrieved_wiki_of_series}
@@ -162,72 +154,29 @@ final_prompt = FewShotPromptTemplate(
     - Quotable moments: {quote_of_cast}
     - Fun facts: {interesting_fact_of_cast}
     - Character: {character_in_series_acted_by_cast}
+    - Target audience age: {demographics_of_target_receiver}
+    - What's trending: {local_trend_in_malaysia}
+    - Regernation base example: {base_push_example}
+    - Extra requirements from user: {additional_requirements}
     
-    Target audience age: {demographics_of_target_receiver}
-    Base inspiration: {base_push_example}
-    What's trending: {local_trend_in_malaysia}
-    Extra spice needed: {additional_requirements}
+    Key requirements:
+    - Write in both English and Bahasa Melayu
+    - Hook readers with cast info, juicy content, trending topics, quotes, or viral moments
+    - Make it impossible NOT to click! (But keep it real)
+    - Front-load the good stuff - cast name and series title in first 100 characters
+    - Include title + body + call-to-action
+    - If there is a trend provided, apply it all pushes and merge it naturally with the series content
+    - If there are additional requirements, make sure to follow them strictly in all pushes
+    - If there is a regeneration base example, make sure to improve and regenerate all the pushes based on the base example, 
+        DO NOT change too much, and PLEASE narrow down the variation of the regenerated pushes
+    - Feel free to make it longer if you've got more tea to spill ☕
+    - You may try to speak as the character or cast to engage the audience
     
     Pro tips:
     - If it's cast-driven, spotlight {name_of_cast}
-    - For younger audiences: Keep it fresh and energetic
     - For die-hard fans: Deep dive into cast details and behind-the-scenes
-    - If there's a base example, take it to the next level and generate new pushes base on the Base inspiration, narrow down the variation in each push.
-    - If there's extra spice required, make sure every push fit the additional requirements
-    - If there's a Malaysian trend, work that magic in in all {number_of_push_notifications} pushes
-    - Slang it up in Bahasa Maleyu only if {include_slangs} is True
-    - Throw in emojis only if {include_emoji} is True
-    
-    Audience-Specific Guidelines:
-
-    TEENS (13-17):
-    Tone: Ultra-casual, excited, FOMO-driven
-    Language: "OMG!", "fr fr", "ngl", "slay", ...
-    Symbols: (∩˃o˂∩)♡, (≧∇≦), (¬‿¬), !!!, ???, ...
-    Content: Social moments, friendship drama, relatable scenes
-    Hooks: Trends, viral moments, cast's social media
-    Example: "Song Kang spilling tea on TikTok rn!!! 🫢 Catch his behind-the-scenes"
-    BM Style: Heavy Manglish, trending slang
-
-    YOUNG ADULTS (age 18-24):
-    Tone: Trendy but mature, witty, relatable
-    Language: Mix of professional and internet slang
-    Content: Romance, life challenges, plot twists
-    Hooks: Pop culture references, social issues, binge appeal
-    Example: "That plot twist got us shook! 😱 New episode drops in 1 hour!"
-    BM Style: Modern Malaysian expressions
-
-    ADULTS (age 25-34):
-    Tone: Smart casual, sophisticated humor
-    Language: Professional with subtle wit
-    Content: Character depth, plot complexity, quality
-    Hooks: Critical acclaim, unique storylines, cast achievements
-    Example: "Award-winning performance alert! Critics call it 'unmissable'"
-    BM Style: Standard BM with urban flair
-
-    MATURE ADULTS (age 35-49):
-    Tone: Refined, quality-focused
-    Language: Professional, clear, respectful
-    Content: Production value, artistic merit, family themes
-    Hooks: Director credentials, awards, family viewing
-    Example: "From acclaimed director Lee Jae-wook: A masterpiece of storytelling"
-    BM Style: Proper BM, occasional formal terms
-
-    SENIOR ADULTS (age 50+):
-    Tone: Traditional, respectful, clear
-    Language: Straightforward, no slang
-    Emojis: 😊🤗🤭👍🏻🙏🏻🌹💐🏵🥀🪷
-    Content: Cultural values, historical accuracy
-    Hooks: Classic elements, familiar actors, family bonds
-    Example: "Revisit the golden age🪷🪷 of drama with veteran star [Name]😊😊"
-    BM Style: Classical BM, traditional expressions
-    
-    Key Engagement Elements:
-    Teens: Social proof, FOMO, trending elements
-    Young Adults: Binge-worthy aspects, social relevance
-    Adults: Quality markers, intelligent content
-    Mature Adults: Family value, critical acclaim
-    Senior Adults: Traditional appeal, cultural significance
+    - Slang it up in Bahasa Maleyu ONLY IF {include_slangs} is True
+    - Throw in emojis ONLY IF {include_emoji} is True
 
     Serve it up in this JSON format (numbers = push notification order):
     {{

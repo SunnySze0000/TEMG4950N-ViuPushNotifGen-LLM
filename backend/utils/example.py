@@ -11,16 +11,16 @@ examples=[  ## Neglect retrieved wiki of series
     "quote_of_cast": None,
     "interesting_fact_of_cast": None,
     "character_in_series_acted_by_cast": "Lam Dim",
-    "demographics_of_target_receiver": "20-40 years old, fan of the cast",
+    "demographics_of_target_receiver": "15-21 years old, fan of the cast",
     "base_push_example": None,
     "local_trend_in_malaysia": None,
     "include_emoji": True,
     "include_slangs": True,
     "additional_requirements": None,
     "english_title": "Caught Red-Handed! Kim Kim in a Secret Affair on Uncover My Love!", 
-    "english_body": "A shocking romance between Kim Zhong Shok and a much younger lover! 😱 Is it true love or just a scandal? Find out on Uncover My Love! 📺 Watch now and get all the juicy details! 💥 #DramaAlert #MustWatch",
+    "english_body": "A shocking romance between Kim Zhong Shok and a much younger lover! \(*o*)/ Is it true love or just a scandal? Find out on Uncover My Love! 📺 Watch now and get all the juicy details! 💥",
     "malay_title": "Tertangkap Basah! Kim Kim dalam Skandal Cinta di Uncover My Love!", 
-    "malay_body": "Percintaan mengejutkan antara Kim Zhong Shok dan kekasih yang jauh lebih muda! 😱 Cinta sejati atau skandal? Ketahui di Uncover My Love! 📺 Tonton sekarang dan dapatkan semua butiran menarik! 💥 #DramaAlert #MestiTonton"
+    "malay_body": "Percintaan mengejutkan antara Kim Zhong Shok dan kekasih yang jauh lebih muda! \(*o*)/ Cinta sejati atau skandal? Ketahui di Uncover My Love! 📺 Tonton sekarang dan dapatkan semua butiran menarik! 💥"
 },
 {
     "type_of_push_notification": "content-driven",
@@ -34,16 +34,16 @@ examples=[  ## Neglect retrieved wiki of series
     "quote_of_cast": None,
     "interesting_fact_of_cast": None,
     "character_in_series_acted_by_cast": None,
-    "demographics_of_target_receiver": "everyone",
+    "demographics_of_target_receiver": "35 to 45 years old who are fans of romance drama",
     "base_push_example": None,
     "local_trend_in_malaysia": None,
-    "include_emoji": True,
+    "include_emoji": False,
     "include_slangs": True,
     "additional_requirements": None,
     "english_title": "Seven Teens, One Twisted Love Story!", 
-    "english_body": "Heartbreak and betrayal! Roy In Shek is rejected in the face, being public shamed in front of the other six friends. 💔 Can you steal his broken heart? Watch Twisted Love on Viu now! 💫 Dive into the drama and see if love can conquer all! 🌟 #TeenDrama #LoveAndHate #CharacterName #SeriesName", 
+    "english_body": "Heartbreak and betrayal! Roy In Shek is rejected in the face, being public shamed in front of the other six friends. Can you steal his broken heart? Watch Twisted Love on Viu now! Dive into the drama and see if love can conquer all!", 
     "malay_title": "Tujuh Remaja, Satu Kisah Cinta Berliku!", 
-    "malay_body": "Kekecewaan dan pengkhianatan ketika Roy In Shek menghadapi penolakan terakhir. 💔 Bolehkah anda memenangi hati mereka? Tonton Twisted Love di Viu sekarang! 💫 Selami drama dan lihat jika cinta dapat menaklukkan segalanya! 🌟 #DramaRemaja #CintaDanBenci #CharacterName #SeriesName"
+    "malay_body": "Kekecewaan dan pengkhianatan ketika Roy In Shek menghadapi penolakan terakhir. Bolehkah anda memenangi hati mereka? Tonton Twisted Love di Viu sekarang! Selami drama dan lihat jika cinta dapat menaklukkan segalanya!"
 },
 {
     "type_of_push_notification": "cast-driven",
@@ -57,16 +57,16 @@ examples=[  ## Neglect retrieved wiki of series
     "quote_of_cast": None,
     "interesting_fact_of_cast": None,
     "character_in_series_acted_by_cast": "Reyna",
-    "demographics_of_target_receiver": "fan of Tam Qin",
+    "demographics_of_target_receiver": " 50 to 70 years old fan of Tam Qin",
     "base_push_example": None,
     "local_trend_in_malaysia": "Typhoon number 8 is announced at nine am this morning, students have one day of extra holiday",
     "include_emoji": True,
     "include_slangs": True,
     "additional_requirements": None,
     "english_title": "Confession under Typhoon 8! Tam Qin Braving the Storm for Love!", 
-    "english_body": "In the midst of a typhoon, Tam Qin as Reyna makes a tearful confession! 🌩️ Go and find Tam Qin now in Loving Storm and you may be the one to get his heart healed! 😭 Don’t miss this emotional rollercoaster and watch Loving Storm now! 🎢 #StormyLove #Emotional", 
+    "english_body": "In the midst of a typhoon, Tam Qin as Reyna makes a tearful confession! 🥀🪷 Go and find Tam Qin now in Loving Storm and you may be the one to get his heart healed! 😭 Don't miss this emotional rollercoaster and watch Loving Storm now! 🎢", 
     "malay_title": "Pengakuan Taufan! Tam Qin Menghadapi Ribut untuk Cinta!", 
-    "malay_body": "Di tengah-tengah taufan, Tam Qin sebagai Reyna membuat pengakuan yang penuh air mata! 🌩️ Ayo, cari Tam Qin sekarang di Loving Storm dan mungkin kamu yang akan menyembuhkan hatinya! 😭 Jangan lepaskan rollercoaster emosi ini! Tonton Loving Storm sekarang! 🎢 #CintaRibut #Emosi"
+    "malay_body": "Di tengah-tengah taufan, Tam Qin sebagai Reyna membuat pengakuan yang penuh air mata! 🥀🪷 Ayo, cari Tam Qin sekarang di Loving Storm dan mungkin kamu yang akan menyembuhkan hatinya! 😭 Jangan lepaskan rollercoaster emosi ini! Tonton Loving Storm sekarang! 🎢"
 },
 # {
 #     "type_of_push_notification": "cast-driven",

@@ -27,7 +27,13 @@ HARD_CODED_GENERAL_TREND = {
 }
 
 HARD_CODED_REFRESH_TREND = {
-   "1": {"classification_type": "Star", "trend_title": "16yo Msian Actress Qistina Raisah Buys Her First Car With Money She Earned Herself"}, "2": {"classification_type": "General", "trend_title": "Disneys Moana 2 celebrates Pan Polynesian culture with fresh  storytelling and Grammy-winning music by Barlow and Bear"}, "3": {"classification_type": "General", "trend_title": "Wednesday TV: Lindsay Lohans Xmas Rom-Com"}, "4": {"classification_type": "General", "trend_title": "Squid Game Season 2 Is A Deeper, More Advanced Story Says Creator Hwang  Dong-hyuk"}, "5": {"classification_type": "Series", "trend_title": "Lovely Runner, a time-travel drama"}, "6": {"classification_type": "Star and Series", "trend_title": "Byeon Woo Seok and Kim Hye Yoon's romantic chemistry in Lovely Runner"}, "7": {"classification_type": "Series", "trend_title": "The fantasy romance of Lovely Runner"}
+   "1": {"classification_type": "Star", "trend_title": "16yo Msian Actress Qistina Raisah Buys Her First Car With Money She Earned Herself"}, 
+   "2": {"classification_type": "General", "trend_title": "Disneys Moana 2 celebrates Pan Polynesian culture with fresh  storytelling and Grammy-winning music by Barlow and Bear"}, 
+   "3": {"classification_type": "General", "trend_title": "Wednesday TV: Lindsay Lohans Xmas Rom-Com"}, 
+   "4": {"classification_type": "General", "trend_title": "Squid Game Season 2 Is A Deeper, More Advanced Story Says Creator Hwang  Dong-hyuk"}, 
+   "5": {"classification_type": "Series", "trend_title": "Lovely Runner, a time-travel drama"}, 
+   "6": {"classification_type": "Star and Series", "trend_title": "Byeon Woo Seok and Kim Hye Yoon's romantic chemistry in Lovely Runner"}, 
+   "7": {"classification_type": "Series", "trend_title": "The fantasy romance of Lovely Runner"}
 }
 
 HARD_CODED_GEN= {

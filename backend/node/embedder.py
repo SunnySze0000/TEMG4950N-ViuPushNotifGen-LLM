@@ -8,7 +8,7 @@ client = Pinecone(api_key=os.getenv('PINECONE_API_KEY'))
 
 def embedding(splits, series):
     
-    index_name = ''.join(char for char in series.lower() if char.isalpha() or char == '-')
+    index_name = ''.join(char for char in series.lower() if char.isalpha() or char == '-')[:45]
     print(index_name)
     existing_indexes = [index_info["name"] for index_info in client.list_indexes()]
 
