@@ -7,7 +7,7 @@ const Header = ({ activeButton, handleButtonClick }) => {
 
   useEffect(() => {
     // Set active button based on the current path
-    if (location.pathname === '/test') {
+    if (location.pathname === '/generation_history') {
       handleButtonClick('history');
     } else {
       handleButtonClick('generator');
@@ -36,7 +36,7 @@ const Header = ({ activeButton, handleButtonClick }) => {
           className={`text-pink-500 py-2 px-4 font-bold ${activeButton === 'history' ? 'border-b-4 border-pink-500' : ''}`}
           onClick={() => {
             handleButtonClick('history');
-            navigate('/test'); // Navigate to the test page
+            navigate('/generation_history'); // Navigate to the test page
           }}
         >
           Generation History

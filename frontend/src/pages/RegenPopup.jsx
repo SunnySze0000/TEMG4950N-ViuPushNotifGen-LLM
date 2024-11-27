@@ -23,7 +23,7 @@ const RegenPopup = ({ isOpen, onClose, push }) => {
         const data = await response.json();
         console.log(data);
         return data
-      };
+    };
     
     const handleRegenPush = async () => {
         let inputData;
@@ -37,53 +37,88 @@ const RegenPopup = ({ isOpen, onClose, push }) => {
                 addRequirements: additionalRequirements,
             };
         }
-        
+    
         console.log("Sending request data:", inputData);
-        
+    
         setLoading(true);
-        
+    
         try {
             const data = await regenPush(inputData);
             setMessage(JSON.stringify(data, null, 2));
-            
+    
             // Initialize arrays to hold the titles and bodies
             const newEnglishTitles = [];
             const newEnglishBodies = [];
             const newMalayTitles = [];
             const newMalayBodies = [];
-            
+    
+            // Initialize an array to hold new entries
+            const newGenHistoryEntries = [];
+
+            // Get current date and time
+            const now = new Date();
+            const formattedDate = now.toLocaleString(); 
+
             // Iterate over the keys in the response
             for (const key in data) {
-              if (data[key].english) {
-                newEnglishTitles.push(data[key].english.title);
-                newEnglishBodies.push(data[key].english.body);
-              }
-              if (data[key].malay) {
-                newMalayTitles.push(data[key].malay.title);
-                newMalayBodies.push(data[key].malay.body);
-              }
-
+                if (data[key].english) {
+                    newEnglishTitles.push(data[key].english.title);
+                    newEnglishBodies.push(data[key].english.body);
+    
+                    // Push entries directly to newGenHistoryEntries
+                    newGenHistoryEntries.push({
+                        english: {
+                            title: data[key].english.title,
+                            body: data[key].english.body,
+                        },
+                        malay: data[key].malay ? {
+                            title: data[key].malay.title,
+                            body: data[key].malay.body,
+                        } : null,
+                    });
+                }
+                if (data[key].malay) {
+                    newMalayTitles.push(data[key].malay.title);
+                    newMalayBodies.push(data[key].malay.body);
+                }
+            }
+    
             // Update SettingsContext with new values
-            setSettings((prevSettings) => ({
-                ...prevSettings,
-                englishTitles: newEnglishTitles,
-                englishBodies: newEnglishBodies,
-                malayTitles: newMalayTitles,
-                malayBodies: newMalayBodies,
-            }));
-
-            onClose();
-            
-            navigate('/generation', {
-              state: {
-                englishTitles: settings.englishTitles,
-                englishBodies: settings.englishBodies,
-                malayTitles: settings.malayTitles,
-                malayBodies: settings.malayBodies,
-              },
+            setSettings((prevSettings) => {
+                const updatedGenHistory = [...prevSettings.genHistory];
+    
+                // Add a new entry with heading and new entries
+                updatedGenHistory.push({
+                    heading: `Regeneration - ${formattedDate}`,
+                });
+    
+                // Add the generated entries directly to the updatedGenHistory
+                newGenHistoryEntries.forEach(entry => {
+                    updatedGenHistory.push(entry);
+                });
+    
+                return {
+                    ...prevSettings,
+                    englishTitles: newEnglishTitles,
+                    englishBodies: newEnglishBodies,
+                    malayTitles: newMalayTitles,
+                    malayBodies: newMalayBodies,
+                    genHistory: updatedGenHistory,
+                };
             });
-        
-        }} catch (error) {
+    
+            onClose();
+    
+            navigate('/generation', {
+                state: {
+                    englishTitles: newEnglishTitles, // Use updated titles
+                    englishBodies: newEnglishBodies, // Use updated bodies
+                    malayTitles: newMalayTitles,
+                    malayBodies: newMalayBodies,
+                },
+            });
+    
+        } catch (error) {
             console.error("Error generating push:", error);
             setMessage("An error occurred while generating the push.");
         } finally {
@@ -94,7 +129,7 @@ const RegenPopup = ({ isOpen, onClose, push }) => {
     if (!isOpen) return null;
 
     return (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
             <div className="bg-white p-6 rounded-lg shadow-md max-w-2xl w-full">
                 <h2 className="text-xl font-bold mb-4">Regenerate Push</h2>
                 <textarea

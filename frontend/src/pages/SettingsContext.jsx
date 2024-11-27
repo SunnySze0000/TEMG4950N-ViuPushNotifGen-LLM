@@ -18,6 +18,7 @@ export const SettingsProvider = ({ children }) => {
     malayBodies: [],   // Add malayBodies to settings
     titles: [],        // Add titles to settings
     bodies: [],        // Add bodies to settings
+    genHistory: []
   });
 
   return (

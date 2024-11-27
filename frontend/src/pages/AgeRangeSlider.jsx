@@ -15,8 +15,11 @@ const AgeRangeSlider = ({ setAge }) => {
 
     const handleSliderChange = (value) => {
         setAgeRange(value);
-        setAge(value); // Set age as an array in parent component
-        setSettings({ ...settings, ageRange: value }); // Update context with new age range
+        setAge(value); // Set age as an array in the parent component
+        setSettings(prevSettings => ({
+            ...prevSettings,
+            age: value // Update context with new age range
+        })); 
     };
 
     return (

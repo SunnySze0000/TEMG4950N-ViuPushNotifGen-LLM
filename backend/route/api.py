@@ -13,7 +13,13 @@ maxGenTime= 150
 maxReGenTime=30
 maxTrendTime=30
 
-HARD_CODED_TREND = {}
+HARD_CODED_GENERAL_TREND ={
+   {"1": {"classification_type": "General", "trend_title": "16yo Msian Actress Qistina Raisah Buys Her First Car With Money She Earned Herself"}, "2": {"classification_type": "General", "trend_title": "Disneys Moana 2 celebrates Pan Polynesian culture with fresh  storytelling and Grammy-winning music by Barlow and Bear"}, "3": {"classification_type": "Series", "trend_title": "Everything you need to know about Sporting CP | Feature | News"}, "4": {"classification_type": "General", "trend_title": "Wednesday TV: Lindsay Lohans Xmas Rom-Com"}, "5": {"classification_type": "General", "trend_title": "Squid Game Season 2 Trailer: Lee Jung-Jae Commands Attention In The Korean  Thriller"}, "6": {"classification_type": "General", "trend_title": "Morgan Freeman, 87, Makes Rare Appearance While Out in Los Angeles"}, "7": {"classification_type": "General", "trend_title": "Thanksgiving Should Be in October"}, "8": {"classification_type": "General", "trend_title": "The inaccessibility of Ticketmaster: The Oasis reunion and dynamic pricing"}, "9": {"classification_type": "General", "trend_title": "Barbra Banda wins BBC Womens Footballer of the Year award"}, "10": {"classification_type": "Series", "trend_title": "Doom at Your Service"}}
+}
+
+HARD_CODED_REFRESH_TREND = {
+   {"1": {"classification_type": "Star", "trend_title": "16yo Msian Actress Qistina Raisah Buys Her First Car With Money She Earned Herself"}, "2": {"classification_type": "General", "trend_title": "Disneys Moana 2 celebrates Pan Polynesian culture with fresh  storytelling and Grammy-winning music by Barlow and Bear"}, "3": {"classification_type": "General", "trend_title": "Wednesday TV: Lindsay Lohans Xmas Rom-Com"}, "4": {"classification_type": "General", "trend_title": "Squid Game Season 2 Is A Deeper, More Advanced Story Says Creator Hwang  Dong-hyuk"}, "5": {"classification_type": "Series", "trend_title": "Lovely Runner, a time-travel drama"}, "6": {"classification_type": "Star and Series", "trend_title": "Byeon Woo Seok and Kim Hye Yoon's romantic chemistry in Lovely Runner"}, "7": {"classification_type": "Series", "trend_title": "The fantasy romance of Lovely Runner"}}
+}
 
 HARD_CODED_GEN= {
    "1": {"english": {"title": "KIM Ha Neul's Shocking Scandal! 🚨", "body": "WOW! Detective Kim Tae-Heon is on the case! Can he clear KIM Ha Neul's name in Nothing Uncovered? Watch now on Viu! 📺 #KIMHaNeul #NothingUncovered"}, 
@@ -65,7 +71,7 @@ async def get_trend() -> Dict[int, TrendResponse]:
       elapsed_time = time.time() - start_time
       print(e)
       await delay(max(maxTrendTime-elapsed_time,0))  # Delay before showing hardcoded results
-      return HARD_CODED_TREND
+      return HARD_CODED_GENERAL_TREND
 
 @api_router.post("/refreshTrends")
 async def post_trend(request: TrendRequest) -> Dict[int, TrendResponse]:
@@ -79,7 +85,7 @@ async def post_trend(request: TrendRequest) -> Dict[int, TrendResponse]:
       elapsed_time = time.time() - start_time
       print(e)
       await delay(max(maxTrendTime-elapsed_time,0))  # Delay before showing hardcoded results
-      return HARD_CODED_TREND
+      return HARD_CODED_REFRESH_TREND
 
 @api_router.post("/genPush")
 async def post_gen_push(input_data: PushRequest) -> Dict[int, PushResponse]:
