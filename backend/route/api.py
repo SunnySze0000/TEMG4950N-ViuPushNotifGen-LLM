@@ -18,8 +18,7 @@ HARD_CODED_GENERAL_TREND ={
 }
 
 HARD_CODED_REFRESH_TREND = {
-   "1": {"classification_type": "Star", "trend_title": "16yo Msian Actress Qistina Raisah Buys Her First Car With Money She Earned Herself"}, "2": {"classification_type": "General", "trend_title": "Disneys Moana 2 celebrates Pan Polynesian culture with fresh  storytelling and Grammy-winning music by Barlow and Bear"}, "3": {"classification_type": "General", "trend_title": "Wednesday TV: Lindsay Lohans Xmas Rom-Com"}, "4": {"classification_type": "General", "trend_title": "Squid Game Season 2 Is A Deeper, More Advanced Story Says Creator Hwang  Dong-hyuk"}, "5": {"classification_type": "Series", "trend_title": "Lovely Runner, a time-travel drama"}, "6": {"classification_type": "Star and Series", "trend_title": "Byeon Woo Seok and Kim Hye Yoon's romantic chemistry in Lovely Runner"}, "7": {"classification_type": "Series", "trend_title": "The fantasy romance of Lovely Runner"}
-}
+   "1": {"classification_type": "Star", "trend_title": "16yo Msian Actress Qistina Raisah Buys Her First Car With Money She Earned Herself"}, "2": {"classification_type": "General", "trend_title": "Disneys Moana 2 celebrates Pan Polynesian culture with fresh  storytelling and Grammy-winning music by Barlow and Bear"}, "3": {"classification_type": "General", "trend_title": "Wednesday TV: Lindsay Lohans Xmas Rom-Com"}, "4": {"classification_type": "General", "trend_title": "Squid Game Season 2 Is A Deeper, More Advanced Story Says Creator Hwang  Dong-hyuk"}, "5": {"classification_type": "Series", "trend_title": "Lovely Runner, a time-travel drama"}, "6": {"classification_type": "Star and Series", "trend_title": "Byeon Woo Seok and Kim Hye Yoon's romantic chemistry in Lovely Runner"}, "7": {"classification_type": "Star and Series", "trend_title": "Byeon Woo-seok’s ‘Sudden Shower’ earns him a historic win at the 2024 MAMA Awards"}
 
 HARD_CODED_GEN= {
    "1": {"english": {"title": "KIM Ha Neul's Shocking Scandal! 🚨", "body": "WOW! Detective Kim Tae-Heon is on the case! Can he clear KIM Ha Neul's name in Nothing Uncovered? Watch now on Viu! 📺 #KIMHaNeul #NothingUncovered"}, 
@@ -170,7 +169,10 @@ async def post_regen_push(inputData: PushRegenerateRequest) -> Dict[int, PushRes
       elapsed_time = time.time() - start_time
       print(e)
       await delay(max(maxReGenTime-elapsed_time,0))  # Delay before showing hardcoded results
-      return HARD_CODED_REGEN
+      if inputData.basePush is None:
+         return HARD_CODED_REGEN
+      else:
+         return HARD_CODED_REFINE
    
 # @api_router.get("/savedPush")
 # async def get_saved_push() -> List[Dict[str, str]]:

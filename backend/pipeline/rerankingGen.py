@@ -3,7 +3,7 @@ from dotenv import load_dotenv
 load_dotenv(override=True)
 
 from src import data
-from node import loader, splitter, embedder, retriever, slanger, json_parser
+from node import loader, splitter, embedder, retriever, slanger, json_parser, age_personalizer
 from langchain_core.output_parsers import StrOutputParser
 from langchain_together import ChatTogether
 from utils import prompts, questions
@@ -20,8 +20,10 @@ def generating(input_var):
     print(push)
     push = json_parser.extract_json_from_string(push)
     
-    #print('Before Slanging: ')
-    #print(push)
+    push = age_personalizer.ageRephrase(push, backendState['demographics_of_target_receiver'])
+    print('After Age Personalization: ')
+    print(push)
+    push = json_parser.extract_json_from_string(push)
 
     print('After Slanging: ')
     if input_var.get('include_slangs', False):

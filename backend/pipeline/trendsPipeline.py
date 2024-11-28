@@ -32,11 +32,20 @@ def refreshTrends(cast_name, series_name):
     titles = getGoogleTrend.get_trending_titles()
 
     print('---------Get Source 1----------')
-    source1 = filtering(classifier.classifying_test(trend_title, cast_name, series_name))
+    if trend_title != []:
+        source1 = filtering(classifier.classifying_test(trend_title, cast_name, series_name))
+    else:
+        source1 = {}
     print('---------Get Source 2----------')
-    source2 = filtering(classifier.classifying_test(titles, cast_name, series_name))
+    if titles != []:
+        source2 = filtering(classifier.classifying_test(titles, cast_name, series_name))
+    else:
+        source2 = {}
     print('---------Get Source 3----------')
-    source3 = filtering(classifier.classifying_test(snippets, cast_name, series_name))
+    if snippets != []:
+        source3 = filtering(classifier.classifying_test(snippets, cast_name, series_name))
+    else:
+        source3 = {}
 
     combined_results = concatenate_classifications(source1, source2, source3)
 
@@ -88,11 +97,20 @@ def getTrends(cast_name = "", series_name = ""):
     titles = getGoogleTrend.get_trending_titles()
 
     print('---------Get Source 1----------')
-    source1 = filtering(classifier.classifying_test(trend_title, cast_name, series_name))
+    if trend_title != []:
+        source1 = filtering(classifier.classifying_test(trend_title, cast_name, series_name))
+    else:
+        source1 = {}
     print('---------Get Source 2----------')
-    source2 = filtering(classifier.classifying_test(titles, cast_name, series_name))
+    if titles != []:
+        source2 = filtering(classifier.classifying_test(titles, cast_name, series_name))
+    else:
+        source2 = {}
     print('---------Get Source 3----------')
-    source3 = filtering(classifier.classifying_test(snippets, cast_name, series_name))
+    if snippets != []:
+        source3 = filtering(classifier.classifying_test(snippets, cast_name, series_name))
+    else:
+        source3 = {}
 
     combined_results = concatenate_classifications(source1, source2, source3)
 
