@@ -4,7 +4,7 @@ import { SettingsContext } from './SettingsContext';
 // hi
 const AgeRangeSlider = ({ setAge }) => {
     const { settings, setSettings } = useContext(SettingsContext);
-    const [ageRange, setAgeRange] = useState([18, 65]); // Initialize with default values
+    const [ageRange, setAgeRange] = useState(settings.age); // Initialize with default values
 
     // Effect to sync with context settings on mount
     useEffect(() => {
