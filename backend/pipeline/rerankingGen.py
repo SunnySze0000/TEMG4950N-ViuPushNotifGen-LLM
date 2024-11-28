@@ -12,8 +12,7 @@ from pipeline import rerankingRAG
 import pprint
 
 def generating(input_var):
-    #llm = ChatTogether(model="meta-llama/Llama-3-70b-chat-hf", temperature=backendState['creativity'])
-    llm = ChatTogether(model="meta-llama/Llama-3-70b-chat-hf", temperature=0.8)
+    llm = ChatTogether(model="meta-llama/Llama-3-70b-chat-hf", temperature=backendState['creativity'])
 
     chain = prompts.final_prompt | llm | StrOutputParser()
     push = chain.invoke(input_var)

@@ -9,9 +9,9 @@ import asyncio
 # import csv
 # from node import save
 
-maxGenTime= 150
-maxReGenTime=30
-maxTrendTime=30
+maxGenTime= 120
+maxReGenTime= 30
+maxTrendTime= 30
 
 HARD_CODED_GENERAL_TREND = {
    "1": {"classification_type": "General", "trend_title": "16yo Msian Actress Qistina Raisah Buys Her First Car With Money She Earned Herself"}, 
