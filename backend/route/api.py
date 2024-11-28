@@ -13,28 +13,12 @@ maxGenTime= 120
 maxReGenTime= 30
 maxTrendTime= 30
 
-HARD_CODED_GENERAL_TREND = {
-   "1": {"classification_type": "General", "trend_title": "16yo Msian Actress Qistina Raisah Buys Her First Car With Money She Earned Herself"}, 
-   "2": {"classification_type": "General", "trend_title": "Disneys Moana 2 celebrates Pan Polynesian culture with fresh  storytelling and Grammy-winning music by Barlow and Bear"}, 
-   "3": {"classification_type": "Series", "trend_title": "Everything you need to know about Sporting CP | Feature | News"}, 
-   "4": {"classification_type": "General", "trend_title": "Wednesday TV: Lindsay Lohans Xmas Rom-Com"}, 
-   "5": {"classification_type": "General", "trend_title": "Squid Game Season 2 Trailer: Lee Jung-Jae Commands Attention In The Korean  Thriller"}, 
-   "6": {"classification_type": "General", "trend_title": "Morgan Freeman, 87, Makes Rare Appearance While Out in Los Angeles"}, 
-   "7": {"classification_type": "General", "trend_title": "Thanksgiving Should Be in October"}, 
-   "8": {"classification_type": "General", "trend_title": "The inaccessibility of Ticketmaster: The Oasis reunion and dynamic pricing"}, 
-   "9": {"classification_type": "General", "trend_title": "Barbra Banda wins BBC Womens Footballer of the Year award"}, 
-   "10": {"classification_type": "Series", "trend_title": "Doom at Your Service"}
+HARD_CODED_GENERAL_TREND ={
+   "1": {"classification_type": "General", "trend_title": "16yo Msian Actress Qistina Raisah Buys Her First Car With Money She Earned Herself"}, "2": {"classification_type": "General", "trend_title": "Disneys Moana 2 celebrates Pan Polynesian culture with fresh  storytelling and Grammy-winning music by Barlow and Bear"}, "3": {"classification_type": "Series", "trend_title": "Everything you need to know about Sporting CP | Feature | News"}, "4": {"classification_type": "General", "trend_title": "Wednesday TV: Lindsay Lohans Xmas Rom-Com"}, "5": {"classification_type": "General", "trend_title": "Squid Game Season 2 Trailer: Lee Jung-Jae Commands Attention In The Korean  Thriller"}, "6": {"classification_type": "General", "trend_title": "Morgan Freeman, 87, Makes Rare Appearance While Out in Los Angeles"}, "7": {"classification_type": "General", "trend_title": "Thanksgiving Should Be in October"}, "8": {"classification_type": "General", "trend_title": "The inaccessibility of Ticketmaster: The Oasis reunion and dynamic pricing"}, "9": {"classification_type": "General", "trend_title": "Barbra Banda wins BBC Womens Footballer of the Year award"}, "10": {"classification_type": "Series", "trend_title": "Doom at Your Service"}
 }
 
 HARD_CODED_REFRESH_TREND = {
-   "1": {"classification_type": "Star", "trend_title": "16yo Msian Actress Qistina Raisah Buys Her First Car With Money She Earned Herself"}, 
-   "2": {"classification_type": "General", "trend_title": "Disneys Moana 2 celebrates Pan Polynesian culture with fresh  storytelling and Grammy-winning music by Barlow and Bear"}, 
-   "3": {"classification_type": "General", "trend_title": "Wednesday TV: Lindsay Lohans Xmas Rom-Com"}, 
-   "4": {"classification_type": "General", "trend_title": "Squid Game Season 2 Is A Deeper, More Advanced Story Says Creator Hwang  Dong-hyuk"}, 
-   "5": {"classification_type": "Series", "trend_title": "Lovely Runner, a time-travel drama"}, 
-   "6": {"classification_type": "Star and Series", "trend_title": "Byeon Woo Seok and Kim Hye Yoon's romantic chemistry in Lovely Runner"}, 
-   "7": {"classification_type": "Series", "trend_title": "The fantasy romance of Lovely Runner"}
-}
+   "1": {"classification_type": "Star", "trend_title": "16yo Msian Actress Qistina Raisah Buys Her First Car With Money She Earned Herself"}, "2": {"classification_type": "General", "trend_title": "Disneys Moana 2 celebrates Pan Polynesian culture with fresh  storytelling and Grammy-winning music by Barlow and Bear"}, "3": {"classification_type": "General", "trend_title": "Wednesday TV: Lindsay Lohans Xmas Rom-Com"}, "4": {"classification_type": "General", "trend_title": "Squid Game Season 2 Is A Deeper, More Advanced Story Says Creator Hwang  Dong-hyuk"}, "5": {"classification_type": "Series", "trend_title": "Lovely Runner, a time-travel drama"}, "6": {"classification_type": "Star and Series", "trend_title": "Byeon Woo Seok and Kim Hye Yoon's romantic chemistry in Lovely Runner"}, "7": {"classification_type": "Star and Series", "trend_title": "Byeon Woo-seok’s ‘Sudden Shower’ earns him a historic win at the 2024 MAMA Awards"}
 
 HARD_CODED_GEN= {
    "1": {"english": {"title": "KIM Ha Neul's Shocking Scandal! 🚨", "body": "WOW! Detective Kim Tae-Heon is on the case! Can he clear KIM Ha Neul's name in Nothing Uncovered? Watch now on Viu! 📺 #KIMHaNeul #NothingUncovered"}, 
@@ -68,6 +52,14 @@ HARD_CODED_REGEN= {
 
    "5": {"english": {"title": "Get Ready for KIM Ha Neul's Most Thrilling Role!", "body": "KIM Ha Neul stars as Seo Jung-Won in Nothing Uncovered. Don't miss out on the suspense! Watch now on Viu! 📺 #KIMHaNeul #Thriller"}, 
    "malay": {"title": "Sedia untuk Peranan Paling Menegangkan KIM Ha Neul!", "body": "KIM Ha Neul membintangi sebagai Seo Jung-Won dalam Nothing Uncovered. Jangan lepaskan suspens! Tonton sekarang di Viu! 📺 #KIMHaNeul #Thriller"}}
+}
+
+HARD_CODED_REFINE = {
+   "1": {"english": {"title": "Wooseok's Time-Warping Romance! ⏰", "body": "Get ready to fall in love with Byeon Woo-seok's charming performance in Lovely Runner! 💕 Will he change his fate through time travel? Find out now! #LovelyRunner #ByeonWooSeok #KdramaAddict"}, "malay": {"title": 'Romansa Wooseok Melalui Masa! ⏰', "body": 'Siap-siap jatuh cinta dengan persembahan Byeon Woo-seok yang memikat di Lovely Runner! 💕 Nak tahu adakah dia akan mengubah takdirnya melalui perjalanan masa? Cari tahu sekarang lah! #LovelyRunner #ByeonWooSeok #KDramaAddict'}},
+   "2": {"english": {"title": "Byeon Woo-seok's Time-Traveling Secrets! 🕰️", "body": "Uncover the mysteries of Lovely Runner with Byeon Woo-seok's character, Ryu Sun-jae! 🔍 Will he uncover the truth about his past? Watch now! #LovelyRunner #ByeonWooSeok #KdramaMystery"}, "malay": {"title": 'Rahsia Perjalanan Masa Byeon Woo-seok! 🕰️', "body": 'Bongkarlah misteri Lovely Runner bersama watak Byeon Woo-seok, Ryu Sun-jae! 🔍 Nak tahu adakah dia akan mengungkapkan kebenaran tentang masa lalunya? Tonton sekarang lah! #LovelyRunner #ByeonWooSeok #KDramaMystery'}},
+   "3": {"english": {"title": "Wooseok's Leap Through Time! ⏱️", "body": 'Join Byeon Woo-seok on a thrilling adventure through time in Lovely Runner! 🕰️ Will he be able to change his fate? Find out now! #LovelyRunner #ByeonWooSeok #KdramaAddict'}, "malay": {"title": 'Lompatan Wooseok Melalui Masa! ⏱️', "body": 'Jom bergabung dengan Byeon Woo-seok dalam pengembaraan yang menegangkan melalui masa di Lovely Runner! 🕰️ Nak tahu adakah dia akan mengubah takdirnya? Cari tahu sekarang lah! #LovelyRunner #ByeonWooSeok #KDramaAddict'}},
+   "4": {"english": {"title": "Time-Traveling Love: Wooseok's Story! ❤️", "body": "Get ready to swoon over Byeon Woo-seok's romantic performance in Lovely Runner! 💘 Will he find love through time travel? Watch now! #LovelyRunner #ByeonWooSeok #KdramaRomance"}, "malay": {"title": 'Cinta Melalui Masa: Kisah Wooseok! ❤️', "body": 'Siap-siap jatuh cinta dengan persembahan romantis Byeon Woo-seok di Lovely Runner! 💘 Nak tahu adakah dia akan mencari cinta melalui perjalanan masa? Tonton sekarang lah! #LovelyRunner #ByeonWooSeok #KDramaRomance'}},
+   "5": {"english": {"title": "Byeon Woo-seok's Timeless Performance! 🕰️", "body": "Experience the magic of Lovely Runner with Byeon Woo-seok's outstanding performance! 🌟 Will he change the course of his life through time travel? Find out now! #LovelyRunner #ByeonWooSeok #KdramaMasterpiece"}, "malay": {"title": 'Persembahan Abadi Byeon Woo-seok! 🕰️', "body": 'Alami keajaiban Lovely Runner dengan persembahan luar biasa Byeon Woo-seok! 🌟 Nak tahu adakah dia akan mengubah hala tuju hidupnya melalui perjalanan masa? Cari tahu sekarang lah! #LovelyRunner #ByeonWooSeok #KDramaMasterpiece'}}
 }
 
 async def delay(seconds: int):
@@ -177,7 +169,10 @@ async def post_regen_push(inputData: PushRegenerateRequest) -> Dict[int, PushRes
       elapsed_time = time.time() - start_time
       print(e)
       await delay(max(maxReGenTime-elapsed_time,0))  # Delay before showing hardcoded results
-      return HARD_CODED_REGEN
+      if inputData.basePush is None:
+         return HARD_CODED_REGEN
+      else:
+         return HARD_CODED_REFINE
    
 # @api_router.get("/savedPush")
 # async def get_saved_push() -> List[Dict[str, str]]:

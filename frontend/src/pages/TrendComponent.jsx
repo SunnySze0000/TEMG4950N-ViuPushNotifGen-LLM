@@ -1,12 +1,22 @@
-import React, { useState } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
+import { SettingsContext } from './SettingsContext';
 
-const TrendComponent = ({ title, trendClass, onTrendSelect }) => {
+const TrendComponent = ({ title, trendClass }) => {
+    const { settings, setSettings } = useContext(SettingsContext);
     const [checked, setChecked] = useState(false);
 
+    // Initialize the checked state based on the selectedTrend value in settings
+    useEffect(() => {
+        setChecked(settings.selectedTrend === title);
+    }, [settings.selectedTrend, title]);
+
     const handleCheckboxChange = () => {
-        const newChecked = !checked
+        const newChecked = !checked;
         setChecked(newChecked);
-        onTrendSelect(newChecked ? title : '');
+        setSettings(prevState => ({
+            ...prevState,
+            selectedTrend: newChecked ? title : ''
+        }));
     };
 
     console.log('TrendComponent:', { title, trendClass });
@@ -18,7 +28,7 @@ const TrendComponent = ({ title, trendClass, onTrendSelect }) => {
                     className={`w-4 h-4 border-2 rounded-lg flex items-center justify-center mr-4 cursor-pointer ${checked ? 'bg-gray-800' : 'bg-white'}`} 
                     onClick={handleCheckboxChange}
                 >
-                    {checked && <div className="w-2 h-2 bg-white rounded-full" />} {/* Show a small dot when checked */}
+                    {checked && <div className="w-2 h-2 bg-white rounded-full" />}
                 </div>
                 <div className='flex-1'>
                     <p className="font-bold text-md">{trendClass}</p>

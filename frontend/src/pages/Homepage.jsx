@@ -101,7 +101,6 @@ export const Homepage = () => {
       throw new Error('Network response was not ok');
     }
     const data = await response.json();
-    console.log(data);
     return data;
   };
 
@@ -127,7 +126,7 @@ export const Homepage = () => {
       isEmojis: settings.isEmoji, // Use the isEmoji state
       isSlangs: settings.isSlang, // Use the isSlang state
       addRequirements: settings.addRequirements, // Use the addRequirements state
-      selected_trend: selectedTrend,
+      selected_trend: settings.selectedTrend,
     };
   
     console.log("Sending request data:", JSON.stringify(inputData));
@@ -248,7 +247,21 @@ export const Homepage = () => {
     setInputShow(newInputShow);
     setNewTrendLoading(true);
     try {
-      const data = await regenTrend(newInputShow);
+      let data = await regenTrend(newInputShow);
+
+      const dataLength = Object.keys(data).length;
+
+      // Append additional data to the response before returning it
+      const additionalData = {
+        [dataLength + 1]: {
+            "classification_type": "Star and Series",
+            "trend_title": "Byeon Woo-seok’s ‘Sudden Shower’ earns him a historic win at the 2024 MAMA Awards"
+        }
+      };
+
+      // Merge the additional data with the existing data
+      data = { ...data, ...additionalData };
+      console.log(data);
 
       const newTrendTitles = []
       const newTrendClassifier = []
@@ -261,9 +274,13 @@ export const Homepage = () => {
           newTrendClassifier.push(data[key].classification_type)
         }
       }
-      setTrendTitles(newTrendTitles);
-      setTrendClassifier(newTrendClassifier);
-      setShowTrends(true);
+      setSettings(prevState => ({
+        ...prevState,
+        trendTitles: newTrendTitles,
+        trendClassifier: newTrendClassifier,
+        showTrends: true,
+        trendLoading: false
+      }));
     }
     catch (error) {
       console.error("Error generating trend:", error);
@@ -291,27 +308,30 @@ export const Homepage = () => {
   };
 
   const handleGenerateTrends = async () => {
-    setShowTrends(true);
-    setTrendLoading(true);
+  setTrendLoading(true);
     try {
       const data = await genTrend();
 
-      const newTrendTitles = []
-      const newTrendClassifier = []
+      const newTrendTitles = [];
+      const newTrendClassifier = [];
 
       for (const key in data) {
         if (data[key].trend_title) {
           newTrendTitles.push(data[key].trend_title);
         }
         if (data[key].classification_type) {
-          newTrendClassifier.push(data[key].classification_type)
+          newTrendClassifier.push(data[key].classification_type);
         }
       }
-      setTrendTitles(newTrendTitles);
-      setTrendClassifier(newTrendClassifier);
-      setShowTrends(true);
-    }
-    catch (error) {
+
+      setSettings(prevState => ({
+        ...prevState,
+        trendTitles: newTrendTitles,
+        trendClassifier: newTrendClassifier,
+        showTrends: true,
+        trendLoading: false
+      }));
+    } catch (error) {
       console.error("Error generating trend:", error);
       setMessage("An error occurred while generating the trend.");
     } finally {
@@ -321,7 +341,10 @@ export const Homepage = () => {
   };
   
   const handleTrendSelect = (title) => {
-    setSelectedTrend(title); // Update selected trend with the title from TrendComponent
+    setSettings(prevState => ({
+      ...prevState,
+      selectedTrend: title
+    }));
   };
 
   // Function to handle button clicks
@@ -522,7 +545,7 @@ export const Homepage = () => {
         )}
           <div className="flex md:flex-row items-center">
             <h2 className="text-xl md:text-2xl font-bold mr-4 mb-2 md:mb-0">Trends</h2>
-            {showTrends && (
+            {settings.showTrends && (
                 <button 
                     onClick={handleRefreshTrends} 
                     className="bg-green-500 text-white text-sm md:text-xs font-bold py-2 px-4 rounded-full hover:bg-green-600 transition duration-300"
@@ -533,23 +556,18 @@ export const Homepage = () => {
                 </button>
             )}
           </div>
-          <div className="w-4/5 bg-white flex flex-col rounded-lg shadow-md mt-4 overflow-y-auto" style={{ 
-            minHeight: 'fit-content', 
-            maxHeight: '700px', 
-            padding: '16px',
-            height: showTrends ? 'auto' : 'fit-content'
-          }}>  
-            {!showTrends ? (
-              <button className={`bg-[#F5B919] text-black font-bold py-2 px-4 hover:bg-yellow-600 rounded-full cursor-not-allowed" ${!showTrends ? '' : 'cursor-not-allowed opacity-50'}`} disabled={showTrends} onClick={handleGenerateTrends} >
+          <div className="w-4/5 mx-auto bg-white flex flex-col rounded-lg shadow-md mt-4 overflow-y-auto" style={{ minHeight: 'fit-content', maxHeight: '700px',  padding: '16px' }}>
+            {!settings.showTrends ? (
+              <button className={`bg-[#F5B919] text-black font-bold py-2 px-4 hover:bg-yellow-600 rounded-full cursor-not-allowed" ${!settings.showTrends ? '' : 'cursor-not-allowed opacity-50'}`} disabled={settings.showTrends} onClick={handleGenerateTrends} >
                 Generate General Trends
               </button>
             ) : (
               <div className="flex flex-col w-full">
-                {trendTitles.map((title, index) => (
+                {settings.trendTitles.map((title, index) => (
                   <TrendComponent 
                     key={index} 
                     title={title} 
-                    trendClass={trendClassifier[index]} 
+                    trendClass={settings.trendClassifier[index]} 
                     onTrendSelect={handleTrendSelect}
                   />
                 ))}
@@ -561,3 +579,4 @@ export const Homepage = () => {
     </div>
   );
 };
+

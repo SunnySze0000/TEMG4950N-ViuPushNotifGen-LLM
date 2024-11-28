@@ -18,7 +18,11 @@ export const SettingsProvider = ({ children }) => {
     malayBodies: [],   // Add malayBodies to settings
     titles: [],        // Add titles to settings
     bodies: [],        // Add bodies to settings
-    genHistory: []
+    genHistory: [],
+    trendTitles: [],       // Add trendTitles to settings
+    trendClassifier: [],   // Add trendClassifier to settings
+    showTrends: false,
+    selectedTrend: ''
   });
 
   return (
