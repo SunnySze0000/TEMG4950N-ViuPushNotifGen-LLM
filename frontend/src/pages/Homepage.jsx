@@ -556,12 +556,14 @@ export const Homepage = () => {
                 </button>
             )}
           </div>
-          <div className="w-4/5 mx-auto bg-white flex flex-col rounded-lg shadow-md mt-4 overflow-y-auto" style={{ minHeight: 'fit-content', maxHeight: '700px',  padding: '16px' }}>
             {!settings.showTrends ? (
+              <div className="w-4/5 mx-auto bg-white flex flex-col rounded-lg shadow-md mt-4 overflow-y-auto" style={{ minHeight: 'fit-content', padding: '16px' }}>
               <button className={`bg-[#F5B919] text-black font-bold py-2 px-4 hover:bg-yellow-600 rounded-full cursor-not-allowed" ${!settings.showTrends ? '' : 'cursor-not-allowed opacity-50'}`} disabled={settings.showTrends} onClick={handleGenerateTrends} >
                 Generate General Trends
               </button>
+              </div>
             ) : (
+              <div className="w-4/5 h-full bg-white flex flex-col rounded-lg shadow-md mt-4 overflow-y-auto" style={{  maxHeight: '700px',  padding: '16px' }}>
               <div className="flex flex-col w-full">
                 {settings.trendTitles.map((title, index) => (
                   <TrendComponent 
@@ -572,8 +574,8 @@ export const Homepage = () => {
                   />
                 ))}
               </div>
+            </div>
             )}
-          </div>
         </div>
       </div>
     </div>

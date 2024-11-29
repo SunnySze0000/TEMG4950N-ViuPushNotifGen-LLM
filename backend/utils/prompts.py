@@ -159,6 +159,11 @@ final_prompt = FewShotPromptTemplate(
     - Regernation base example: {base_push_example}
     - Extra requirements from user: {additional_requirements}
     
+    [VERY IMPORTANT!!!] If there is a base example, this is a regeneration and you must follow the following regeneration guidelines:
+    - make sure to improve and regenerate all the pushes based on the base example, DO NOT start from scratch. 
+    - The 5 new pushes should be made slight changes of the base example, and PLEASE narrow down the variation of the regenerated pushes
+    - If there are additional requirements, make sure to follow them STRICTLY in all pushes
+    
     Key requirements:
     - Write in both English and Bahasa Melayu
     - Hook readers with cast info, juicy content, trending topics, quotes, or viral moments
@@ -167,8 +172,6 @@ final_prompt = FewShotPromptTemplate(
     - Include title + body + call-to-action
     - If there is a trend provided, apply it all pushes and merge it naturally with the series content
     - If there are additional requirements, make sure to follow them strictly in all pushes
-    - If there is a regeneration base example, make sure to improve and regenerate all the pushes based on the base example, 
-        DO NOT change too much, and PLEASE narrow down the variation of the regenerated pushes
     - Feel free to make it longer if you've got more tea to spill ☕
     - You may try to speak as the character or cast to engage the audience
     
